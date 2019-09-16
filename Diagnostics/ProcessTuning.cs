@@ -40,6 +40,7 @@ namespace ShUtilities.Diagnostics
             var result = new ProcessTuning
             {
                 IsPriorityBoostEnabled = true,
+                IsHigherPriorityAllowed = true,
                 PriorityClass = ProcessPriorityClass.AboveNormal
             };
             return result;
