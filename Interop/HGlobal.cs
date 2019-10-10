@@ -20,7 +20,7 @@ namespace ShUtilities.Interop
         /// <summary>
         /// Frees the unmanaged memory via <see cref="Marshal.FreeHGlobal"/>
         /// </summary>
-        public void Dispose()
+        public virtual void Dispose()
         {
             if (Pointer != IntPtr.Zero)
             {
@@ -48,9 +48,34 @@ namespace ShUtilities.Interop
         /// <param name="structure">The structure or formatted class to be copied to unmanaged memory</param>
         public HGlobal(T structure): base(Marshal.SizeOf<T>(structure))
         {
-            Marshal.StructureToPtr(structure, Pointer, false);
+            Marshal.StructureToPtr<T>(structure, Pointer, false);
         }
 
+        /// <summary>
+        /// Destroys the structure via <see cref="Marshal.DestroyStructure{T}"/> before freeing the unmanaged memory via <see cref="Marshal.FreeHGlobal"/>
+        /// </summary>
+        public override void Dispose()
+        {
+            if (Pointer != IntPtr.Zero)
+            {
+                Marshal.DestroyStructure<T>(Pointer);
+                base.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Replaces the unmanaged memory with a copy of a new structure after destroying the old one.
+        /// </summary>
+        /// <param name="newStructure"></param>
+        public void ReplaceStructure(T newStructure)
+        {
+            Marshal.StructureToPtr<T>(newStructure, Pointer, true);
+        }
+
+        /// <summary>
+        /// Returns a copy of the structure from unmanaged memory via <see cref="Marshal.PtrToStructure{T}(IntPtr)"/>
+        /// </summary>
+        /// <returns></returns>
         public T ToStructure()
         {
             T result = Marshal.PtrToStructure<T>(Pointer);
