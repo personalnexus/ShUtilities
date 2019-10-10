@@ -14,7 +14,7 @@ namespace ShUtilities.Interop
         /// <param name="byteCount">Number of bytes to allocate</param>
         public HGlobal(int byteCount)
         {
-            Pointer = Marshal.AllocHGlobal(byteCount);
+            _pointer = Marshal.AllocHGlobal(byteCount);
         }
 
         /// <summary>
@@ -22,18 +22,15 @@ namespace ShUtilities.Interop
         /// </summary>
         public virtual void Dispose()
         {
-            if (Pointer != IntPtr.Zero)
-            {
-                IntPtr pointer = Pointer;
-                Pointer = IntPtr.Zero;
-                Marshal.FreeHGlobal(pointer);
-            }
+            InteropUtility.ClearPointer(ref _pointer, Marshal.FreeHGlobal);
         }
 
         /// <summary>
         /// Pointer to the unmanaged memory
         /// </summary>
-        public IntPtr Pointer { get; private set; }
+        public IntPtr Pointer => _pointer;
+
+        private IntPtr _pointer;
     }
 
     /// <summary>
