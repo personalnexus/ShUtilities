@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Runtime.InteropServices;
 
 namespace ShUtilities.Interop
@@ -9,7 +10,9 @@ namespace ShUtilities.Interop
     public class Library : IDisposable
     {
         private IntPtr _handle;
-        private string _name;
+
+        public IntPtr Handle => _handle;
+        public string Name { get; private set; }
 
         /// <summary>
         /// Loads the given library
@@ -18,7 +21,11 @@ namespace ShUtilities.Interop
         public Library(string libraryName)
         {
             _handle = NativeMethods.LoadLibrary(libraryName);
-            _name = libraryName;
+            if (_handle == IntPtr.Zero)
+            {
+                throw new ArgumentException($"Cannot load library '{libraryName}'. {InteropUtility.GetLastErrorCodeAndMessage()}");
+            }
+            Name = libraryName;
         }
 
         /// <summary>
@@ -36,7 +43,7 @@ namespace ShUtilities.Interop
         public void Dispose()
         {
             InteropUtility.ClearPointer(ref _handle, NativeMethods.FreeLibrary);
-            _name = null;
+            Name = null;
         }
 
         /// <summary>
@@ -48,10 +55,20 @@ namespace ShUtilities.Interop
         {
             if (!TryGetFunctionPointer(functionName, out IntPtr functionPointer))
             {
-                throw new ArgumentException($"The library '{_name}' does not contain function '{functionName}'.");
+                throw new ArgumentException($"Cannot load function '{functionName}' from library '{Name}'. {InteropUtility.GetLastErrorCodeAndMessage()}");
             }
             TDelegate result = Marshal.GetDelegateForFunctionPointer<TDelegate>(functionPointer);
             return result;
+        }
+
+        /// <summary>
+        /// Gets a delegate for an unmanaged function using the name of the delegate type as the function name
+        /// </summary>
+        /// <typeparam name="TDelegate">The type of delegate to which to convert the function pointer</typeparam>
+        public TDelegate GetDelegate<TDelegate>()
+        {
+            string functionName = typeof(TDelegate).Name;
+            return GetDelegate<TDelegate>(functionName);
         }
 
         /// <summary>
@@ -62,7 +79,7 @@ namespace ShUtilities.Interop
         public bool TryGetFunctionPointer(string functionName, out IntPtr functionPointer)
         {
             functionPointer = NativeMethods.GetProcAddress(_handle, functionName);
-            bool result = functionPointer == IntPtr.Zero;
+            bool result = functionPointer != IntPtr.Zero;
             return result;
         }
     }

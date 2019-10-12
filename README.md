@@ -20,3 +20,7 @@ This is still a work in process as I clean up my code to make it fit for publica
 * __SerializerExtensions__: Extension methods for the basic ISerializer<T> interface.
 * __JsonSerializer__ : implementation of ISerializer<T> for JSON
 * __XmlSerializer__ : implementation of ISerializer<T> for XML
+
+## Text
+
+* __Parsers__: A repository of parser methods to parse/convert from string to a target type

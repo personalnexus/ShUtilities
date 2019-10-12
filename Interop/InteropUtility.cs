@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace ShUtilities.Interop
 {
@@ -16,6 +17,13 @@ namespace ShUtilities.Interop
                 pointer = IntPtr.Zero;
                 clearMethod(localPointer);
             }
+        }
+
+        public static string GetLastErrorCodeAndMessage()
+        {
+            var win32Error = new Win32Exception();
+            string result = $"Error code: {win32Error.NativeErrorCode}. Error message: {win32Error.Message}.";
+            return result;
         }
     }
 }
