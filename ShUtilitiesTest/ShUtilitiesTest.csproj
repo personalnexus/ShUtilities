@@ -47,6 +47,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DictionaryParserTest.cs" />
     <Compile Include="LibraryTest.cs" />
     <Compile Include="ParsersTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
