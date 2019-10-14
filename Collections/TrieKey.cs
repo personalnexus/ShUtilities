@@ -5,7 +5,7 @@ namespace ShUtilities.Collections
 {
     public readonly struct TrieKey : IEquatable<TrieKey>
     {
-        internal byte[] Indexes { get; }
+        internal readonly byte[] Indexes;
 
         internal TrieKey(byte[] indexes)
         {

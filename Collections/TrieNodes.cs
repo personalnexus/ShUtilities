@@ -5,73 +5,67 @@ namespace ShUtilities.Collections
     internal class TrieNodes<TKey, TValue>
     {
         /// <summary>
-        /// Large array with _possibleKeyCount slots for each node
+        /// Large array with (1+_possibleChildrenCount) slots for each node
         /// </summary>
-        private TrieNode<TValue>[] _nodeSlots;
+        private TrieNode<TValue>[] _nodes;
 
-        private TrieNode<TValue> _rootNode;
-
-        private byte _possibleKeyElementsCount;
-        private int _currentOffset;
-        private int _capacityIncrement = 1000; //TODO: fine-tune
-
-        public TrieNodes(byte possibleKeyElementsCount, int initialCapacity)
+        private readonly byte _possibleChildrenCount;
+        private readonly int _capacityIncrement;
+        private int _currentChildrenStartIndex;
+        
+        public TrieNodes(byte possibleChildrenCount, int initialCapacity): this(possibleChildrenCount, initialCapacity, 1000)
         {
-            _possibleKeyElementsCount = possibleKeyElementsCount;
-            _nodeSlots = new TrieNode<TValue>[_possibleKeyElementsCount * initialCapacity];
-            _rootNode = CreateNode();
         }
 
-
-        private TrieNode<TValue> CreateNode(TrieNode<TValue> parent, byte index)
+        public TrieNodes(byte possibleChildrenCount, int initialCapacity, int capacityIncrement)
         {
-            TrieNode<TValue> result = CreateNode();
-            int nodeSlot = parent.Offset + index;
-            if (nodeSlot >= _nodeSlots.Length)
+            _capacityIncrement = capacityIncrement;
+            _possibleChildrenCount = possibleChildrenCount;
+            Resize(initialCapacity);
+            Create(0);
+        }
+
+        public ref TrieNode<TValue> Get(byte[] indexes, bool createIfNotAssigned)
+        {
+            ref TrieNode<TValue> node = ref _nodes[0];
+            for (int i = 0; i < indexes.Length; i++)
             {
-                Array.Resize(ref _nodeSlots, nodeSlot + (_possibleKeyElementsCount * _capacityIncrement));
+                int nodeIndex = node.ChildrenStartIndex + indexes[i];
+                node = ref _nodes[nodeIndex];
+                if (!node.IsAssigned())
+                {
+                    if (createIfNotAssigned)
+                    {
+                        node = ref Create(nodeIndex);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
             }
-            _nodeSlots[nodeSlot] = result;
-            return result;
+            return ref node;
         }
 
-        private TrieNode<TValue> CreateNode()
+        private ref TrieNode<TValue> Create(int nodeIndex)
         {
-            var result = new TrieNode<TValue>(_currentOffset);
-            _currentOffset += _possibleKeyElementsCount;
-            return result;
-        }
-
-        private TrieNode<TValue> GetNode(TrieNode<TValue> parent, byte index)
-        {
-            // When a node is created, _nodeSlots is ensured to have enough slots to store all
-            // its children, so no range check is needed when accessing the array
-            TrieNode<TValue> result = _nodeSlots[parent.Offset + index];
-            return result;
-        }
-
-        internal bool TryGet(TrieKey key, out TrieNode<TValue> node)
-        {
-            TrieNode<TValue> parentNode = _rootNode;
-            node = null;
-            foreach (byte index in key.Indexes)
+            _nodes[nodeIndex] = new TrieNode<TValue>(_currentChildrenStartIndex);
+            _currentChildrenStartIndex += (1 + _possibleChildrenCount);
+            if (_currentChildrenStartIndex >= _nodes.Length)
             {
-                node = GetNode(parentNode, index);
-                parentNode = node;
+                Resize(_capacityIncrement);
             }
-            return node != null;
+            return ref _nodes[nodeIndex];
         }
 
-        internal TrieNode<TValue> GetOrAdd(TrieKey key)
+        private void Resize(int additionalNodeCount)
         {
-            TrieNode<TValue> parentNode = _rootNode;
-            TrieNode<TValue> currentNode = _rootNode;
-            foreach (byte index in key.Indexes)
-            {
-                currentNode = GetNode(parentNode, index) ?? CreateNode(parentNode, index);
-                parentNode = currentNode;
-            }
-            return currentNode;
+            int length = _nodes?.Length ?? 0;
+            length += ((1 + _possibleChildrenCount) * additionalNodeCount);
+            Array.Resize(ref _nodes, length);
         }
+
+        public int Count => _nodes.Length;
+
     }
 }

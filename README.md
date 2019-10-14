@@ -31,3 +31,9 @@ This is still a work in process as I clean up my code to make it fit for publica
 
 * __DictionaryParserExtensions__: provides extension methods for getting values from a dictionary and applying a parser/converter to them, e.g. to get an integer from a string-string-dictionary.
 * __Parsers__: a repository of parser methods to parse/convert from string to a target type
+
+---
+
+# ShUtilitiesTest
+
+* ___ExceptionUtility__: makes testing with expected exceptions easier by allowing to test specific pieces of code (i.e. Actions) for expected exceptions

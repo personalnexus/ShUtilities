@@ -17,8 +17,8 @@ namespace ShUtilities.Collections
             }
             
             _keyIndexByKeyElement = new Dictionary<TKeyElement, byte>(possibleKeyElements.Count);
-            _keyElementsByIndex = new TKeyElement[possibleKeyElements.Count];
-            byte index = 0;
+            _keyElementsByIndex = new TKeyElement[possibleKeyElements.Count+1];
+            byte index = 1;
             foreach (TKeyElement keyElement in possibleKeyElements)
             {
                 _keyIndexByKeyElement[keyElement] = index;
@@ -73,36 +73,27 @@ namespace ShUtilities.Collections
 
         public TrieKey Add(TKey key, TValue value)
         {
-            var result = CreateKey(key);
+            TrieKey result = CreateKey(key);
             Add(result, value);
             return result;
         }
 
         public void Add(TrieKey key, TValue value)
         {
-            var node = _nodes.GetOrAdd(key);
+            ref TrieNode<TValue> node = ref _nodes.Get(key.Indexes, true);
             node.Value = value;
         }
 
         public bool TryGetValue(TrieKey key, out TValue value)
         {
-            bool result;
-            if (_nodes.TryGet(key, out TrieNode<TValue> node))
-            {
-                result = true;
-                value = node.Value;
-            }
-            else
-            {
-                result = false;
-                value = default(TValue);
-            }
-            return result;
+            ref TrieNode<TValue> node = ref _nodes.Get(key.Indexes, false);
+            value = node.Value;
+            return node.IsAssigned();
         }
 
         public bool ContainsKey(TrieKey key)
         {
-            bool result = _nodes.TryGet(key, out _);
+            bool result = TryGetValue(key, out _);
             return result;
         }
 
@@ -110,6 +101,17 @@ namespace ShUtilities.Collections
         {
             TrieKey trieKey = CreateKey(key);
             bool result = ContainsKey(trieKey);
+            return result;
+        }
+
+        // TrieInfo
+
+        public TrieInfo GetInfo()
+        {
+            var result = new TrieInfo
+            {
+                NodeCount = _nodes.Count
+            };
             return result;
         }
     }

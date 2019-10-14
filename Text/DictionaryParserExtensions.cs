@@ -44,7 +44,7 @@ namespace ShUtilities.Text
         /// </summary>
         public static TOutput GetValueOrDefault<TKey, TValue, TOutput>(this IDictionary<TKey, TValue> source, TKey key, Parser<TValue, TOutput> parser)
         {
-            TOutput result = GetValueOrDefault(source, key, parser, default(TOutput));
+            TOutput result = GetValueOrDefault(source, key, parser, default);
             return result;
         }
 
@@ -92,7 +92,7 @@ namespace ShUtilities.Text
         /// </summary>
         public static DictionaryParserResult TryGetValueEx<TKey, TValue, TOutput>(this IDictionary<TKey, TValue> source, TKey key, out TOutput output, Parser<TValue, TOutput> parser)
         {
-            output = default(TOutput);
+            output = default;
             DictionaryParserResult result;
             if (!source.TryGetValue(key, out TValue value))
             {

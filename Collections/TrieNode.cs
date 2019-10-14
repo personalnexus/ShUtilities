@@ -1,13 +1,16 @@
 ﻿namespace ShUtilities.Collections
 {
-    internal class TrieNode<TValue>
+    internal struct TrieNode<TValue>
     {
-        public TrieNode(int offset)
+        public TrieNode(int childrenStartIndex)
         {
-            Offset = offset;
+            ChildrenStartIndex = childrenStartIndex;
+            Value = default;
         }
 
-        public int Offset { get; }
-        public TValue Value { get; set; }
+        public readonly int ChildrenStartIndex;
+        public TValue Value;
+
+        internal bool IsAssigned() => ChildrenStartIndex != 0;
     }
 }

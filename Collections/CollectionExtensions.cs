@@ -66,5 +66,11 @@ namespace ShUtilities.Collections
             }
             return resultBuilder.ToString();
         }
+
+        public static ISet<T> ToHashSet<T>(this IEnumerable<T> items)
+        {
+            var result = new HashSet<T>(items);
+            return result;
+        }
     }
 }

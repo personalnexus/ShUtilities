@@ -70,8 +70,8 @@ namespace ShUtilities.Collections
 
         public bool ContainsKey(byte key)
         {
-            bool result = TryGetValue(key, out _);
-            return result;
+            ref ByteDictionaryItem item = ref GetItem(key);
+            return item.HasValue;
         }
 
         public bool Remove(byte key)
@@ -82,9 +82,9 @@ namespace ShUtilities.Collections
 
         public bool TryGetValue(byte key, out TValue value)
         {
-            ref ByteDictionaryItem byteDictionaryItem = ref GetItem(key);
-            value = byteDictionaryItem.Value;
-            return byteDictionaryItem.HasValue;
+            ref ByteDictionaryItem item = ref GetItem(key);
+            value = item.Value;
+            return item.HasValue;
         }
 
         public void CopyTo(KeyValuePair<byte, TValue>[] array, int arrayIndex)
@@ -115,10 +115,10 @@ namespace ShUtilities.Collections
             {
                 throw new InvalidOperationException("Dictionary is read-only.");
             }
-            ref ByteDictionaryItem byteDictionaryItem = ref GetItem(key);
-            bool hadValue = byteDictionaryItem.HasValue;
-            byteDictionaryItem.Value = value;
-            byteDictionaryItem.HasValue = hasValue;
+            ref ByteDictionaryItem item = ref GetItem(key);
+            bool hadValue = item.HasValue;
+            item.Value = value;
+            item.HasValue = hasValue;
             if (!hadValue && hasValue)
             {
                 Count++;
