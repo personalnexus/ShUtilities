@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ShUtilities.Collections
 {
-    public struct TrieKey : IEquatable<TrieKey>
+    public readonly struct TrieKey : IEquatable<TrieKey>
     {
         internal byte[] Indexes { get; }
 

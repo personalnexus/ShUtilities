@@ -1,5 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ShUtilities.Collections;
+using System;
+using static ShUtilitiesTest.ExceptionUtility;
 
 namespace ShUtilitiesTest
 {
@@ -26,6 +28,54 @@ namespace ShUtilitiesTest
             dictionary[1] = "Value1c";
             Assert.AreEqual(1, dictionary.Count);
             Assert.AreEqual("Value1c", dictionary[1]);
+
+            Assert.IsFalse(dictionary.Remove(2));
+            Assert.AreEqual(1, dictionary.Count);
+        }
+
+        [TestMethod]
+        public void ReadOnly()
+        {
+            var dictionary = new ByteDictionary<string>
+            {
+                {1, "Value1" },
+                {2, "Value2" },
+            };
+            dictionary.IsReadOnly = true;
+            Expect<InvalidOperationException>(() => dictionary[3] = "Value3");
+            Expect<InvalidOperationException>(() => dictionary.Add(4, "Value4"));
+            Expect<InvalidOperationException>(() => dictionary.GetOrAdd<byte, string>(5, x => "Value5"));
+
+            dictionary.IsReadOnly = false;
+            dictionary[3] = "Value3";
+            Assert.AreEqual("Value3", dictionary[3]);
+        }
+
+        [TestMethod]
+        public void Clear_ContainsKey()
+        {
+            var dictionary = new ByteDictionary<string>
+            {
+                {0, "Value0" },
+                {1, "Value1" },
+                {2, "Value2" },
+                {255, "Value255" },
+            };
+            Assert.IsTrue(dictionary.ContainsKey(0));
+            Assert.IsTrue(dictionary.ContainsKey(1));
+            Assert.IsTrue(dictionary.ContainsKey(2));
+            Assert.IsFalse(dictionary.ContainsKey(3));
+            Assert.IsTrue(dictionary.ContainsKey(255));
+            Assert.AreEqual(4, dictionary.Count);
+
+            dictionary.Clear();
+
+            Assert.AreEqual(0, dictionary.Count);
+            Assert.IsFalse(dictionary.ContainsKey(0));
+            Assert.IsFalse(dictionary.ContainsKey(1));
+            Assert.IsFalse(dictionary.ContainsKey(2));
+            Assert.IsFalse(dictionary.ContainsKey(3));
+            Assert.IsFalse(dictionary.ContainsKey(255));
         }
     }
 }

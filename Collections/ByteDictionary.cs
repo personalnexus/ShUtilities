@@ -31,7 +31,7 @@ namespace ShUtilities.Collections
         {
             get
             {
-                if (!TryGetValue(ref _items[key], out TValue value))
+                if (!TryGetValue(key, out TValue value))
                 {
                     throw new KeyNotFoundException($"Key {key} does not exist.");
                 }
@@ -39,7 +39,7 @@ namespace ShUtilities.Collections
             }
             set
             {
-                SetValue(ref _items[key], value, true);
+                SetValue(key, true, value);
             }
         }
 
@@ -54,15 +54,13 @@ namespace ShUtilities.Collections
             {
                 throw new ArgumentException($"Key {key} already exists.");
             }
-            SetValue(ref _items[key], value, true);
+            SetValue(key, true, value);
         }
 
         public void Clear()
         {
-            for (int i = 0; i < _items.Length; i++)
-            {
-                SetValue(ref _items[i], default(TValue), false);
-            }
+            Array.Clear(_items, 0, _items.Length);
+            Count = 0;
         }
 
         public bool Contains(KeyValuePair<byte, TValue> item)
@@ -72,20 +70,21 @@ namespace ShUtilities.Collections
 
         public bool ContainsKey(byte key)
         {
-            bool result = TryGetValue(ref _items[key], out _);
+            bool result = TryGetValue(key, out _);
             return result;
         }
 
         public bool Remove(byte key)
         {
-            bool result = SetValue(ref _items[key], default(TValue), false);
+            bool result = SetValue(key, false, default);
             return result;
         }
 
         public bool TryGetValue(byte key, out TValue value)
         {
-            bool result = TryGetValue(ref _items[key], out value);
-            return result;
+            ref ByteDictionaryItem byteDictionaryItem = ref GetItem(key);
+            value = byteDictionaryItem.Value;
+            return byteDictionaryItem.HasValue;
         }
 
         public void CopyTo(KeyValuePair<byte, TValue>[] array, int arrayIndex)
@@ -110,12 +109,13 @@ namespace ShUtilities.Collections
 
         // Helper methods
 
-        private bool SetValue(ref ByteDictionaryItem byteDictionaryItem, TValue value, bool hasValue)
+        private bool SetValue(byte key, bool hasValue, TValue value)
         {
             if (IsReadOnly)
             {
                 throw new InvalidOperationException("Dictionary is read-only.");
             }
+            ref ByteDictionaryItem byteDictionaryItem = ref GetItem(key);
             bool hadValue = byteDictionaryItem.HasValue;
             byteDictionaryItem.Value = value;
             byteDictionaryItem.HasValue = hasValue;
@@ -130,10 +130,9 @@ namespace ShUtilities.Collections
             return hadValue;
         }
 
-        private bool TryGetValue(ref ByteDictionaryItem byteDictionaryItem, out TValue value)
+        private ref ByteDictionaryItem GetItem(byte key)
         {
-            value = byteDictionaryItem.Value;
-            return byteDictionaryItem.HasValue;
+            return ref _items[key];
         }
     }
 }
