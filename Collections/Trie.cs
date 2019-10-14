@@ -7,11 +7,13 @@ namespace ShUtilities.Collections
     public class Trie<TKey, TKeyElement, TValue>
         where TKey: IEnumerable<TKeyElement>
     {
+        private const int MaxKeyCount = byte.MaxValue + 1;
+
         public Trie(ISet<TKeyElement> possibleKeyElements, int initialCapacity)
         {
-            if (possibleKeyElements.Count > byte.MaxValue)
+            if (possibleKeyElements.Count > MaxKeyCount)
             {
-                throw new ArgumentOutOfRangeException($"Trie only supports up to {byte.MaxValue} distinct key elements, not {possibleKeyElements.Count}.");
+                throw new ArgumentOutOfRangeException($"Trie only supports up to {MaxKeyCount} distinct key elements, not {possibleKeyElements.Count}.");
             }
             
             _keyIndexByKeyElement = new Dictionary<TKeyElement, byte>(possibleKeyElements.Count);

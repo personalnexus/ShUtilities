@@ -48,7 +48,6 @@ namespace ShUtilitiesTest
             TrieKey key1a = trie.CreateKey("Value1");
             TrieKey key1b = trie.CreateKey("Value1");
 
-            Assert.AreNotSame(key1a, key1b);
             Assert.AreEqual(key1a, key1b);
         }
 
@@ -60,7 +59,6 @@ namespace ShUtilitiesTest
             TrieKey key1a = cache.CreateKey("Value1");
             TrieKey key1b = cache.CreateKey("Value1");
 
-            Assert.AreSame(key1a, key1b);
             Assert.AreEqual(key1a, key1b);
         }
 

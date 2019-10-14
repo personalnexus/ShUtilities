@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ShUtilities.Collections
 {
-    public class TrieKey : IEquatable<TrieKey>
+    public struct TrieKey : IEquatable<TrieKey>
     {
         internal byte[] Indexes { get; }
 
@@ -14,13 +14,13 @@ namespace ShUtilities.Collections
 
         public override bool Equals(object obj)
         {
-            return Equals(obj as TrieKey);
+            return Equals((TrieKey)obj);
         }
 
         public bool Equals(TrieKey other)
         {
             bool result = false;
-            if (other != null && Indexes.Length == other.Indexes.Length)
+            if (Indexes.Length == other.Indexes.Length)
             {
                 result = true;
                 for (byte i = 0; i < Indexes.Length; i++)
@@ -42,7 +42,7 @@ namespace ShUtilities.Collections
 
         public static bool operator ==(TrieKey key1, TrieKey key2)
         {
-            return (ReferenceEquals(key1, null) && ReferenceEquals(key2, null)) || (key1.Equals(key2));
+            return key1.Equals(key2);
         }
 
         public static bool operator !=(TrieKey key1, TrieKey key2)

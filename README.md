@@ -6,6 +6,7 @@ This is still a work in process as I clean up my code to make it fit for publica
 
 ## Collections
 
+* __ByteDictionary__: provides IDictionary-like access with a fixed memory-footprint to what is essentially an array with a byte as its index
 * __CollectionExtensions__: extension methods for IDictionary<,> and IEnumerable<>
 * __Trie__: a rudimentary (i.e. currently add-only and barely tested) Trie implementation with support for a reduced set of possible key elements to minimize space requirements
 
@@ -28,5 +29,5 @@ This is still a work in process as I clean up my code to make it fit for publica
 
 ## Text
 
-* __DictionaryParser__: given a dictionary this class allows getting values from it and applying a parser/converter to them, e.g. to get an integer from a string-string-dictionary.
+* __DictionaryParserExtensions__: provides extension methods for getting values from a dictionary and applying a parser/converter to them, e.g. to get an integer from a string-string-dictionary.
 * __Parsers__: a repository of parser methods to parse/convert from string to a target type

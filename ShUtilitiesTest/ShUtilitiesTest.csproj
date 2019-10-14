@@ -47,8 +47,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ByteDictionaryTest.cs" />
     <Compile Include="CollectionExtensionsTest.cs" />
-    <Compile Include="DictionaryParserTest.cs" />
+    <Compile Include="DictionaryParserExtensionsTest.cs" />
     <Compile Include="LibraryTest.cs" />
     <Compile Include="ParsersTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
