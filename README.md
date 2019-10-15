@@ -36,4 +36,4 @@ This is still a work in process as I clean up my code to make it fit for publica
 
 # ShUtilitiesTest
 
-* ___ExceptionUtility__: makes testing with expected exceptions easier by allowing to test specific pieces of code (i.e. Actions) for expected exceptions
+* __ExceptionUtility__: makes testing with expected exceptions easier by allowing to test specific pieces of code (i.e. Actions) for expected exceptions

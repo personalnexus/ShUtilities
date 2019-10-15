@@ -14,60 +14,23 @@ namespace ShUtilitiesTest
         public void Add_TryGetValue()
         {
             Trie<string, char, int> trie = CreateTrie();
-            TrieKey key1 = trie.Add("Value1", 1);
-            Assert.IsNotNull(key1);
-            Assert.IsTrue(trie.TryGetValue(key1, out int value1));
+            trie.Add("Value1", 1);
+            Assert.IsTrue(trie.TryGetValue("Value1", out int value1));
             Assert.AreEqual(1, value1);
 
-            TrieKey key2 = trie.Add("Val2", 2);
-            Assert.IsNotNull(key2);
-            Assert.IsTrue(trie.TryGetValue(key2, out int value2));
+            trie.Add("Val2", 2);
+            Assert.IsTrue(trie.TryGetValue("Val2", out int value2));
             Assert.AreEqual(2, value2);
-
         }
 
         [TestMethod]
         public void ContainsKey()
         {
             Trie<string, char, int> trie = CreateTrie();
-            TrieKey key1 = trie.Add("Value1", 1);
-            TrieKey key2 = trie.CreateKey("Value2");
-
-            Assert.IsTrue(trie.ContainsKey(key1));
-            Assert.IsFalse(trie.ContainsKey(key2));
+            trie.Add("Value1", 1);
 
             Assert.IsTrue(trie.ContainsKey("Value1"));
             Assert.IsFalse(trie.ContainsKey("Value2"));
-        }
-
-        [TestMethod]
-        public void CreateKey_GetKeyElements()
-        {
-            Trie<string, char, int> trie = CreateTrie();
-            TrieKey key = trie.CreateKey("Value2");
-            IEnumerable<char> keyElements = trie.GetKeyElements(key);
-            Assert.AreEqual("Value2", new string(keyElements.ToArray()));
-        }
-
-        [TestMethod]
-        public void CompareTrieKeys()
-        {
-            Trie<string, char, int> trie = CreateTrie();
-            TrieKey key1a = trie.CreateKey("Value1");
-            TrieKey key1b = trie.CreateKey("Value1");
-
-            Assert.AreEqual(key1a, key1b);
-        }
-
-        [TestMethod]
-        public void CompareCachedTrieKeys()
-        {
-            Trie<string, char, int> trie = CreateTrie();
-            var cache = new TrieKeyCache<string, char, int>(trie);
-            TrieKey key1a = cache.CreateKey("Value1");
-            TrieKey key1b = cache.CreateKey("Value1");
-
-            Assert.AreEqual(key1a, key1b);
         }
 
         [TestMethod]
@@ -80,18 +43,16 @@ namespace ShUtilitiesTest
             const int ItemCount = 1_000_000;
             
             ISet<char> numbersAndLetters = Enumerable.Range('A', 6).Union(Enumerable.Range('0', 10)).Select(i => (char)i).ToHashSet();
-            var trie = new Trie<string, char, int>(numbersAndLetters, ItemCount);
-            var trieKeys = new TrieKey[ItemCount];
-
+            var trie = new StringTrie<int>(numbersAndLetters, ItemCount);
             var dictionary = new Dictionary<string, int>(ItemCount);
-            var dictionaryKeys = new string[ItemCount];
+            var keys = new string[ItemCount];
 
             for (int i = 0; i < ItemCount; i++)
             {
                 string key = i.ToString("X");
-                dictionaryKeys[i] = key;
+                keys[i] = key;
                 dictionary.Add(key, i);
-                trieKeys[i] = trie.Add(key, i);
+                trie.Add(key, i);
             }
             stopwatchInitialization.Stop();
             Console.WriteLine($"{stopwatchInitialization.ElapsedMilliseconds} Initialization");
@@ -103,7 +64,7 @@ namespace ShUtilitiesTest
             {
                 for (int i = 0; i < ItemCount; i++)
                 {
-                    if (!dictionary.TryGetValue(dictionaryKeys[i], out int value))
+                    if (!dictionary.TryGetValue(keys[i], out int value))
                     {
                         Assert.Fail($"{i} not found");
                     }
@@ -123,7 +84,7 @@ namespace ShUtilitiesTest
             {
                 for (int i = 0; i < ItemCount; i++)
                 {
-                    if (!trie.TryGetValue(trieKeys[i], out int value))
+                    if (!trie.TryGetValue(keys[i], out int value))
                     {
                         Assert.Fail($"{i} not found");
                     }
@@ -135,13 +96,13 @@ namespace ShUtilitiesTest
             }
             stopwatchTrie.Stop();
             Console.WriteLine($"{stopwatchTrie.ElapsedMilliseconds} Trie");
-            Console.WriteLine($"{trie.GetInfo().NodeCount} TrieNodes");
+            Console.WriteLine($"{trie.GetInfo()}");
 
         }
 
         private Trie<string, char, int> CreateTrie()
         {
-            var result = new Trie<string, char, int>(new HashSet<char> { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'V', 'a', 'l', 'u', 'e' }, 10);
+            var result = new StringTrie<int>(new HashSet<char> { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'V', 'a', 'l', 'u', 'e' }, 10);
             return result;
         }
     }
