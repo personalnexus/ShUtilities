@@ -13,7 +13,7 @@ namespace ShUtilitiesTest
         [TestMethod]
         public void Add_TryGetValue()
         {
-            Trie<string, char, int> trie = CreateTrie();
+            Trie<int> trie = CreateTrie();
             trie.Add("Value1", 1);
             Assert.IsTrue(trie.TryGetValue("Value1", out int value1));
             Assert.AreEqual(1, value1);
@@ -26,10 +26,11 @@ namespace ShUtilitiesTest
         [TestMethod]
         public void ContainsKey()
         {
-            Trie<string, char, int> trie = CreateTrie();
+            Trie<int> trie = CreateTrie();
             trie.Add("Value1", 1);
 
             Assert.IsTrue(trie.ContainsKey("Value1"));
+            Assert.IsFalse(trie.ContainsKey("Val"));
             Assert.IsFalse(trie.ContainsKey("Value2"));
         }
 
@@ -42,8 +43,8 @@ namespace ShUtilitiesTest
 
             const int ItemCount = 1_000_000;
             
-            ISet<char> numbersAndLetters = Enumerable.Range('A', 6).Union(Enumerable.Range('0', 10)).Select(i => (char)i).ToHashSet();
-            var trie = new StringTrie<int>(numbersAndLetters, ItemCount);
+            ISet<char> numbersAndLetters = Enumerable.Range('A', 26).Union(Enumerable.Range('0', 10)).Select(i => (char)i).ToHashSet();
+            var trie = new Trie<int>(numbersAndLetters, ItemCount - 1000, 1000); // -1000 makes sure we trigger at least one resize operation
             var dictionary = new Dictionary<string, int>(ItemCount);
             var keys = new string[ItemCount];
 
@@ -100,9 +101,9 @@ namespace ShUtilitiesTest
 
         }
 
-        private Trie<string, char, int> CreateTrie()
+        private Trie<int> CreateTrie()
         {
-            var result = new StringTrie<int>(new HashSet<char> { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'V', 'a', 'l', 'u', 'e' }, 10);
+            var result = new Trie<int>(new HashSet<char> { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'V', 'a', 'l', 'u', 'e' }, 10, 10);
             return result;
         }
     }

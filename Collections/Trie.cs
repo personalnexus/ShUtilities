@@ -3,47 +3,93 @@ using System.Collections.Generic;
 
 namespace ShUtilities.Collections
 {
-    public abstract class Trie<TKey, TKeyElement, TValue>
-        where TKey: IEnumerable<TKeyElement>
+    public class Trie<TValue>
     {
-        public Trie(ISet<TKeyElement> possibleKeyElements, int initialCapacity)
+        public Trie(ISet<char> possibleCharacters, int initialCapacity, int capacityIncrement)
         {
-            _nodes = new TrieNodes<TKey, TValue>(possibleKeyElements.Count, initialCapacity);
-        }
-
-        protected abstract Span<int> TranslateKey(TKey key);
-
-        protected void EnsureMinimumSize<T>(ref T[] array, int minimumSize)
-        {
-            if (array == null || minimumSize >= array.Length)
+            int index = 1;
+            foreach (char character in possibleCharacters)
             {
-                Array.Resize(ref array, minimumSize + 1);
+                if (_keyIndexByCharacter == null || character >= _keyIndexByCharacter.Length)
+                {
+                    Array.Resize(ref _keyIndexByCharacter, character + 1);
+                }
+                _keyIndexByCharacter[character] = index;
+                index++;
             }
+            _capacityIncrement = capacityIncrement;
+            _possibleCharacterCount = possibleCharacters.Count;
+            Resize(initialCapacity);
         }
 
-        // IDictionary<TKey, TValue>
+        // Key lookup
 
-        private TrieNodes<TKey, TValue> _nodes;
+        private int[] _keyIndexByCharacter;
 
-        public void Add(TKey key, TValue value)
+        // Nodes
+
+        private TrieNode<TValue>[] _nodes;
+        private int[] _nodeIndexes;
+        private int _lastUsedNodeIndex;
+
+        private readonly int _possibleCharacterCount;
+        private readonly int _capacityIncrement;
+
+        private ref TrieNode<TValue> GetNode(string key, bool createIfMissing)
         {
-            Span<int> keyIndexes = TranslateKey(key);
-            ref TrieNode<TValue> node = ref _nodes.Get(keyIndexes, true);
+            int nodeIndex = 0;
+            foreach (char character in key)
+            {
+                // Step 1: get the index of where in the _indexes array the index into _nodes is found
+                int indexIndex = (nodeIndex * _possibleCharacterCount) + _keyIndexByCharacter[character];
+                // Step 2: get the index of the value in _values
+                nodeIndex = _nodeIndexes[indexIndex];
+                if (nodeIndex == 0)
+                {
+                    if (createIfMissing)
+                    {
+                        _lastUsedNodeIndex++;
+                        if (_lastUsedNodeIndex == _nodes.Length)
+                        {
+                            Resize(_nodes.Length + _capacityIncrement);
+                        }
+                        nodeIndex = _nodeIndexes[indexIndex] = _lastUsedNodeIndex;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+            return ref _nodes[nodeIndex];
+        }
+
+        private void Resize(int newSize)
+        {
+            Array.Resize(ref _nodes, newSize);
+            Array.Resize(ref _nodeIndexes, newSize * _possibleCharacterCount);
+        }
+
+        // IDictionary<string, TValue>
+
+        public void Add(string key, TValue value)
+        {
+            ref TrieNode<TValue> node = ref GetNode(key, true);
             node.Value = value;
+            node.HasValue = true;
         }
 
-        public bool TryGetValue(TKey key, out TValue value)
+        public bool TryGetValue(string key, out TValue value)
         {
-            Span<int> keyIndexes = TranslateKey(key);
-            ref TrieNode<TValue> node = ref _nodes.Get(keyIndexes, false);
+            ref TrieNode<TValue> node = ref GetNode(key, false);
             value = node.Value;
-            return node.IsAssigned();
+            return node.HasValue;
         }
 
-        public bool ContainsKey(TKey key)
+        public bool ContainsKey(string key)
         {
-            bool result = TryGetValue(key, out _);
-            return result;
+            ref TrieNode<TValue> node = ref GetNode(key, false);
+            return node.HasValue;
         }
 
         // TrieInfo
@@ -52,8 +98,10 @@ namespace ShUtilities.Collections
         {
             var result = new TrieInfo
             {
-                NodeCount = _nodes.Count,
-                IndexSize = _nodes.IndexSize,
+                Count = _lastUsedNodeIndex,
+                IndexSize = _nodeIndexes.Length * sizeof(int),
+                NodesSize = _nodes.Length * (sizeof(bool) + System.Runtime.InteropServices.Marshal.SizeOf<TValue>()),
+                LookupSize = _keyIndexByCharacter.Length * sizeof(int)
             };
             return result;
         }
