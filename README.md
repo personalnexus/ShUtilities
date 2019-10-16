@@ -8,7 +8,7 @@ This is still a work in process as I clean up my code to make it fit for publica
 
 * __ByteDictionary__: provides IDictionary-like access with a fixed memory-footprint to what is essentially an array with a byte as its index
 * __CollectionExtensions__: extension methods for IDictionary<,> and IEnumerable<>
-* __Trie__: a rudimentary (i.e. currently add-only and barely tested) Trie implementation with support for a reduced set of possible key elements to minimize space requirements
+* __Trie__: a Trie implementation with support for a reduced set of possible key elements to minimize space requirements that implements most of IDictionary<string, TValue>
 
 ## Diagnostics
 

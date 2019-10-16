@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace ShUtilities.Collections
 {
-    public class Trie<TValue>
+    public class Trie<TValue>: IDictionary<string, TValue>
     {
         public Trie(ISet<char> possibleCharacters, int initialCapacity, int capacityIncrement)
         {
@@ -72,11 +73,97 @@ namespace ShUtilities.Collections
 
         // IDictionary<string, TValue>
 
+        public ICollection<string> Keys => throw new NotImplementedException();
+
+        public ICollection<TValue> Values => throw new NotImplementedException();
+
+        public int Count { get; private set; }
+
+        public bool IsReadOnly { get; set; }
+
+        public TValue this[string key]
+        {
+            get
+            {
+                if (!TryGetValue(key, out TValue value))
+                {
+                    throw new KeyNotFoundException($"Key {key} does not exist.");
+                }
+                return value;
+            }
+            set
+            {
+                SetValue(key, value, false);
+            }
+        }
+
+        public void Add(KeyValuePair<string, TValue> item)
+        {
+            Add(item.Key, item.Value);
+        }
+
         public void Add(string key, TValue value)
         {
+            SetValue(key, value, true);
+        }
+
+        private void SetValue(string key, TValue value, bool throwIfKeyExists)
+        {
             ref TrieNode<TValue> node = ref GetNode(key, true);
+            if (!node.HasValue)
+            {
+                Count++;
+            }
+            else if (throwIfKeyExists)
+            {
+                throw new ArgumentException($"Key {key} already exists.");
+            }
             node.Value = value;
             node.HasValue = true;
+        }
+
+        public void Clear()
+        {
+            CheckReadOnly();
+            _nodes = new TrieNode<TValue>[1];
+            _nodeIndexes = new int[_possibleCharacterCount];
+            _lastUsedNodeIndex = 0;
+            Count = 0;
+        }
+
+        public bool ContainsKey(string key)
+        {
+            ref TrieNode<TValue> node = ref GetNode(key, false);
+            return node.HasValue;
+        }
+
+        public bool Contains(KeyValuePair<string, TValue> item)
+        {
+            return ContainsKey(item.Key);
+        }
+
+        public void CopyTo(KeyValuePair<string, TValue>[] array, int arrayIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Remove(KeyValuePair<string, TValue> item)
+        {
+            return Remove(item.Key);
+        }
+
+        public bool Remove(string key)
+        {
+            CheckReadOnly();
+            ref TrieNode<TValue> node = ref GetNode(key, false);
+            bool result = node.HasValue;
+            if (result)
+            {
+                Count--;
+                node.Value = default;
+                node.HasValue = false;
+            }
+            return result;
         }
 
         public bool TryGetValue(string key, out TValue value)
@@ -86,10 +173,22 @@ namespace ShUtilities.Collections
             return node.HasValue;
         }
 
-        public bool ContainsKey(string key)
+        public IEnumerator<KeyValuePair<string, TValue>> GetEnumerator()
         {
-            ref TrieNode<TValue> node = ref GetNode(key, false);
-            return node.HasValue;
+            throw new NotImplementedException();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        private void CheckReadOnly()
+        {
+            if (IsReadOnly)
+            {
+                throw new InvalidOperationException("Trie is read-only.");
+            }
         }
 
         // TrieInfo
@@ -98,7 +197,7 @@ namespace ShUtilities.Collections
         {
             var result = new TrieInfo
             {
-                Count = _lastUsedNodeIndex,
+                Count = Count,
                 IndexSize = _nodeIndexes.Length * sizeof(int),
                 NodesSize = _nodes.Length * (sizeof(bool) + System.Runtime.InteropServices.Marshal.SizeOf<TValue>()),
                 LookupSize = _keyIndexByCharacter.Length * sizeof(int)

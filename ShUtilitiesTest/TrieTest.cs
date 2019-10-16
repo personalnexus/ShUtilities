@@ -11,6 +11,33 @@ namespace ShUtilitiesTest
     public class TrieTest
     {
         [TestMethod]
+        public void Remove_Clear_Count()
+        {
+            Trie<int> trie = CreateTrie();
+
+            trie.Add("Value1", 1);
+            Assert.AreEqual(1, trie.Count);
+
+            trie["Value1"] = 2;
+            Assert.AreEqual(1, trie.Count);
+
+            Assert.IsTrue(trie.Remove("Value1"));
+            Assert.AreEqual(0, trie.Count);
+
+            trie.Add("Value1", 1);
+            Assert.AreEqual(1, trie.Count);
+
+            trie.Clear();
+            Assert.AreEqual(0, trie.Count);
+            Assert.IsFalse(trie.ContainsKey("Value1"));
+
+            trie["Value1"] = 1;
+            Assert.AreEqual(1, trie.Count);
+            Assert.IsTrue(trie.TryGetValue("Value1", out int value));
+            Assert.AreEqual(1, value);
+        }
+
+        [TestMethod]
         public void Add_TryGetValue()
         {
             Trie<int> trie = CreateTrie();

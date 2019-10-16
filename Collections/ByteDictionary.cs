@@ -59,6 +59,7 @@ namespace ShUtilities.Collections
 
         public void Clear()
         {
+            CheckReadOnly();
             Array.Clear(_items, 0, _items.Length);
             Count = 0;
         }
@@ -111,10 +112,7 @@ namespace ShUtilities.Collections
 
         private bool SetValue(byte key, bool hasValue, TValue value)
         {
-            if (IsReadOnly)
-            {
-                throw new InvalidOperationException("Dictionary is read-only.");
-            }
+            CheckReadOnly();
             ref ByteDictionaryItem item = ref GetItem(key);
             bool hadValue = item.HasValue;
             item.Value = value;
@@ -128,6 +126,14 @@ namespace ShUtilities.Collections
                 Count--;
             }
             return hadValue;
+        }
+
+        private void CheckReadOnly()
+        {
+            if (IsReadOnly)
+            {
+                throw new InvalidOperationException("Dictionary is read-only.");
+            }
         }
 
         private ref ByteDictionaryItem GetItem(byte key)
