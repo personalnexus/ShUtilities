@@ -32,8 +32,14 @@ This is still a work in process as I clean up my code to make it fit for publica
 * __DictionaryParserExtensions__: provides extension methods for getting values from a dictionary and applying a parser/converter to them, e.g. to get an integer from a string-string-dictionary.
 * __Parsers__: a repository of parser methods to parse/convert from string to a target type
 
+## Time
+
+* __ITimeProvider__: an interface to obtain the current time which can be swapped out for tests to simulate time-jumps
+* __SystemTimeProvider__: implementation of ITimeProvider that provides the time from DateTime.Now and ticks via QueryPerformanceCounter
+
 ---
 
 # ShUtilitiesTest
 
 * __ExceptionUtility__: makes testing with expected exceptions easier by allowing to test specific pieces of code (i.e. Actions) for expected exceptions
+* __PerformanceUtility__: basic performance tests using Systen.Diagnostics.Stopwatch

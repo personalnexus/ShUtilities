@@ -64,68 +64,9 @@ namespace ShUtilitiesTest
         [TestMethod]
         public void Performance()
         {
-            // Initialization
-            var stopwatchInitialization = new Stopwatch();
-            stopwatchInitialization.Start();
-
             const int ItemCount = 1_000_000;
-            
-            ISet<char> numbersAndLetters = Enumerable.Range('A', 26).Union(Enumerable.Range('0', 10)).Select(i => (char)i).ToHashSet();
-            var trie = new Trie<int>(numbersAndLetters, ItemCount - 1000, 1000); // -1000 makes sure we trigger at least one resize operation
-            var dictionary = new Dictionary<string, int>(ItemCount);
-            var keys = new string[ItemCount];
-
-            for (int i = 0; i < ItemCount; i++)
-            {
-                string key = i.ToString("X");
-                keys[i] = key;
-                dictionary.Add(key, i);
-                trie.Add(key, i);
-            }
-            stopwatchInitialization.Stop();
-            Console.WriteLine($"{stopwatchInitialization.ElapsedMilliseconds} Initialization");
-
-            // Dictionary
-            var stopwatchDictionary = new Stopwatch();
-            stopwatchDictionary.Start();
-            for (int counter = 0; counter < 100; counter++)
-            {
-                for (int i = 0; i < ItemCount; i++)
-                {
-                    if (!dictionary.TryGetValue(keys[i], out int value))
-                    {
-                        Assert.Fail($"{i} not found");
-                    }
-                    else if (value > ItemCount)
-                    {
-                        Assert.Fail($"{value} for key {i} must not be greater than {ItemCount}");
-                    }
-                }
-            }
-            stopwatchDictionary.Stop();
-            Console.WriteLine($"{stopwatchDictionary.ElapsedMilliseconds} Dictionary");
-
-            // Trie
-            var stopwatchTrie = new Stopwatch();
-            stopwatchTrie.Start();
-            for (int counter = 0; counter < 100; counter++)
-            {
-                for (int i = 0; i < ItemCount; i++)
-                {
-                    if (!trie.TryGetValue(keys[i], out int value))
-                    {
-                        Assert.Fail($"{i} not found");
-                    }
-                    else if (value > ItemCount)
-                    {
-                        Assert.Fail($"{value} for key {i} must not be greater than {ItemCount}");
-                    }
-                }
-            }
-            stopwatchTrie.Stop();
-            Console.WriteLine($"{stopwatchTrie.ElapsedMilliseconds} Trie");
-            Console.WriteLine($"{trie.GetInfo()}");
-
+            var trie = new Trie<int>(TrieCharacterSets.UpperCaseAndNumbers, ItemCount - 1000, 1000); // -1000 makes sure we trigger at least one resize operation
+            PerformanceUtility.TimeAgainstDictionary(trie, ItemCount, 100, i => new KeyValuePair<string, int>(i.ToString("X"), i));
         }
 
         private Trie<int> CreateTrie()

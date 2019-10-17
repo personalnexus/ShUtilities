@@ -72,5 +72,13 @@ namespace ShUtilities.Collections
             var result = new HashSet<T>(items);
             return result;
         }
+
+        public static void AddRange<T>(this ISet<T> set, IEnumerable<T> items)
+        {
+            foreach (T item in items)
+            {
+                set.Add(item);
+            }
+        }
     }
 }
