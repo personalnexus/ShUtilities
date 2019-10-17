@@ -3,7 +3,7 @@
 namespace ShUtilities.Time
 {
     /// <summary>
-    /// An interface to obtain the current time which can be swapped out for tests to simulate time-jumps
+    /// An interface to obtain the current time which can be swapped out for tests to simulate progression of time
     /// </summary>
     public interface ITimeProvider
     {

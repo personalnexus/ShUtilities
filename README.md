@@ -9,6 +9,7 @@ This is still a work in process as I clean up my code to make it fit for publica
 * __ByteDictionary__: provides IDictionary-like access with a fixed memory-footprint to what is essentially an array with a byte as its index
 * __CollectionExtensions__: extension methods for IDictionary<,> and IEnumerable<>
 * __Trie__: a Trie implementation with support for a reduced set of possible key elements to minimize space requirements that implements most of IDictionary<string, TValue>
+* __TrieCharacterSets__: pre-defined sets of characters for Trie e.g. all (Latin) alpha-numeric characters
 
 ## Diagnostics
 
@@ -34,7 +35,7 @@ This is still a work in process as I clean up my code to make it fit for publica
 
 ## Time
 
-* __ITimeProvider__: an interface to obtain the current time which can be swapped out for tests to simulate time-jumps
+* __ITimeProvider__: an interface to obtain the current time which can be swapped out for tests to simulate progression
 * __SystemTimeProvider__: implementation of ITimeProvider that provides the time from DateTime.Now and ticks via QueryPerformanceCounter
 
 ---
@@ -43,3 +44,4 @@ This is still a work in process as I clean up my code to make it fit for publica
 
 * __ExceptionUtility__: makes testing with expected exceptions easier by allowing to test specific pieces of code (i.e. Actions) for expected exceptions
 * __PerformanceUtility__: basic performance tests using Systen.Diagnostics.Stopwatch
+* __TestTimeProvider__: an implementation of ITimeProvider whose time can be set to simulate progression of time in tests
