@@ -35,6 +35,8 @@ This is still a work in process as I clean up my code to make it fit for publica
 
 ## Time
 
+* __BusinessCalendarExtensions__: extension methods for DateTime using information from an IBusinessCalendar e.g. AddBusinessDays() similar to AddDays()
+* __IBusinessCalendar__: an interface that provides information on whether a given date is a business day or not
 * __ITimeProvider__: an interface to obtain the current time which can be swapped out for tests to simulate progression
 * __SystemTimeProvider__: implementation of ITimeProvider that provides the time from DateTime.Now and ticks via QueryPerformanceCounter
 
