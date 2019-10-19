@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ShUtilities.Collections;
 using System;
+using System.Collections.Generic;
 using static ShUtilitiesTest.ExceptionUtility;
 
 namespace ShUtilitiesTest
@@ -82,7 +83,7 @@ namespace ShUtilitiesTest
         public void Performance()
         {
             var dictionary = new ByteDictionary<int>();
-            PerformanceUtility.TimeAgainstDictionary(dictionary, 256, 100, i => new System.Collections.Generic.KeyValuePair<byte, int>((byte)i, i));
+            PerformanceUtility.TimeAgainstDictionary(dictionary, 256, 1_000_000, i => new KeyValuePair<byte, int>((byte)i, i));
         }
     }
 }

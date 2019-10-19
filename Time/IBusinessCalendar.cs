@@ -7,6 +7,6 @@ namespace ShUtilities.Time
     /// </summary>
     public interface IBusinessCalendar
     {
-        bool IsBusinessDay(DateTime date);
+        bool IsHoliday(DateTime date);
     }
 }
