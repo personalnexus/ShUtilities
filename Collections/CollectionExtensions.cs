@@ -67,17 +67,57 @@ namespace ShUtilities.Collections
             return resultBuilder.ToString();
         }
 
+        /// <summary>
+        /// Creates a HashSet from the given <see cref="IEnumerable{T}"/>
+        /// </summary>
         public static ISet<T> ToHashSet<T>(this IEnumerable<T> items)
         {
             var result = new HashSet<T>(items);
             return result;
         }
 
-        public static void AddRange<T>(this ISet<T> set, IEnumerable<T> items)
+        /// <summary>
+        /// Adds the convenience <see cref="List{T}.AddRange(IEnumerable{T})"/> method to all <see cref="ICollection{T}"/> implementations
+        /// </summary>
+        public static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> items)
         {
             foreach (T item in items)
             {
-                set.Add(item);
+                collection.Add(item);
+            }
+        }
+
+        /// <summary>
+        /// Partitions a long input sequence into individual lists of at most <paramref name="itemsPerPartition"/> items.
+        /// </summary>
+        public static IEnumerable<List<T>> ToPartitions<T>(this IEnumerable<T> items, int itemsPerPartition)
+        {
+            var partition = new List<T>();
+            foreach (T item in items)
+            {
+                if (partition == null)
+                {
+                    // When we create a new list, we size it to fit all items we are 
+                    // expecting. We can't do this from the start, because one might 
+                    // pass in a very large value for itemsPerPartition (expecting to
+                    // get all items in one partition) resulting in an out-of-memory
+                    // exception when allocating the initial list. But here, we have had
+                    // a full partition, giving us confidence, the next one will also fit
+                    // into memory.
+                    partition = new List<T>(itemsPerPartition);
+                }
+                partition.Add(item);
+                if (partition.Count == itemsPerPartition)
+                {
+                    yield return partition;
+                    partition = null;
+                    // Don't allocate a new partition just yet, in case this was the
+                    // last item
+                }
+            }
+            if (partition != null && partition.Count != 0)
+            {
+                yield return partition;
             }
         }
     }
