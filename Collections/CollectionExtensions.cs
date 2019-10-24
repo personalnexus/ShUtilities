@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.Collections;
 
 namespace ShUtilities.Collections
 {
@@ -180,6 +181,15 @@ namespace ShUtilities.Collections
             bool result = valueCount != 0;
             values = result ? list.Values.Skip(lowerIndex).Take(valueCount) : Enumerable.Empty<TValue>();
 
+            return result;
+        }
+
+        /// <summary>
+        /// Returns whether the given enumerable does not contains any elements using either the count of a collection or by calling Any()
+        /// </summary>
+        public static bool IsEmpty<T>(this IEnumerable<T> items)
+        {
+            bool result = items is ICollection collection ? collection.Count == 0 : !items.Any();
             return result;
         }
     }

@@ -88,6 +88,14 @@ namespace ShUtilitiesTest
             }
         }
 
+        [TestMethod]
+        public void IsEmpty()
+        {
+            Assert.IsTrue(new int[0].IsEmpty());
+            Assert.IsFalse(new int[1].IsEmpty());
+            Assert.IsTrue(Enumerable.Empty<int>().IsEmpty());
+        }
+
         private string CreateValue(string key)
         {
             return "Value" + key;
