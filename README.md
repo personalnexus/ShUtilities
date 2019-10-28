@@ -11,6 +11,10 @@ This is still a work in process as I clean up my code to make it fit for publica
 * __Trie__: a Trie implementation with support for a reduced set of possible key elements to minimize space requirements that implements most of IDictionary<string, TValue>
 * __TrieCharacterSets__: pre-defined sets of characters for Trie e.g. all (Latin) alpha-numeric characters
 
+## Common
+
+* __MathExtensions__: extension methods adding math functions to built-in value types
+
 ## Diagnostics
 
 * __ProcessTuning__: tweak a process's priority allowing it to consume all of a machine's resources as long as there is no other resource demand
