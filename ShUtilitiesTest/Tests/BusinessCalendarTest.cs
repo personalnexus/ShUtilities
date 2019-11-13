@@ -3,7 +3,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ShUtilities.Time;
 
-namespace ShUtilitiesTest
+namespace ShUtilitiesTest.Tests
 {
     [TestClass]
     public class BusinessCalendarTest: IBusinessCalendar

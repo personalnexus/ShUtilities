@@ -2,7 +2,7 @@
 using ShUtilities.Interop;
 using System;
 
-namespace ShUtilitiesTest
+namespace ShUtilitiesTest.Tests
 {
     [TestClass]
     public class LibraryTest

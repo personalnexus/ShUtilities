@@ -28,9 +28,11 @@ This is still a work in process as I clean up my code to make it fit for publica
 
 * __FileUtility__: read file line by line as an IEnumerable<string> like File.ReadLines but with control over file open, access and share modes
 * __ISerializer__: basic interface describing serialization e.g. XML, JSON, CSV...
-* __SerializerExtensions__: extension methods for the basic ISerializer<T> interface.
 * __JsonSerializer__ : implementation of ISerializer<T> for JSON
+* __SerializerExtensions__: extension methods for the basic ISerializer<T> interface.
+* __TemporaryFile__: creates a temporary file and makes sure it is deleted using the Disposable pattern
 * __XmlSerializer__ : implementation of ISerializer<T> for XML
+* __XmlUtility__: helper methods for working with XML
 
 ## Text
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using ShUtilities.Text;
 
-namespace ShUtilitiesTest
+namespace ShUtilitiesTest.Tests
 {
     [TestClass]
     public class DictionaryParserExtensionsTest

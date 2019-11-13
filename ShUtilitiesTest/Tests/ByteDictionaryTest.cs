@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using static ShUtilitiesTest.ExceptionUtility;
 
-namespace ShUtilitiesTest
+namespace ShUtilitiesTest.Tests
 {
     [TestClass]
     public class ByteDictionaryTest

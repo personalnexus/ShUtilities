@@ -2,7 +2,7 @@
 using ShUtilities.Time;
 using System;
 
-namespace ShUtilitiesTest
+namespace ShUtilitiesTest.Tests
 {
     [TestClass]
     public class TimeProviderTest

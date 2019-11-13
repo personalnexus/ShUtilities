@@ -2,7 +2,7 @@
 using ShUtilities.Text;
 using System;
 
-namespace ShUtilitiesTest
+namespace ShUtilitiesTest.Tests
 {
     [TestClass]
     public class ParsersTest

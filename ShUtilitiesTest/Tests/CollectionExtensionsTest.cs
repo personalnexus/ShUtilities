@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using static ShUtilitiesTest.ExceptionUtility;
 
-namespace ShUtilitiesTest
+namespace ShUtilitiesTest.Tests
 {
     [TestClass]
     public class CollectionExtensionsTest

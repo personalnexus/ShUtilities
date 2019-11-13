@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System;
 using System.Diagnostics;
 
-namespace ShUtilitiesTest
+namespace ShUtilitiesTest.Tests
 {
     [TestClass]
     public class TrieTest
