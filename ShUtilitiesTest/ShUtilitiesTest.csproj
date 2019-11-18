@@ -64,12 +64,14 @@
     <Compile Include="Tests\BusinessCalendarTest.cs" />
     <Compile Include="Tests\ByteDictionaryTest.cs" />
     <Compile Include="Tests\CollectionExtensionsTest.cs" />
+    <Compile Include="Tests\DateTest.cs" />
     <Compile Include="Tests\DictionaryParserExtensionsTest.cs" />
     <Compile Include="Tests\LibraryTest.cs" />
     <Compile Include="Tests\ParsersTest.cs" />
     <Compile Include="PerformanceUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ExceptionUtility.cs" />
+    <Compile Include="Tests\SetOnceEventTest.cs" />
     <Compile Include="TestTimeProvider.cs" />
     <Compile Include="Tests\TimeProviderTest.cs" />
     <Compile Include="Tests\TrieTest.cs" />

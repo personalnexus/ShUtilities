@@ -39,9 +39,14 @@ This is still a work in process as I clean up my code to make it fit for publica
 * __DictionaryParserExtensions__: provides extension methods for getting values from a dictionary and applying a parser/converter to them, e.g. to get an integer from a string-string-dictionary.
 * __Parsers__: a repository of parser methods to parse/convert from string to a target type
 
+## Threading
+
+* __SetOnceEvent__: A light-weight alternative to ManualResetEvent for events that are only set once that does not need to be disposed
+
 ## Time
 
 * __BusinessCalendarExtensions__: extension methods for DateTime using information from an IBusinessCalendar e.g. AddBusinessDays() similar to AddDays()
+* __DateExtenstions__: convenience methods for comparing DateTime
 * __IBusinessCalendar__: an interface that provides information on whether a given date is a business day or not
 * __ITimeProvider__: an interface to obtain the current time which can be swapped out for tests to simulate progression
 * __SystemTimeProvider__: implementation of ITimeProvider that provides the time from DateTime.Now and ticks via QueryPerformanceCounter
