@@ -6,49 +6,49 @@ using ShUtilities.Time;
 namespace ShUtilitiesTest.Tests
 {
     [TestClass]
-    public class BusinessCalendarTest: IBusinessCalendar
+    public class BusinessCalendarTest
     {
         [TestMethod]
         public void IsBusinessDay()
         {
-            Assert.IsFalse(WeekendDay.IsBusinessDay(this));
-            Assert.IsTrue(BusinessDay.IsBusinessDay(this));
+            Assert.IsFalse(WeekendDay.IsBusinessDay(Calendar));
+            Assert.IsTrue(BusinessDay.IsBusinessDay(Calendar));
         }
 
         [TestMethod]
         public void AddBusinessDays()
         {
-            Assert.AreEqual(BusinessDay, BusinessDay.AddBusinessDays(0, this));
-            Assert.AreEqual(WeekendDay, WeekendDay.AddBusinessDays(0, this));
-            Assert.AreEqual(new DateTime(2019, 10, 17), WeekendDay.AddBusinessDays(-1, this));
-            Assert.AreEqual(new DateTime(2019, 10, 24), new DateTime(2019, 10, 19).AddBusinessDays(2, this));
-            Assert.AreEqual(new DateTime(2020, 01, 02), NewYears.AddBusinessDays(1, this));
+            Assert.AreEqual(BusinessDay, BusinessDay.AddBusinessDays(0, Calendar));
+            Assert.AreEqual(WeekendDay, WeekendDay.AddBusinessDays(0, Calendar));
+            Assert.AreEqual(new DateTime(2019, 10, 17), WeekendDay.AddBusinessDays(-1, Calendar));
+            Assert.AreEqual(new DateTime(2019, 10, 24), new DateTime(2019, 10, 19).AddBusinessDays(2, Calendar));
+            Assert.AreEqual(new DateTime(2020, 01, 02), NewYears.AddBusinessDays(1, Calendar));
         }
 
         [TestMethod]
         public void LastBusinessDayOfMonth()
         {
-            Assert.AreEqual(new DateTime(2019, 12, 30), BusinessDayInDecember.LastBusinessDayOfMonth(this));
-            Assert.AreEqual(new DateTime(2019, 10, 31), BusinessDay.LastBusinessDayOfMonth(this));
-            Assert.AreEqual(new DateTime(2019, 10, 31), WeekendDay.LastBusinessDayOfMonth(this));
+            Assert.AreEqual(new DateTime(2019, 12, 30), BusinessDayInDecember.LastBusinessDayOfMonth(Calendar));
+            Assert.AreEqual(new DateTime(2019, 10, 31), BusinessDay.LastBusinessDayOfMonth(Calendar));
+            Assert.AreEqual(new DateTime(2019, 10, 31), WeekendDay.LastBusinessDayOfMonth(Calendar));
         }
 
         [TestMethod]
         public void BusinessDayOnOrAfter()
         {
-            Assert.AreEqual(new DateTime(2020, 01, 02), NewYearsEve.BusinessDayOnOrAfter(this));
-            Assert.AreEqual(new DateTime(2020, 01, 02), NewYears.BusinessDayOnOrAfter(this));
-            Assert.AreEqual(BusinessDayInDecember, BusinessDayInDecember.BusinessDayOnOrAfter(this));
-            Assert.AreEqual(BusinessDay, BusinessDay.BusinessDayOnOrAfter(this));
+            Assert.AreEqual(new DateTime(2020, 01, 02), NewYearsEve.BusinessDayOnOrAfter(Calendar));
+            Assert.AreEqual(new DateTime(2020, 01, 02), NewYears.BusinessDayOnOrAfter(Calendar));
+            Assert.AreEqual(BusinessDayInDecember, BusinessDayInDecember.BusinessDayOnOrAfter(Calendar));
+            Assert.AreEqual(BusinessDay, BusinessDay.BusinessDayOnOrAfter(Calendar));
         }
 
         [TestMethod]
         public void BusinessDayOnOrBefore()
         {
-            Assert.AreEqual(new DateTime(2019, 12, 30), NewYearsEve.BusinessDayOnOrBefore(this));
-            Assert.AreEqual(new DateTime(2019, 12, 30), NewYears.BusinessDayOnOrBefore(this));
-            Assert.AreEqual(BusinessDayInDecember, BusinessDayInDecember.BusinessDayOnOrBefore(this));
-            Assert.AreEqual(BusinessDay, BusinessDay.BusinessDayOnOrBefore(this));
+            Assert.AreEqual(new DateTime(2019, 12, 30), NewYearsEve.BusinessDayOnOrBefore(Calendar));
+            Assert.AreEqual(new DateTime(2019, 12, 30), NewYears.BusinessDayOnOrBefore(Calendar));
+            Assert.AreEqual(BusinessDayInDecember, BusinessDayInDecember.BusinessDayOnOrBefore(Calendar));
+            Assert.AreEqual(BusinessDay, BusinessDay.BusinessDayOnOrBefore(Calendar));
         }
 
         private static readonly DateTime WeekendDay = new DateTime(2019, 10, 19);
@@ -57,18 +57,13 @@ namespace ShUtilitiesTest.Tests
         private static readonly DateTime NewYearsEve = new DateTime(2019, 12, 31);
         private static readonly DateTime NewYears = new DateTime(2020, 01, 01);
 
-        private static readonly DateTime[] Holidays = {
-                                                        new DateTime(2019, 10, 18),
-                                                        new DateTime(2019, 10, 22),
-                                                        new DateTime(2019, 10, 23),
-                                                        NewYearsEve,
-                                                        NewYears,
-                                                      };
-
-        public bool IsHoliday(DateTime date)
+        private static readonly BusinessCalendar Calendar = new BusinessCalendar
         {
-            bool result = Holidays.Contains(date);
-            return result;
-        }
+            new DateTime(2019, 10, 18),
+            new DateTime(2019, 10, 22),
+            new DateTime(2019, 10, 23),
+            NewYearsEve,
+            NewYears,
+        };
     }
 }

@@ -38,6 +38,7 @@ This is still a work in process as I clean up my code to make it fit for publica
 
 * __DictionaryParserExtensions__: provides extension methods for getting values from a dictionary and applying a parser/converter to them, e.g. to get an integer from a string-string-dictionary.
 * __Parsers__: a repository of parser methods to parse/convert from string to a target type
+* __StringExtensions__: Convenience methods for common string operations
 
 ## Threading
 
@@ -45,6 +46,7 @@ This is still a work in process as I clean up my code to make it fit for publica
 
 ## Time
 
+* __BusinessCalendar__: Default implementation of IBusinessCalendar containing the given holidays (or none if the default constructor is used)
 * __BusinessCalendarExtensions__: extension methods for DateTime using information from an IBusinessCalendar e.g. AddBusinessDays() similar to AddDays()
 * __DateExtenstions__: convenience methods for comparing DateTime
 * __IBusinessCalendar__: an interface that provides information on whether a given date is a business day or not

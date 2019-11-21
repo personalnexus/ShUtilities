@@ -72,6 +72,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ExceptionUtility.cs" />
     <Compile Include="Tests\SetOnceEventTest.cs" />
+    <Compile Include="Tests\StringExtensionsTest.cs" />
     <Compile Include="TestTimeProvider.cs" />
     <Compile Include="Tests\TimeProviderTest.cs" />
     <Compile Include="Tests\TrieTest.cs" />
