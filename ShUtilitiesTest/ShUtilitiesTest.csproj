@@ -67,6 +67,7 @@
     <Compile Include="Tests\CollectionExtensionsTest.cs" />
     <Compile Include="Tests\DateTest.cs" />
     <Compile Include="Tests\DictionaryParserExtensionsTest.cs" />
+    <Compile Include="Tests\DisposerTest.cs" />
     <Compile Include="Tests\LibraryTest.cs" />
     <Compile Include="Tests\ParsersTest.cs" />
     <Compile Include="PerformanceUtility.cs" />

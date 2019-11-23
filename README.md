@@ -14,6 +14,7 @@ This is still a work in process as I clean up my code to make it fit for publica
 ## Common
 
 * __Bytes__: working with counts of bytes at different scales in a way inspired by TimeSpan
+* __Disposer__: disposes one or more IDisposables and sets their references to null
 * __MathExtensions__: extension methods adding math functions to built-in value types
 
 ## Diagnostics
