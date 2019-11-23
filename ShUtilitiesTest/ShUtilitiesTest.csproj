@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Tests\BusinessCalendarTest.cs" />
     <Compile Include="Tests\ByteDictionaryTest.cs" />
+    <Compile Include="Tests\BytesTest.cs" />
     <Compile Include="Tests\CollectionExtensionsTest.cs" />
     <Compile Include="Tests\DateTest.cs" />
     <Compile Include="Tests\DictionaryParserExtensionsTest.cs" />
