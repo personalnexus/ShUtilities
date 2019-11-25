@@ -122,19 +122,24 @@ namespace ShUtilities.Common
 
         public override string ToString() => Format(TotalBytes);
 
-        public string ToString(IFormatProvider formatProvider) => Format(TotalBytes, formatProvider);
+        public string ToString(IFormatProvider formatProvider) => Format(TotalBytes, null, formatProvider);
 
-        public string ToString(string format, IFormatProvider formatProvider) => Format(TotalBytes, formatProvider);
+        public string ToString(string format, IFormatProvider formatProvider) => Format(TotalBytes, format, formatProvider);
 
-        public static string Format(ulong byteCount) => Format(byteCount, CultureInfo.CurrentCulture);
+        public string ToString(string format) => Format(TotalBytes, format, CultureInfo.CurrentCulture);
 
-        public static string Format(ulong byteCount, IFormatProvider provider)
+        public static string Format(ulong byteCount) => Format(byteCount, null, CultureInfo.CurrentCulture);
+
+        public static string Format(ulong byteCount, string format, IFormatProvider provider)
         {
             string result;
             // Don't get into decimals when we have less than 1KB
             if (byteCount < 1024)
             {
-                result =  byteCount + "B";
+                result = (format == null
+                            ? byteCount.ToString()
+                            : byteCount.ToString(format, provider)
+                          ) + "B";
             }
             else
             {
@@ -147,8 +152,11 @@ namespace ShUtilities.Common
                         break;
                     }
                 }
-                decimal byteCountInUnit = Math.Round((decimal)byteCount / thresholdUnitName.Threshold, 2);
-                result = string.Format(provider, "{0}{1}", byteCountInUnit, thresholdUnitName.Name);
+                decimal byteCountInUnit = (decimal)byteCount / thresholdUnitName.Threshold;
+                result = (format == null
+                            ? Math.Round(byteCountInUnit, 2).ToString(provider)
+                            : byteCountInUnit.ToString(format, provider)
+                         ) + thresholdUnitName.Name;
             }
             return result;
         }
