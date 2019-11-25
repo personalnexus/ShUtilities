@@ -6,7 +6,7 @@ namespace ShUtilities.Common
     /// <summary>
     /// Working with counts of bytes at different scales in a way inspired by <see cref="TimeSpan"/>
     /// </summary>
-    public struct Bytes : IEquatable<Bytes>
+    public struct Bytes : IEquatable<Bytes>, IComparable<Bytes>, IComparable, ICloneable, IFormattable
     {
         private struct ThresholdUnitName
         {
@@ -85,6 +85,7 @@ namespace ShUtilities.Common
         public static implicit operator uint(Bytes value) => (uint)value.TotalBytes;
         public static implicit operator long(Bytes value) => (long)value.TotalBytes;
         public static implicit operator ulong(Bytes value) => value.TotalBytes;
+        public static implicit operator string(Bytes value) => value.ToString();
 
         // Equality
 
@@ -94,13 +95,38 @@ namespace ShUtilities.Common
         public bool Equals(Bytes other) => TotalBytes == other.TotalBytes;
         public override int GetHashCode() => TotalBytes.GetHashCode();
 
+        // Comparison
+
+        public static bool operator <(Bytes bytes1, Bytes bytes2) => bytes1.TotalBytes < bytes2.TotalBytes;
+        public static bool operator >(Bytes bytes1, Bytes bytes2) => bytes1.TotalBytes > bytes2.TotalBytes;
+        public static bool operator <=(Bytes bytes1, Bytes bytes2) => bytes1.TotalBytes <= bytes2.TotalBytes;
+        public static bool operator >=(Bytes bytes1, Bytes bytes2) => bytes1.TotalBytes >= bytes2.TotalBytes;
+
+        public int CompareTo(Bytes other) => TotalBytes.CompareTo(other.TotalBytes);
+
+        public int CompareTo(object other)
+        {
+            if (!(other is Bytes bytes))
+            {
+                throw new ArgumentException("Argument must be " + nameof(Bytes));
+            }
+            int result = TotalBytes.CompareTo(bytes.TotalBytes);
+            return result;
+        }
+
+        // IClonable
+
+        public object Clone() => new Bytes(TotalBytes);
+
         // Formatting
 
         public override string ToString() => Format(TotalBytes);
 
         public string ToString(IFormatProvider formatProvider) => Format(TotalBytes, formatProvider);
 
-        public static string Format(ulong byteCount) => Format(byteCount, NumberFormatInfo.InvariantInfo);
+        public string ToString(string format, IFormatProvider formatProvider) => Format(TotalBytes, formatProvider);
+
+        public static string Format(ulong byteCount) => Format(byteCount, CultureInfo.CurrentCulture);
 
         public static string Format(ulong byteCount, IFormatProvider provider)
         {
