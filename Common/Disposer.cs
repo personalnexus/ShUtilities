@@ -9,24 +9,24 @@ namespace ShUtilities.Common
     public static class Disposer
     {
         public static void Null<T>(ref T disposable)
-            where T : IDisposable
+            where T: class, IDisposable
         {
-            if (disposable != default)
+            if (disposable != null)
             {
                 disposable.Dispose();
-                disposable = default;
+                disposable = null;
             }
         }
 
         public static T Null<T>(T disposable)
-            where T : IDisposable
+            where T: class, IDisposable
         {
             disposable?.Dispose();
-            return default;
+            return null;
         }
 
         public static void All<TCollection>(TCollection disposables)
-            where TCollection : IEnumerable<IDisposable>
+            where TCollection: IEnumerable<IDisposable>
         {
             foreach (IDisposable item in disposables)
             {
@@ -35,7 +35,7 @@ namespace ShUtilities.Common
         }
 
         public static void AllNull<TCollection>(ref TCollection disposables)
-            where TCollection: IEnumerable<IDisposable>
+            where TCollection: class, IEnumerable<IDisposable>
         {
             if (disposables != null)
             {
@@ -43,7 +43,7 @@ namespace ShUtilities.Common
                 {
                     item.Dispose();
                 }
-                disposables = default;
+                disposables = null;
             }
         }
     }

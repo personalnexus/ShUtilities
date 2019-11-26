@@ -31,10 +31,10 @@ namespace ShUtilities.Text
         /// </summary>
         public static TOutput GetValue<TKey, TValue, TOutput>(this IDictionary<TKey, TValue> source, TKey key, Parser<TValue, TOutput> parser)
         {
-            switch (TryGetValueEx(source, key, out TOutput result, parser))
+            switch (TryGetValueEx(source, key, out TValue rawValue, out TOutput result, parser))
             {
                 case DictionaryParserResult.KeyNotFound: throw new KeyNotFoundException($"Key '{key}' not found.");
-                case DictionaryParserResult.ParserFailed: throw new InvalidOperationException($"Cannot convert '{key}' to '{typeof(TOutput)}'.");
+                case DictionaryParserResult.ParserFailed: throw new InvalidOperationException($"Cannot parse value '{rawValue}' of key '{key}' into '{typeof(TOutput)}'.");
             }
             return result;
         }
@@ -92,13 +92,19 @@ namespace ShUtilities.Text
         /// </summary>
         public static DictionaryParserResult TryGetValueEx<TKey, TValue, TOutput>(this IDictionary<TKey, TValue> source, TKey key, out TOutput output, Parser<TValue, TOutput> parser)
         {
+            DictionaryParserResult result = TryGetValueEx(source, key, out _, out output, parser);
+            return result;
+        }
+            
+        private static DictionaryParserResult TryGetValueEx<TKey, TValue, TOutput>(this IDictionary<TKey, TValue> source, TKey key, out TValue rawValue, out TOutput output, Parser<TValue, TOutput> parser)
+        {
             output = default;
             DictionaryParserResult result;
-            if (!source.TryGetValue(key, out TValue value))
+            if (!source.TryGetValue(key, out rawValue))
             {
                 result = DictionaryParserResult.KeyNotFound;
             }
-            else if (!parser(value, out output))
+            else if (!parser(rawValue, out output))
             {
                 result = DictionaryParserResult.ParserFailed;
             }

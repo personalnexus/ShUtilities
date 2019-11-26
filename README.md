@@ -44,7 +44,9 @@ This is still a work in process as I clean up my code to make it fit for publica
 
 ## Threading
 
+* __ActorSynchronizationContext__: An implementation of a SynchronizationContext that represents an actor in the Actor Pattern that may have changes applied to it via callbacks posted to it and then updates its externally visible state at once based on the one or more updates made to it via the callbacks.
 * __SetOnceEvent__: A light-weight alternative to ManualResetEvent for events that are only set once that does not need to be disposed
+* __SynchronizationContextExtensions__: extension methods for SynchronizationContext implementations
 
 ## Time
 
