@@ -26,6 +26,14 @@ namespace ShUtilitiesTest.Tests
         }
 
         [TestMethod]
+        public void FirstBusinessDayOfMonth()
+        {
+            Assert.AreEqual(new DateTime(2020, 01, 02), NewYears.FirstBusinessDayOfMonth(Calendar));
+            Assert.AreEqual(new DateTime(2020, 02, 03), NewYears.AddMonths(1).FirstBusinessDayOfMonth(Calendar)); // because Feb 1st and 2nd are a weekend
+            Assert.AreEqual(new DateTime(2020, 04, 01), NewYears.AddMonths(3).FirstBusinessDayOfMonth(Calendar));
+        }
+
+        [TestMethod]
         public void LastBusinessDayOfMonth()
         {
             Assert.AreEqual(new DateTime(2019, 12, 30), BusinessDayInDecember.LastBusinessDayOfMonth(Calendar));

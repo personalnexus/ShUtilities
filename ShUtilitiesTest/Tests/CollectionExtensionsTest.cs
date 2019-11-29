@@ -96,6 +96,16 @@ namespace ShUtilitiesTest.Tests
             Assert.IsTrue(Enumerable.Empty<int>().IsEmpty());
         }
 
+        [TestMethod]
+        public void AddNew()
+        {
+            var list = new List<object>();
+            object item = list.AddNew();
+            Assert.IsNotNull(item);
+            Assert.AreEqual(1, list.Count);
+            Assert.AreSame(item, list[0]);
+        }
+
         private string CreateValue(string key)
         {
             return "Value" + key;

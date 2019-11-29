@@ -8,6 +8,25 @@ namespace ShUtilities.Time
     public static class DateExtensions
     {
         /// <summary>
+        /// Returns the first day of the month that <paramref name="date"/> is in.
+        /// </summary>
+        public static DateTime FirstOfMonth(this DateTime date)
+        {
+            var result = new DateTime(date.Year, date.Month, 1);
+            return result;
+        }
+
+        /// <summary>
+        /// Returns the last day of the month that <paramref name="date"/> is in.
+        /// </summary>
+        public static DateTime LastOfMonth(this DateTime date)
+        {
+            var firstDayOfNextMonth = new DateTime(date.Year, date.Month, 1).AddMonths(1);
+            DateTime result = firstDayOfNextMonth.AddDays(-1);
+            return result;
+        }
+
+        /// <summary>
         /// Determines whether now is after the base date
         /// </summary>
         public static bool IsAfterNow(this DateTime baseDate)

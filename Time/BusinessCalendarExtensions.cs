@@ -36,6 +36,15 @@ namespace ShUtilities.Time
         }
 
         /// <summary>
+        /// Returns the first day of the month, if that is a business day, or the first business day thereafter
+        /// </summary>
+        public static DateTime FirstBusinessDayOfMonth(this DateTime date, IBusinessCalendar calendar)
+        {
+            DateTime result = date.FirstOfMonth().BusinessDayOnOrAfter(calendar);
+            return result;
+        }
+
+        /// <summary>
         /// Similar to <see cref="DateTime.AddDays(double)"/>, adds the given number of business days to the given date
         /// </summary>
         public static DateTime AddBusinessDays(this DateTime date, int fullDays, IBusinessCalendar calendar)
@@ -65,6 +74,7 @@ namespace ShUtilities.Time
                           !calendar.IsHoliday(date);
             return result;
         }
+
 
     }
 }
