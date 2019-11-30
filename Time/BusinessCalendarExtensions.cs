@@ -69,12 +69,9 @@ namespace ShUtilities.Time
         /// </summary>
         public static bool IsBusinessDay(this DateTime date, IBusinessCalendar calendar)
         {
-            bool result = date.DayOfWeek != DayOfWeek.Saturday &&
-                          date.DayOfWeek != DayOfWeek.Sunday &&
+            bool result = !date.IsWeekend() &&
                           !calendar.IsHoliday(date);
             return result;
         }
-
-
     }
 }

@@ -90,5 +90,15 @@ namespace ShUtilities.Time
             bool result = baseDate + diff < otherDate;
             return result;
         }
+
+        /// <summary>
+        /// Determines whether the given date a Saturday or Sunday
+        /// </summary>
+        public static bool IsWeekend(this DateTime date)
+        {
+            bool result = date.DayOfWeek == DayOfWeek.Saturday ||
+                          date.DayOfWeek == DayOfWeek.Sunday;
+            return result;
+        }
     }
 }
