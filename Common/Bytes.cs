@@ -81,9 +81,9 @@ namespace ShUtilities.Common
         public static Bytes operator *(Bytes value, ulong multiplier) => new Bytes(value.TotalBytes * multiplier);
         public static Bytes operator *(ulong multiplier, Bytes value) => new Bytes(value.TotalBytes * multiplier);
 
-        public static implicit operator int(Bytes value) => (int)value.TotalBytes;
-        public static implicit operator uint(Bytes value) => (uint)value.TotalBytes;
-        public static implicit operator long(Bytes value) => (long)value.TotalBytes;
+        public static explicit operator int(Bytes value) => (int)value.TotalBytes;
+        public static explicit operator uint(Bytes value) => (uint)value.TotalBytes;
+        public static explicit operator long(Bytes value) => (long)value.TotalBytes;
         public static implicit operator ulong(Bytes value) => value.TotalBytes;
         public static implicit operator string(Bytes value) => value.ToString();
 

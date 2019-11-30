@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ShUtilities.Common;
 using System;
-using System.Globalization;
 
 namespace ShUtilitiesTest.Tests
 {
@@ -42,7 +41,7 @@ namespace ShUtilitiesTest.Tests
             var bytes = new Bytes(615);
             Assert.AreEqual("615B", bytes.ToString());
             Assert.AreEqual(615.0.ToString("F1") + "B", bytes.ToString("F1"));
-            Assert.AreEqual<int>(615, bytes);
+            Assert.AreEqual<int>(615, (int)bytes);
             Assert.AreEqual<ulong>(615, bytes);
             Assert.AreEqual<string>("615B", bytes);
         }
