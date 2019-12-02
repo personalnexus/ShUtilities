@@ -15,7 +15,7 @@ namespace ShUtilities.Collections
             public bool HasValue;
         }
 
-        private ByteDictionaryItem[] _items = new ByteDictionaryItem[byte.MaxValue + 1];
+        private readonly ByteDictionaryItem[] _items = new ByteDictionaryItem[byte.MaxValue + 1];
 
         // IDictionary
 

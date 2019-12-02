@@ -9,7 +9,7 @@ namespace ShUtilities.IO
     /// </summary>
     public class XmlSerializer<T> : ISerializer<T>
     {
-        private XmlSerializer _serializer = new XmlSerializer(typeof(T));
+        private readonly XmlSerializer _serializer = new XmlSerializer(typeof(T));
 
         public XmlReaderSettings ReaderSettings { get; } = new XmlReaderSettings();
         public XmlWriterSettings WriterSettings { get; } = new XmlWriterSettings();
@@ -17,19 +17,15 @@ namespace ShUtilities.IO
         public T Deserialize(Stream input)
         {
             T result;
-            using (XmlReader reader = XmlReader.Create(input, ReaderSettings))
-            {
-                result = (T)_serializer.Deserialize(reader);
-            }
+            using XmlReader reader = XmlReader.Create(input, ReaderSettings);
+            result = (T)_serializer.Deserialize(reader);
             return result;
         }
 
         public void Serialize(T input, Stream output)
         {
-            using (XmlWriter writer = XmlWriter.Create(output, WriterSettings))
-            {
-                _serializer.Serialize(writer, input);
-            }
+            using XmlWriter writer = XmlWriter.Create(output, WriterSettings);
+            _serializer.Serialize(writer, input);
         }
     }
 }

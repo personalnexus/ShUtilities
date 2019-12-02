@@ -22,10 +22,8 @@ namespace ShUtilities.IO
 
         public static void SerializeFile<T>(this ISerializer<T> serializer, T input, string outputPath, FileMode mode = FileMode.OpenOrCreate, FileAccess access = FileAccess.Write, FileShare share = FileShare.Read)
         {
-            using (var outputStream = new FileStream(outputPath, mode, access, share))
-            {
-                serializer.Serialize(input, outputStream);
-            }
+            using var outputStream = new FileStream(outputPath, mode, access, share);
+            serializer.Serialize(input, outputStream);
         }
 
         // String
@@ -57,10 +55,8 @@ namespace ShUtilities.IO
             {
                 serializer.Serialize(input, outputStream);
                 outputStream.Position = 0;
-                using (var reader = new StreamReader(outputStream, encoding))
-                {
-                    result = reader.ReadToEnd();
-                }
+                using var reader = new StreamReader(outputStream, encoding);
+                result = reader.ReadToEnd();
             }
             return result;
         }

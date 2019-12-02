@@ -21,12 +21,10 @@ namespace ShUtilities.IO
         /// </summary>
         private static void PrettyPrint(string inputFilename, string outputFilename, XmlWriterSettings writerSettings)
         {
-            using (var writer = XmlWriter.Create(outputFilename, writerSettings))
-            {
-                var document = new XmlDocument();
-                document.Load(inputFilename);
-                document.Save(writer);
-            }
+            using var writer = XmlWriter.Create(outputFilename, writerSettings);
+            var document = new XmlDocument();
+            document.Load(inputFilename);
+            document.Save(writer);
         }
     }
 }

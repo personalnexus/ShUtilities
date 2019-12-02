@@ -25,7 +25,7 @@ namespace ShUtilities.Collections
 
         // Key lookup
 
-        private int[] _keyIndexByCharacter;
+        private readonly int[] _keyIndexByCharacter;
 
         // Nodes
 

@@ -10,7 +10,7 @@ namespace ShUtilities.Text
     {
         private delegate bool UntypedParser(string input, out object output);
 
-        private Dictionary<Type, UntypedParser> _parsersByType = new Dictionary<Type, UntypedParser>();
+        private readonly Dictionary<Type, UntypedParser> _parsersByType = new Dictionary<Type, UntypedParser>();
 
         /// <summary>
         /// Creates a <see cref="Parsers"/> instance pre-populated with parsers for the most common types.

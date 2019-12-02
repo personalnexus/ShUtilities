@@ -30,17 +30,13 @@ namespace ShUtilities.IO
         /// <returns>Lazily populated <see cref="IEnumerable{string}"/> containing each line</returns>
         public static IEnumerable<string> ReadLines(string path, Encoding encoding, FileMode mode = FileMode.Open, FileAccess access = FileAccess.Read, FileShare share = FileShare.Read)
         {
-            using (var fileStream = new FileStream(path, mode, access, share))
+            using var fileStream = new FileStream(path, mode, access, share);
+            using var reader = new StreamReader(fileStream, encoding);
+            string line = reader.ReadLine();
+            while (line != null)
             {
-                using (var reader = new StreamReader(fileStream, encoding))
-                {
-                    string line = reader.ReadLine();
-                    while (line != null)
-                    {
-                        yield return line;
-                        line = reader.ReadLine();
-                    }
-                }
+                yield return line;
+                line = reader.ReadLine();
             }
         }
     }
