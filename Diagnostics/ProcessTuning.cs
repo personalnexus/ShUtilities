@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShUtilities.Common;
+using System;
 using System.Diagnostics;
 
 namespace ShUtilities.Diagnostics
@@ -15,8 +16,7 @@ namespace ShUtilities.Diagnostics
 
         public void Dispose()
         {
-            CurrentProcess?.Dispose();
-            CurrentProcess = null;
+            CurrentProcess = Disposer.Null(CurrentProcess);
         }
 
         /// <summary>

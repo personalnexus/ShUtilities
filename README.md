@@ -36,6 +36,10 @@ This is still a work in process as I clean up my code to make it fit for publica
 * __XmlSerializer__ : implementation of ISerializer<T> for XML
 * __XmlUtility__: helper methods for working with XML
 
+## Net
+
+*  __WebClientEx__: Derived from WebClient this class adds convient configuration of a proxy as well as other little niceties.
+
 ## Text
 
 * __DictionaryParserExtensions__: provides extension methods for getting values from a dictionary and applying a parser/converter to them, e.g. to get an integer from a string-string-dictionary.
