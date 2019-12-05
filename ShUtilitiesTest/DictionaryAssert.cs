@@ -4,6 +4,9 @@ using ShUtilities.Collections;
 
 namespace ShUtilitiesTest
 {
+    /// <summary>
+    /// Assertions for dictionaries
+    /// </summary>
     public static class DictionaryAssert
     {
         public static void AreEqual<TKey, TValue>(IDictionary<TKey, TValue> expected, IDictionary<TKey, TValue> actual)

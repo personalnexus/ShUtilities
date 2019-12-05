@@ -7,7 +7,9 @@ This is still a work in process as I clean up my code to make it fit for publica
 ## Collections
 
 * __ByteDictionary__: provides IDictionary-like access with a fixed memory-footprint to what is essentially an array with a byte as its index
-* __CollectionExtensions__: extension methods for IDictionary<,> and IEnumerable<>
+* __CollectionExtensions__: extension methods for ICollection<>, IEnumerable<>, IList<> etc.
+* __DictionaryDiff__: compares two dictionaries key by key and stores the added, removed etc. keys and values
+* __DictionaryExtensions__: extension methods for IDictionary<,>
 * __Trie__: a Trie implementation with support for a reduced set of possible key elements to minimize space requirements that implements most of IDictionary<string, TValue>
 * __TrieCharacterSets__: pre-defined sets of characters for Trie e.g. all (Latin) alpha-numeric characters
 
@@ -38,23 +40,23 @@ This is still a work in process as I clean up my code to make it fit for publica
 
 ## Net
 
-*  __WebClientEx__: Derived from WebClient this class adds convient configuration of a proxy as well as other little niceties.
+*  __WebClientEx__: derived from WebClient this class adds convient configuration of a proxy as well as other little niceties.
 
 ## Text
 
 * __DictionaryParserExtensions__: provides extension methods for getting values from a dictionary and applying a parser/converter to them, e.g. to get an integer from a string-string-dictionary.
 * __Parsers__: a repository of parser methods to parse/convert from string to a target type
-* __StringExtensions__: Convenience methods for common string operations
+* __StringExtensions__: convenience methods for common string operations
 
 ## Threading
 
-* __ActorSynchronizationContext__: An implementation of a SynchronizationContext that represents an actor in the Actor Pattern that may have changes applied to it via callbacks posted to it and then updates its externally visible state at once based on the one or more updates made to it via the callbacks.
-* __SetOnceEvent__: A light-weight alternative to ManualResetEvent for events that are only set once that does not need to be disposed
+* __ActorSynchronizationContext__: an implementation of a SynchronizationContext that represents an actor in the Actor Pattern that may have changes applied to it via callbacks posted to it and then updates its externally visible state at once based on the one or more updates made to it via the callbacks.
+* __SetOnceEvent__: a light-weight alternative to ManualResetEvent for events that are only set once that does not need to be disposed
 * __SynchronizationContextExtensions__: extension methods for SynchronizationContext implementations
 
 ## Time
 
-* __BusinessCalendar__: Default implementation of IBusinessCalendar containing the given holidays (or none if the default constructor is used)
+* __BusinessCalendar__: default implementation of IBusinessCalendar containing the given holidays (or none if the default constructor is used)
 * __BusinessCalendarExtensions__: extension methods for DateTime using information from an IBusinessCalendar e.g. AddBusinessDays() similar to AddDays()
 * __DateExtenstions__: convenience methods for comparing DateTime
 * __IBusinessCalendar__: an interface that provides information on whether a given date is a business day or not
@@ -64,7 +66,7 @@ This is still a work in process as I clean up my code to make it fit for publica
 ---
 
 # ShUtilitiesTest
-
+* __DictionaryAssert__: assertions for dictionaries
 * __ExceptionUtility__: makes testing with expected exceptions easier by allowing to test specific pieces of code (i.e. Actions) for expected exceptions
 * __PerformanceUtility__: basic performance tests using Systen.Diagnostics.Stopwatch
 * __TestTimeProvider__: an implementation of ITimeProvider whose time can be set to simulate progression of time in tests
