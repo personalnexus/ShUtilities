@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DictionaryAssert.cs" />
     <Compile Include="Tests\BusinessCalendarTest.cs" />
     <Compile Include="Tests\ByteDictionaryTest.cs" />
     <Compile Include="Tests\BytesTest.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="ExceptionUtility.cs" />
     <Compile Include="Tests\SetOnceEventTest.cs" />
     <Compile Include="Tests\StringExtensionsTest.cs" />
+    <Compile Include="Tests\DictionaryExtensionsTest.cs" />
     <Compile Include="TestTimeProvider.cs" />
     <Compile Include="Tests\TimeProviderTest.cs" />
     <Compile Include="Tests\TrieTest.cs" />

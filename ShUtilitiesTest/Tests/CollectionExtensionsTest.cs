@@ -17,15 +17,6 @@ namespace ShUtilitiesTest.Tests
         }
 
         [TestMethod]
-        public void GetOrAdd()
-        {
-            var dictionary = new Dictionary<string, string>();
-            Assert.AreEqual("Value1", dictionary.GetOrAdd("1", CreateValue));
-            Assert.AreEqual("Value1", dictionary.GetOrAdd("1", CreateValue));
-            Assert.AreEqual("StateX", dictionary.GetOrAdd("X", CreateValue, "State"));
-        }
-
-        [TestMethod]
         public void ToPartitions()
         {
             var items = new int[] { 1, 2, 3, 4, 5 };
@@ -104,16 +95,6 @@ namespace ShUtilitiesTest.Tests
             Assert.IsNotNull(item);
             Assert.AreEqual(1, list.Count);
             Assert.AreSame(item, list[0]);
-        }
-
-        private string CreateValue(string key)
-        {
-            return "Value" + key;
-        }
-
-        private string CreateValue(string key, string state)
-        {
-            return state + key;
         }
     }
 }
