@@ -96,5 +96,21 @@ namespace ShUtilitiesTest.Tests
             Assert.AreEqual(1, list.Count);
             Assert.AreSame(item, list[0]);
         }
+
+        [TestMethod]
+        public void TryFirst()
+        {
+            var numbers = new[] { 1, 2, 3, 4, 5 };
+
+            Assert.IsTrue(numbers.TryFirst(out int number1));
+            Assert.AreEqual(1, number1);
+
+            Assert.IsTrue(numbers.TryFirst(out int number4, x => (3 < x) && (x < 5)));
+            Assert.AreEqual(4, number4);
+
+            Assert.IsFalse(numbers.TryFirst(out _, _ => false));
+
+            Assert.IsFalse(new int[0].TryFirst(out _));
+        }
     }
 }
