@@ -65,7 +65,7 @@ namespace ShUtilitiesTest.Tests
             Check(3, 3, false);
             Check(9999, 999999, false);
 
-            Expect<ArgumentException>(() => list.TryGetRange(3, -1, out _));
+            Expect<ArgumentException>(() => list.TryGetRange(3, -1, out IEnumerable<int> _));
 
             void Check(int lowerBound, int upperBound, bool expectedResult, params int[] expectedValues)
             {
