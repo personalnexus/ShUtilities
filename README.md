@@ -7,9 +7,11 @@ This is still a work in process as I clean up my code to make it fit for publica
 ## Collections
 
 * __ByteDictionary__: provides IDictionary-like access with a fixed memory-footprint to what is essentially an array with a byte as its index
-* __CollectionExtensions__: extension methods for ICollection<>, IEnumerable<>, IList<> etc.
+* __CollectionExtensions__: extension methods for ICollection<>
 * __DictionaryDiff__: compares two dictionaries key by key and stores the added, removed etc. keys and values
 * __DictionaryExtensions__: extension methods for IDictionary<,>
+* __EnumerableExtensions__: extension methods IEnumerable<>
+* __SortedListExtensions__: extension methods SortedList<>
 * __Trie__: a Trie implementation with support for a reduced set of possible key elements to minimize space requirements that implements most of IDictionary<string, TValue>
 * __TrieCharacterSets__: pre-defined sets of characters for Trie e.g. all (Latin) alpha-numeric characters
 
