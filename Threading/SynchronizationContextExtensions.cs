@@ -43,5 +43,14 @@ namespace ShUtilities.Threading
             var action = (Action)state;
             action();
         }
+
+        /// <summary>
+        /// Uses the Dispose pattern to set the current SynchronizationContext to the given one and reset it afterwards to the previous one
+        /// </summary>
+        public static IDisposable SetCurrent(this SynchronizationContext synchronizationContext)
+        {
+            var result = new SynchronizationContextSetter(synchronizationContext);
+            return result;
+        }
     }
 }

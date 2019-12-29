@@ -53,16 +53,19 @@ namespace ShUtilities.Threading
             // more updates are made by more callbacks
             int callbacksToExecute = _pendingCallbackCount;
 
-            OperationStarted();
-            for (int i = 0; i < callbacksToExecute; i++)
+            using (new SynchronizationContextSetter(this))
             {
-                _pendingCallbacks.TryDequeue(out CallbackAndState callbackAndState);
-                callbackAndState.Execute();
-                // Don't decrement _pendingCallbackCount here, because that could cause
-                // another task to be started and executed while this method is still
-                // running
+                OperationStarted();
+                for (int i = 0; i < callbacksToExecute; i++)
+                {
+                    _pendingCallbacks.TryDequeue(out CallbackAndState callbackAndState);
+                    callbackAndState.Execute();
+                    // Don't decrement _pendingCallbackCount here, because that could cause
+                    // another task to be started and executed while this method is still
+                    // running
+                }
+                OperationCompleted();
             }
-            OperationCompleted();
 
             // If more callbacks have been posted while we were executing pending ones,
             // the Post method never saw a pemnding count of 1 and thus it is up to this
