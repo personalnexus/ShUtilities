@@ -74,6 +74,14 @@ namespace ShUtilities.Collections
         /// <summary>
         /// Tries to get a value for the given key and returns the given default value when the key is not found.
         /// </summary>
+        public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> source, TKey key)
+        {
+            return GetValueOrDefault(source, key, default);
+        }
+
+        /// <summary>
+        /// Tries to get a value for the given key and returns the given default value when the key is not found.
+        /// </summary>
         public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> source, TKey key, TValue defaultValue)
         {
             if (!source.TryGetValue(key, out TValue result))
@@ -84,11 +92,16 @@ namespace ShUtilities.Collections
         }
 
         /// <summary>
-        /// Tries to get a value for the given key and returns the given default value when the key is not found.
+        /// Combines calls to TryGetValue and Remove in a convenience method to obtain the previous value for a removed key
         /// </summary>
-        public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> source, TKey key)
+        public static bool Remove<TKey, TValue>(this IDictionary<TKey, TValue> source, TKey key, out TValue previousValue)
         {
-            return GetValueOrDefault(source, key, default);
+            bool result = source.TryGetValue(key, out previousValue);
+            if (result)
+            {
+                source.Remove(key);
+            }
+            return result;
         }
     }
 }

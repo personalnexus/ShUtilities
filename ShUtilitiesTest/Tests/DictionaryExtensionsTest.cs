@@ -93,5 +93,21 @@ Unchanged: 1
             Assert.AreEqual("X", dictionary.GetValueOrDefault(4, "X"));
             Assert.IsNull(dictionary.GetValueOrDefault(9));
         }
+
+        [TestMethod]
+        public void Remove()
+        {
+            var dictionary = new Dictionary<int, string>
+            {
+                [1] = "Number One",
+                [2] = "Close",
+                [3] = "Nevermind"
+            };
+            Assert.IsTrue(dictionary.Remove(2, out string text));
+            Assert.AreEqual("Close", text);
+            Assert.IsFalse(dictionary.ContainsKey(2));
+            Assert.IsFalse(dictionary.Remove(2, out text));
+            Assert.IsNull(text);
+        }
     }
 }
