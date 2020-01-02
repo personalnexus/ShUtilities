@@ -70,5 +70,25 @@ namespace ShUtilities.Collections
             }
             return result;
         }
+
+        /// <summary>
+        /// Tries to get a value for the given key and returns the given default value when the key is not found.
+        /// </summary>
+        public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> source, TKey key, TValue defaultValue)
+        {
+            if (!source.TryGetValue(key, out TValue result))
+            {
+                result = defaultValue;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Tries to get a value for the given key and returns the given default value when the key is not found.
+        /// </summary>
+        public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> source, TKey key)
+        {
+            return GetValueOrDefault(source, key, default);
+        }
     }
 }

@@ -79,5 +79,19 @@ Unchanged: 1
 
             Assert.AreEqual(2, CreateValueCalled);
         }
+
+        [TestMethod]
+        public void GetValueOrDefault()
+        {
+            var dictionary = new Dictionary<int, string>
+            {
+                [1] = "Number One",
+                [2] = "Close",
+                [3] = "Nevermind"
+            };
+            Assert.AreEqual("Number One", dictionary.GetValueOrDefault(1, "X"));
+            Assert.AreEqual("X", dictionary.GetValueOrDefault(4, "X"));
+            Assert.IsNull(dictionary.GetValueOrDefault(9));
+        }
     }
 }
