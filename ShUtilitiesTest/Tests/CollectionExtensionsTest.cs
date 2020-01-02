@@ -105,12 +105,35 @@ namespace ShUtilitiesTest.Tests
             Assert.IsTrue(numbers.TryFirst(out int number1));
             Assert.AreEqual(1, number1);
 
-            Assert.IsTrue(numbers.TryFirst(out int number4, x => (3 < x) && (x < 5)));
+            Assert.IsTrue(numbers.TryFirst(x => (3 < x) && (x < 5), out int number4));
             Assert.AreEqual(4, number4);
 
-            Assert.IsFalse(numbers.TryFirst(out _, _ => false));
+            Assert.IsFalse(numbers.TryFirst(_ => false, out _));
 
             Assert.IsFalse(new int[0].TryFirst(out _));
+        }
+
+        [TestMethod]
+        public void TryLast()
+        {
+            var numbers = new[] { 1, 2, 3, 4, 5 };
+
+            Assert.IsTrue(numbers.TryLast(out int number5));
+            Assert.AreEqual(5, number5);
+
+            Assert.IsTrue(numbers.TryLast(x => (3 < x) && (x < 5), out int number4));
+            Assert.AreEqual(4, number4);
+
+            Assert.IsFalse(numbers.TryLast(_ => false, out _));
+
+            Assert.IsFalse(new int[0].TryLast(out _));
+        }
+
+        [TestMethod]
+        public void SelectWhere()
+        {
+            var strings = new[] { "1", "2", "bbb", "4", "5K" };
+            CollectionAssert.AreEqual(new[] { 1, 2, 4 }, strings.SelectWhere<string, int>(int.TryParse).ToArray());
         }
     }
 }

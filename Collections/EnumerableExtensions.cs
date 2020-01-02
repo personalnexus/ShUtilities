@@ -38,7 +38,7 @@ namespace ShUtilities.Collections
         /// <summary>
         /// Creates a HashSet from the given <see cref="IEnumerable{T}"/>
         /// </summary>
-        public static ISet<T> ToHashSet<T>(this IEnumerable<T> items)
+        public static HashSet<T> ToHashSet<T>(this IEnumerable<T> items)
         {
             var result = new HashSet<T>(items);
             return result;
@@ -90,9 +90,9 @@ namespace ShUtilities.Collections
         }
 
         /// <summary>
-        /// Returns whether the given enumerable contains at least one item matching the given predicate, and if so returns that item as an out-parameter.
+        /// Returns whether the given enumerable contains at least one item matching the given predicate, and if so returns the first item that does as an out-parameter.
         /// </summary>
-        public static bool TryFirst<T>(this IEnumerable<T> items, out T item, Predicate<T> predicate)
+        public static bool TryFirst<T>(this IEnumerable<T> items, Func<T, bool> predicate, out T item)
         {
             item = default;
             bool result = false;
@@ -107,5 +107,87 @@ namespace ShUtilities.Collections
             }
             return result;
         }
+
+        /// <summary>
+        /// Returns whether the given enumerable contains at least one item, and if so returns the last item as an out-parameter.
+        /// </summary>
+        public static bool TryLast<T>(this IEnumerable<T> items, out T item)
+        {
+            item = default;
+            bool result = false;
+            if (items is IList<T> list)
+            {
+                int count = list.Count;
+                if (count > 0)
+                {
+                    item = list[count - 1];
+                    result = true;
+                }
+            }
+            else
+            {
+                foreach (T i in items)
+                {
+                    item = i;
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Returns whether the given enumerable contains at least one item matching the given predicate, and if so returns the last item that does as an out-parameter.
+        /// </summary>
+        public static bool TryLast<T>(this IEnumerable<T> items, Func<T, bool> predicate, out T item)
+        {
+            item = default;
+            bool result = false;
+            if (items is IList<T> list)
+            {
+                // For a list, we can easily iterate in reverse, minimizing the number of times predicate is checked
+                // Review: Is it a good idea to execute predicate differently when passing in a list vs. any other enumerable?
+                int count = list.Count;
+                for (int index = count - 1; index >= 0; index--)
+                {
+                    T i = list[index];
+                    if (predicate(i))
+                    {
+                        item = i;
+                        result = true;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                // We could iterate over items.Reverse() but that would potentially need to allocate a large buffer
+                foreach (T i in items)
+                {
+                    if (predicate(i))
+                    {
+                        item = i;
+                        result = true;
+                    }
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Applies Select and Where in a single step to take advantage TryParse methods, e.g. taking an array of strings and returning 
+        /// all those as ints that successfully passed int.TryParse()
+        /// </summary>
+        public static IEnumerable<TResult> SelectWhere<TSource, TResult>(this IEnumerable<TSource> items, WhereSelector<TSource, TResult> selector)
+        {
+            foreach (TSource item in items)
+            {
+                if (selector(item, out TResult result))
+                {
+                    yield return result;
+                }
+            }
+        }
+
+        public delegate bool WhereSelector<TSource, TResult>(TSource input, out TResult output);
     }
 }
