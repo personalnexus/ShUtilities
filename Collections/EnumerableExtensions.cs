@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShUtilities.Text;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -177,7 +178,7 @@ namespace ShUtilities.Collections
         /// Applies Select and Where in a single step to take advantage TryParse methods, e.g. taking an array of strings and returning 
         /// all those as ints that successfully passed int.TryParse()
         /// </summary>
-        public static IEnumerable<TResult> SelectWhere<TSource, TResult>(this IEnumerable<TSource> items, WhereSelector<TSource, TResult> selector)
+        public static IEnumerable<TResult> SelectWhere<TSource, TResult>(this IEnumerable<TSource> items, Parser<TSource, TResult> selector)
         {
             foreach (TSource item in items)
             {
@@ -187,7 +188,5 @@ namespace ShUtilities.Collections
                 }
             }
         }
-
-        public delegate bool WhereSelector<TSource, TResult>(TSource input, out TResult output);
     }
 }

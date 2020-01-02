@@ -134,6 +134,16 @@ namespace ShUtilitiesTest.Tests
         {
             var strings = new[] { "1", "2", "bbb", "4", "5K" };
             CollectionAssert.AreEqual(new[] { 1, 2, 4 }, strings.SelectWhere<string, int>(int.TryParse).ToArray());
+
+            var numbers = new[] { 1, 4, 3, 5, 2, 3 };
+            var namesById = new Dictionary<int, string>
+            {
+                [1] = "Jane",
+                [2] = "Chris",
+                [3] = "Mo",
+            };
+            CollectionAssert.AreEqual(new[] { "Jane", "Mo", "Chris", "Mo" }, numbers.SelectWhere<int, string>(namesById.TryGetValue).ToArray());
+
         }
     }
 }
