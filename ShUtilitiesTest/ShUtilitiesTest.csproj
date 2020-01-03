@@ -79,6 +79,7 @@
     <Compile Include="Tests\StringExtensionsTest.cs" />
     <Compile Include="Tests\DictionaryExtensionsTest.cs" />
     <Compile Include="Tests\ActorTest.cs" />
+    <Compile Include="Tests\TaskTest.cs" />
     <Compile Include="TestTimeProvider.cs" />
     <Compile Include="Tests\TimeProviderTest.cs" />
     <Compile Include="Tests\TrieTest.cs" />
