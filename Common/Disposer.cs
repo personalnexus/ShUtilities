@@ -16,8 +16,9 @@ namespace ShUtilities.Common
         {
             if (disposable != null)
             {
-                disposable.Dispose();
+                IDisposable disposableCopy = disposable;
                 disposable = null;
+                disposableCopy.Dispose();
             }
         }
 
@@ -54,11 +55,12 @@ namespace ShUtilities.Common
         {
             if (disposables != null)
             {
-                foreach (IDisposable item in disposables)
+                TCollection disposableCopies = disposables;
+                disposables = null;
+                foreach (IDisposable item in disposableCopies)
                 {
                     item.Dispose();
                 }
-                disposables = null;
             }
         }
     }
