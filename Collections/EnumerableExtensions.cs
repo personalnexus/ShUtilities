@@ -37,6 +37,26 @@ namespace ShUtilities.Collections
         }
 
         /// <summary>
+        /// Like the standard ToDictionary(), creates a dictionary from the given enumerable, but allows control over how duplicate keys are handled.
+        /// </summary>
+        public static Dictionary<TKey, TValue> ToDictionary<TSource, TKey, TValue>(this IEnumerable<TSource> items,
+                                                                                   Func<TSource, TKey> keySelector,
+                                                                                   Func<TSource, TValue> elementSelector,
+                                                                                   DictionaryDuplicateKey duplicateKey)
+        {
+            var result = new Dictionary<TKey, TValue>();
+            foreach (TSource item in items)
+            {
+                TKey key = keySelector(item);
+                if (!result.ContainsKey(key) || duplicateKey == DictionaryDuplicateKey.AcceptLast)
+                {
+                    result[key] = elementSelector(item);
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
         /// Creates a HashSet from the given <see cref="IEnumerable{T}"/>
         /// </summary>
         public static HashSet<T> ToHashSet<T>(this IEnumerable<T> items)
