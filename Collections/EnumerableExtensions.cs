@@ -56,14 +56,14 @@ namespace ShUtilities.Collections
             return result;
         }
 
-        /// <summary>
-        /// Creates a HashSet from the given <see cref="IEnumerable{T}"/>
-        /// </summary>
-        public static HashSet<T> ToHashSet<T>(this IEnumerable<T> items)
-        {
-            var result = new HashSet<T>(items);
-            return result;
-        }
+        ///// <summary>
+        ///// Creates a HashSet from the given <see cref="IEnumerable{T}"/>
+        ///// </summary>
+        //public static HashSet<T> ToHashSet<T>(this IEnumerable<T> items)
+        //{
+        //    var result = new HashSet<T>(items);
+        //    return result;
+        //}
 
         /// <summary>
         /// Partitions a long input sequence into individual lists of at most <paramref name="itemsPerPartition"/> items.

@@ -1,11 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2035
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShUtilities", "ShUtilities.csproj", "{70C21A94-2767-4131-8E74-929D50F9F45F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShUtilitiesTest", "ShUtilitiesTest\ShUtilitiesTest.csproj", "{9CC16E30-45A6-4C82-A599-832A20EDA73D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShUtilitiesTest", "ShUtilitiesTest\ShUtilitiesTest.csproj", "{9CC16E30-45A6-4C82-A599-832A20EDA73D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{70C21A94-2767-4131-8E74-929D50F9F45F} = {70C21A94-2767-4131-8E74-929D50F9F45F}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
