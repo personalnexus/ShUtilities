@@ -59,6 +59,16 @@ This is still a work in process as I clean up my code to make it fit for publica
 * __TaskUtility__: helper methods for tasks (TPL)
 * __ThreadSwitch__: switches threads (ab)using the Awaitable-Awaiter Pattern inspired by Raymond Chen
 
+### Pooling
+
+* __BagPool__: An implementation of IPool that uses a ConcurrentBag as the underlying storage
+* __IPool__: Describes a pool from which objects can be acquired and released
+* __IPoolDiagnostics__: Extended information about the internals of a pool for diagnostic purposes
+* __PooledObject__: A ref-struct representing an object from a pool that automatically releases the object when disposed
+* __PoolExtensions__: Extension methods for IPool
+* __QueuePool__: An implementation of IPool that uses a ConcurrentQueue as the underlying storage
+* __SingleObjectPool__: An implementation of IPool which provides Thread-safe access to a single pooled object
+
 ## Time
 
 * __BusinessCalendar__: default implementation of IBusinessCalendar containing the given holidays (or none if the default constructor is used)
