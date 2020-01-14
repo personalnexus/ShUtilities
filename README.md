@@ -11,6 +11,7 @@ This is still a work in process as I clean up my code to make it fit for publica
 * __DictionaryDiff__: compares two dictionaries key by key and stores the added, removed etc. keys and values
 * __DictionaryExtensions__: extension methods for IDictionary<,>
 * __EnumerableExtensions__: extension methods IEnumerable<>
+* __ReverseComparer__: reverses the comparison result of the given comparer
 * __SortedListExtensions__: extension methods SortedList<>
 * __Trie__: a Trie implementation with support for a reduced set of possible key elements to minimize space requirements that implements most of IDictionary<string, TValue>
 * __TrieCharacterSets__: pre-defined sets of characters for Trie e.g. all (Latin) alpha-numeric characters
