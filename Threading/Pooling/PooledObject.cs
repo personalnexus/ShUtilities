@@ -8,7 +8,7 @@ namespace ShUtilities.Threading.Pooling
     /// <typeparam name="T"></typeparam>
     public ref struct PooledObject<T>
     {
-        private IPool<T> _pool;
+        private readonly IPool<T> _pool;
         public T Object { get; }
 
         internal PooledObject(IPool<T> pool)

@@ -9,7 +9,7 @@ namespace ShUtilities.Threading.Pooling
     public class BagPool<T> : IPool<T>, IPoolDiagnostics<T>
         where T: new()
     {
-        private ConcurrentBag<T> _objects = new ConcurrentBag<T>();
+        private readonly ConcurrentBag<T> _objects = new ConcurrentBag<T>();
 
         //
         // IPool

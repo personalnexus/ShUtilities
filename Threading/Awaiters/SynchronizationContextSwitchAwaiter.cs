@@ -10,7 +10,7 @@ namespace ShUtilities.Threading.Awaiters
             _synchronizationContext = synchronizationContext;
         }
 
-        private SynchronizationContext _synchronizationContext;
+        private readonly SynchronizationContext _synchronizationContext;
 
         public IAwaiter GetAwaiter() => this;
 

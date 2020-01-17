@@ -9,7 +9,7 @@ namespace ShUtilities.Threading.Pooling
     public class QueuePool<T> : IPool<T>, IPoolDiagnostics<T>
         where T : new()
     {
-        private ConcurrentQueue<T> _objects = new ConcurrentQueue<T>();
+        private readonly ConcurrentQueue<T> _objects = new ConcurrentQueue<T>();
 
         public T Acquire()
         {

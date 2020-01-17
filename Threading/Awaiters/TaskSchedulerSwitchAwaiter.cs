@@ -11,7 +11,7 @@ namespace ShUtilities.Threading.Awaiters
             _task = null;
         }
 
-        private TaskScheduler _taskScheduler;
+        private readonly TaskScheduler _taskScheduler;
         private Task _task;
 
         public IAwaiter GetAwaiter() => this;

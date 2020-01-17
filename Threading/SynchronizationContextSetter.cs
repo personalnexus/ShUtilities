@@ -8,7 +8,7 @@ namespace ShUtilities.Threading
     /// </summary>
     public struct SynchronizationContextSetter: IDisposable
     {
-        private SynchronizationContext _oldContext;
+        private readonly SynchronizationContext _oldContext;
 
         public SynchronizationContextSetter(SynchronizationContext newContext)
         {

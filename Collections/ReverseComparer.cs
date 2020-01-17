@@ -9,7 +9,7 @@ namespace ShUtilities.Collections
     /// </summary>
     public class ReverseComparer<T>: IComparer<T>, IComparer
     {
-        private IComparer<T> _comparer;
+        private readonly IComparer<T> _comparer;
 
         public readonly static IComparer<T> Default = new ReverseComparer<T>(Comparer<T>.Default);
 

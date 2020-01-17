@@ -143,7 +143,7 @@ namespace ShUtilities.Common
             }
             else
             {
-                ref ThresholdUnitName thresholdUnitName = ref Scales[Scales.Length - 1];
+                ref ThresholdUnitName thresholdUnitName = ref Scales[^1];
                 for (int i = 1; i < Scales.Length; i++)
                 {
                     if (Scales[i].Threshold > byteCount)
