@@ -1,48 +1,74 @@
 ﻿using System;
-using System.Text;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ShUtilities.Text
 {
     public class SingleByteStringStorage
     {
-        public Encoding _encoding;
-        private byte[] _data = new byte[85000];
-        private int _nextStart;
-
-        public int GrowthIncrement { get; set; } = 85000;
-
-        public SingleByteStringStorage() : this(Encoding.GetEncoding("ISO-8859-1"))
+        public SingleByteStringStorage() : this(new SingleByteStringStorageOptions())
         {
         }
 
-        public SingleByteStringStorage(Encoding encoding)
+        public SingleByteStringStorage(SingleByteStringStorageOptions options)
         {
-            if (!encoding.IsSingleByte)
+            if (!options.Encoding.IsSingleByte)
             {
-                throw new ArgumentException("SingleByteStringStorage only works with single byte encodings");
+                throw new ArgumentException($"{nameof(SingleByteStringStorage)} only works with single byte encodings");
             }
-            _encoding = encoding;
+            Options = options;
+            CreateNewCurrentSegment();
         }
+
+        private readonly List<SingleByteStringStorageSegment> _segments = new List<SingleByteStringStorageSegment>();
+        private SingleByteStringStorageSegment _currentSegment;
+
+        public int Count { get; private set; }
+
+        public int TotalUsedBytes => _segments.Sum(x => x.UsedBytes);
+
+        public SingleByteStringStorageOptions Options { get; }
 
         public SingleByteString Add(string s)
         {
+            SingleByteString result;
             int length = s.Length;
-            int newSize = _nextStart + length;
-            var result = new SingleByteString(this, _nextStart, length);
-            _encoding.GetBytes(s, 0, length, EnsureSize(newSize), _nextStart);
-            _nextStart = newSize;
+            if (length > SingleByteStringStorageSegment.MaxStringLength)
+            {
+                throw new ArgumentException($"{nameof(SingleByteStringStorage)} cannot hold individual strings longer than {SingleByteStringStorageSegment.MaxStringLength}.");
+            } 
+            else if (length == 0)
+            {
+                result = new SingleByteString();
+            }
+            else
+            {
+                if (!_currentSegment.CanHold(length))
+                {
+                    CreateNewCurrentSegment();
+                }
+                result = _currentSegment.Add(s, length);
+                Count++;
+            }
             return result;
         }
 
-        internal string Get(int start, int length) => _encoding.GetString(_data, start, length);
-
-        private byte[] EnsureSize(int newSize)
+        public bool Remove(SingleByteString sbs)
         {
-            if (_data.Length < newSize)
+            bool result = sbs.Segment.Remove(sbs.Start);
+            if (result)
             {
-                Array.Resize(ref _data, newSize + GrowthIncrement);
+                Count--;
             }
-            return _data;
+            return result;
+        }
+
+        public IEnumerable<string> GetStrings() => _segments.SelectMany(x => x.GetStrings());
+
+        private void CreateNewCurrentSegment()
+        {
+            _currentSegment = new SingleByteStringStorageSegment(Options);
+            _segments.Add(_currentSegment);
         }
     }
 }
