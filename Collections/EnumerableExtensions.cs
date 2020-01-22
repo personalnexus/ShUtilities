@@ -20,18 +20,50 @@ namespace ShUtilities.Collections
 
         /// <summary>
         /// Iterating over all items in the <see cref="IEnumerable{T}"/> concats the string representations for each one 
-        /// delimited by the given delimiter live string.Join but in a LINQ-like syntax
+        /// delimited by <paramref name="delimiter"/> like string.Join but in a LINQ-like syntax
         /// </summary>
         public static string ToDelimitedString<T>(this IEnumerable<T> items, string delimiter)
         {
             var resultBuilder = new StringBuilder();
+            bool isFirst = true;
             foreach (T item in items)
             {
-                if (resultBuilder.Length != 0)
+                if (isFirst)
+                {
+                    isFirst = false;
+                }
+                else
                 {
                     resultBuilder.Append(delimiter);
                 }
-                resultBuilder.Append(item.ToString());
+                resultBuilder.Append(item?.ToString());
+            }
+            return resultBuilder.ToString();
+        }
+
+        /// <summary>
+        /// Iterating over all items in the <see cref="IEnumerable{T}"/> concats the string representations for each one 
+        /// delimited by <paramref name="delimiter"/> surrounded by <paramref name="quote"/> like string.Join but in a
+        /// LINQ-like syntax
+        /// </summary>
+        public static string ToDelimitedString<T>(this IEnumerable<T> items, string delimiter, string quote)
+        {
+            string doubleQuote = quote + quote;
+            var resultBuilder = new StringBuilder();
+            bool isFirst = true;
+            foreach (T item in items)
+            {
+                if (isFirst)
+                {
+                    isFirst = false;
+                }
+                else
+                {
+                    resultBuilder.Append(delimiter);
+                }
+                resultBuilder.Append(quote);
+                resultBuilder.Append(item?.ToString()?.Replace(quote, doubleQuote));
+                resultBuilder.Append(quote);
             }
             return resultBuilder.ToString();
         }
@@ -104,9 +136,14 @@ namespace ShUtilities.Collections
         /// </summary>
         public static bool TryFirst<T>(this IEnumerable<T> items, out T item)
         {
-            IEnumerator<T> enumerator = items.GetEnumerator();
-            bool result = enumerator.MoveNext();
-            item = result ? enumerator.Current : default;
+            item = default;
+            bool result = false;
+            foreach (T i in items)
+            {
+                item = i;
+                result = true;
+                break;
+            }
             return result;
         }
 

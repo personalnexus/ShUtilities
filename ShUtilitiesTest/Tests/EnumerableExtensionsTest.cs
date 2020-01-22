@@ -36,7 +36,10 @@ namespace ShUtilitiesTest.Tests
         [TestMethod]
         public void ToDelimitedString()
         {
+            var mixed = new object[] { null, "", 13, "'" };
             Assert.AreEqual("1,2,3,4,5", Enumerable.Range(1, 5).ToDelimitedString(","));
+            Assert.AreEqual(",,13,'", mixed.ToDelimitedString(","));
+            Assert.AreEqual("'','','13',''''", mixed.ToDelimitedString(",", "'"));
         }
 
         [TestMethod]
