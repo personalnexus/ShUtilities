@@ -56,6 +56,7 @@ This is still a work in process as I clean up my code to make it fit for publica
 ## Threading
 
 * __ActorSynchronizationContext__: an implementation of a SynchronizationContext that represents an actor in the Actor Pattern that may have changes applied to it via callbacks posted to it and then updates its externally visible state at once based on the one or more updates made to it via the callbacks.
+* __PriorityActionScheduler__: scheduler for actions with different degrees of concurrency for different priorities
 * __SetOnceEvent__: a light-weight alternative to ManualResetEvent for events that are only set once that does not need to be disposed
 * __SynchronizationContextExtensions__: extension methods for SynchronizationContext implementations
 * __SynchronizationContextSetter__: uses the Dispose pattern to set the current SynchronizationContext to the given one and reset it afterwards to the previous one
