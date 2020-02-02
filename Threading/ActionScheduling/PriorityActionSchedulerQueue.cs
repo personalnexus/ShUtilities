@@ -23,16 +23,24 @@ namespace ShUtilities.Threading.ActionScheduling
         {
             action.SetSchedulerQueue(this);
             _pendingActions.Enqueue(action);
+            //TODO: do we need to check if the action was already queued (either in this or in another queue)?
         }
 
         public bool TryDequeue(out IPriorityAction action)
         {
-            // Discard actions that have a different queue because they will have been procesed by a different thread
             bool localDequeueComplete = false;
             do
             {
+                //
+                // 1. Discard actions that no longer have a queue because 
+                //    they will have been processed by a different thread.
+                //
+                // 2. Accept actions that have a different queue such that
+                //    the first thread (even if it has a lower priority) 
+                //    will process it.
+                //
                 if (!_pendingActions.TryDequeue(out action) ||
-                    action.TryExtractSchedulerQueue(this))
+                    action.SetSchedulerQueue(null) != null)
                 {
                     localDequeueComplete = true;
                 }

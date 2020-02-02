@@ -5,7 +5,7 @@ using System.Threading;
 namespace ShUtilities.Threading.ActionScheduling
 {
     /// <summary>
-    /// Scheduler for actions with different degrees of concurrency for different priorities. 
+    /// Scheduler for actions with different degrees of concurrency for different priorities supporting re-prioritization. 
     /// </summary>
     public class PriorityActionScheduler: IDisposable
     {

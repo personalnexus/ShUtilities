@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace ShUtilities.Threading.ActionScheduling
 {
+    /// <summary>
+    /// Options for creating <see cref="PriorityActionScheduler"/>.
+    /// </summary>
     public class PriorityActionSchedulerOptions
     {
         public PriorityActionSchedulerOptions(string name, params int[] threadCountsByPriority)

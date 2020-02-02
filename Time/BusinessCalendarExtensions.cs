@@ -47,21 +47,8 @@ namespace ShUtilities.Time
         /// <summary>
         /// Similar to <see cref="DateTime.AddDays(double)"/>, adds the given number of business days to the given date
         /// </summary>
-        public static DateTime AddBusinessDays(this DateTime date, int fullDays, IBusinessCalendar calendar)
-        {
-            int increment = Math.Sign(fullDays);
-            DateTime result = date;
-            while (fullDays != 0)
-            {
-                result = result.AddDays(increment);
-                if (result.IsBusinessDay(calendar))
-                {
-                    fullDays -= increment;
-                }
-            }
-            return result;
-        }
-
+        public static DateTime AddBusinessDays(this DateTime date, int fullDays, IBusinessCalendar calendar) => DateExtensions.AddSpecialDays(date, fullDays, x => IsBusinessDay(x, calendar));
+        
         /// <summary>
         /// Determines whether the given date is 
         /// (a) not a holiday according to the given calendar and 

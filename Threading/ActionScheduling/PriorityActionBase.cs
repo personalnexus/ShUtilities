@@ -2,15 +2,13 @@
 
 namespace ShUtilities.Threading.ActionScheduling
 {
+    /// <summary>
+    /// Base class with a partial implementation of <see cref="IPriorityAction"/> the shows thread-safe setting of the scheduler queue.
+    /// </summary>
     public class PriorityActionBase
     {
         private object _currentQueue;
 
-        public void SetSchedulerQueue(object newQueue)
-        {
-            Volatile.Write(ref _currentQueue, newQueue);
-        }
-
-        public bool TryExtractSchedulerQueue(object expectedQueue) => Interlocked.CompareExchange(ref _currentQueue, null, expectedQueue) == expectedQueue;
+        public object SetSchedulerQueue(object newQueue) => Interlocked.Exchange(ref _currentQueue, newQueue);
     }
 }

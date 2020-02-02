@@ -91,6 +91,25 @@ namespace ShUtilities.Time
             return result;
         }
 
+        public static DateTime AddWeekdays(this DateTime date, int fullDays) => AddSpecialDays(date, fullDays, IsWeekday);
+
+        internal static DateTime AddSpecialDays(this DateTime date, int fullDays, Func<DateTime, bool> isSpecialDay)
+        {
+            int increment = Math.Sign(fullDays);
+            DateTime result = date;
+            while (fullDays != 0)
+            {
+                result = result.AddDays(increment);
+                if (isSpecialDay(result))
+                {
+                    fullDays -= increment;
+                }
+            }
+            return result;
+        }
+
+        public static bool IsWeekday(this DateTime date) => !IsWeekend(date);
+
         /// <summary>
         /// Determines whether the given date a Saturday or Sunday
         /// </summary>

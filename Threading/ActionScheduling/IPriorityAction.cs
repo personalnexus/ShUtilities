@@ -2,8 +2,7 @@
 {
     public interface IPriorityAction
     {
-        void SetSchedulerQueue(object newQueue);
-        bool TryExtractSchedulerQueue(object expectedQueue);
+        object SetSchedulerQueue(object newQueue);
         void Execute();
     }
 }

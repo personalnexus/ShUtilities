@@ -56,7 +56,7 @@ This is still a work in process as I clean up my code to make it fit for publica
 ## Threading
 
 * __ActorSynchronizationContext__: an implementation of a SynchronizationContext that represents an actor in the Actor Pattern that may have changes applied to it via callbacks posted to it and then updates its externally visible state at once based on the one or more updates made to it via the callbacks.
-* __PriorityActionScheduler__: scheduler for actions with different degrees of concurrency for different priorities
+* __PriorityActionScheduler__: *WIP* scheduler for actions with different degrees of concurrency for different priorities supporting re-prioritization
 * __SetOnceEvent__: a light-weight alternative to ManualResetEvent for events that are only set once that does not need to be disposed
 * __SynchronizationContextExtensions__: extension methods for SynchronizationContext implementations
 * __SynchronizationContextSetter__: uses the Dispose pattern to set the current SynchronizationContext to the given one and reset it afterwards to the previous one
@@ -77,7 +77,8 @@ This is still a work in process as I clean up my code to make it fit for publica
 
 * __BusinessCalendar__: default implementation of IBusinessCalendar containing the given holidays (or none if the default constructor is used)
 * __BusinessCalendarExtensions__: extension methods for DateTime using information from an IBusinessCalendar e.g. AddBusinessDays() similar to AddDays()
-* __DateExtenstions__: convenience methods for comparing DateTime
+* __DateExtensions__: convenience methods for comparing DateTime
+* __DateOffsets__: represents one or more offsets of days, weekdays or business days to be applied to a date time
 * __IBusinessCalendar__: an interface that provides information on whether a given date is a business day or not
 * __ITimeProvider__: an interface to obtain the current time which can be swapped out for tests to simulate progression
 * __SystemTimeProvider__: implementation of ITimeProvider that provides the time from DateTime.Now and ticks via QueryPerformanceCounter
