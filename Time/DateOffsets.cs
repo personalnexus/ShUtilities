@@ -1,4 +1,5 @@
 ﻿using ShUtilities.Collections;
+using ShUtilities.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +8,9 @@ namespace ShUtilities.Time
 {
     public class DateOffsets
     {
-        private static readonly Dictionary<char, DateOffsetKind> DateOffsetKindsByShortName = Enum.GetValues(typeof(DateOffsetKind)).Cast<DateOffsetKind>().ToDictionary(x => Enum.GetName(typeof(DateOffsetKind), x)[0]);
+        private static readonly Dictionary<char, DateOffsetKind> DateOffsetKindsByShortName = TypeUtility.GetEnumNamesAndValues<DateOffsetKind>().ToDictionary(x => x.Name[0], x => x.Value);
 
-        private readonly List<(int, DateOffsetKind)> _items = new List<(int, DateOffsetKind)>();
+        private readonly List<(int Count, DateOffsetKind Kind)> _items = new List<(int, DateOffsetKind)>();
 
         public IBusinessCalendar Calendar { get; set; }
         public IReadOnlyList<(int, DateOffsetKind)> Items => _items;
@@ -94,6 +95,6 @@ namespace ShUtilities.Time
             return offsets != null;
         }
 
-        public override string ToString() => _items.Select(x => $"{x.Item1}{x.Item2.ToString()[0]}").ToDelimitedString(";");
+        public override string ToString() => _items.Select(x => $"{x.Count}{x.Kind.ToString()[0]}").ToDelimitedString(";");
     }
 }
