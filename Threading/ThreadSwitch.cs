@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace ShUtilities.Threading
 {
     /// <summary>
-    /// Switches threads (ab)using the Awaitable-Awaiter Pattern; inspired by https://devblogs.microsoft.com/oldnewthing/20190328-00/?p=102368
+    /// Switches threads (ab)using the awaitable-awaiter pattern; inspired by https://devblogs.microsoft.com/oldnewthing/20190328-00/?p=102368
     /// </summary>
     public static class ThreadSwitch
     {

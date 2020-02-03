@@ -7,55 +7,61 @@ namespace ShUtilities.Threading.ActionScheduling
     {
         private readonly PriorityActionScheduler _scheduler;
         private readonly PriorityActionSchedulerQueue _queue;
-        private readonly CancellationToken _cancellationToken;
 
         public PriorityActionSchedulerThread(PriorityActionScheduler scheduler, PriorityActionSchedulerQueue queue, int threadIndex)
         {
-            _cancellationToken = scheduler.CancellationTokenSource.Token;
             _scheduler = scheduler;
             _queue = queue;
             var thread = new Thread(Run)
             { 
                 IsBackground = true,
-                Name = $"{_scheduler.Options.Name}_Q{_queue.Priority}_T{threadIndex}"
+                Name = $"{_scheduler.Options.Name}_P{_queue.Priority}_T{threadIndex}"
             };
             thread.Start();
         }
 
         private void Run()
         {
-            int wait3Milliseconds = (int)_scheduler.Options.MaximumWaitDuration.TotalMilliseconds;
-            int wait2Milliseconds = wait3Milliseconds / 2;
-            int wait1Milliseconds = wait2Milliseconds / 4;
+            TimeSpan waitTimeout = _scheduler.Options.MaximumWaitDuration;
+            CancellationToken cancellationToken = _scheduler.CancellationTokenSource.Token;
 
-            while (true)
+            try
             {
-                try
+                while (!cancellationToken.IsCancellationRequested)
                 {
-                    TryDequeueAndWait(wait1Milliseconds);
-                    TryDequeueAndWait(wait2Milliseconds);
-                    TryDequeueAndWait(wait3Milliseconds);
-                }
-                catch (Exception e)
-                {
-                    if (!(e is OperationCanceledException))
+                    //
+                    // Usually, these threads are expected to be pretty busy with long queues. 
+                    // If they run out of actions for a moment, spin-wait a little before
+                    // entering the lock in WaitForActions()
+                    //
+                    while (TryDequeue())
                     {
-                        _scheduler.OnUnhandledException(new UnhandledExceptionEventArgs(e, false));
+                        cancellationToken.ThrowIfCancellationRequested();
                     }
-                    break;
+                    if (!SpinWait.SpinUntil(TryDequeue, waitTimeout))
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        _queue.WaitForActions();
+                    }
                 }
             }
-            
-            void TryDequeueAndWait(int waitMilliseconds)
+            catch (Exception e)
             {
-                while (_queue.TryDequeue(out IPriorityAction action))
+                if (!(e is OperationCanceledException))
                 {
-                    _cancellationToken.ThrowIfCancellationRequested();
-                    action.Execute();
+                    _scheduler.OnUnhandledException(new UnhandledExceptionEventArgs(e, false));
                 }
-                _cancellationToken.ThrowIfCancellationRequested();
-                Thread.Sleep(waitMilliseconds);
             }
+        }
+
+        bool TryDequeue()
+        {
+            bool result = _queue.TryDequeue(out IPriorityAction action);
+            if (result)
+            {
+                action.Execute();
+            }
+            return result;
         }
     }
 }

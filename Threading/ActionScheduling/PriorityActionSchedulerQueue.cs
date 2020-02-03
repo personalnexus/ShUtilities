@@ -1,10 +1,13 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Threading;
 
 namespace ShUtilities.Threading.ActionScheduling
 {
     internal class PriorityActionSchedulerQueue
     {
         private readonly ConcurrentQueue<IPriorityAction> _pendingActions;
+        private volatile bool _isWaitingForActions;
         public PriorityActionSchedulerQueue[] OtherQueues { get; set; }
         public int Priority { get; }
         public int Count => _pendingActions.Count;
@@ -23,6 +26,7 @@ namespace ShUtilities.Threading.ActionScheduling
         {
             action.SetSchedulerQueue(this);
             _pendingActions.Enqueue(action);
+            SignalActions();
             //TODO: do we need to check if the action was already queued (either in this or in another queue)?
         }
 
@@ -59,6 +63,32 @@ namespace ShUtilities.Threading.ActionScheduling
                 }
             }
             return action != null;
+        }
+
+        private void SignalActions()
+        {
+            if (_isWaitingForActions)
+            {
+                lock (_pendingActions)
+                {
+                    if (_isWaitingForActions)
+                    {
+                        _isWaitingForActions = false;
+                        Monitor.PulseAll(_pendingActions);
+                    }
+                }
+            }
+        }
+
+        internal void WaitForActions()
+        {
+            lock (_pendingActions)
+            {
+                if (_isWaitingForActions)
+                {
+                    Monitor.Wait(_pendingActions);
+                }
+            }
         }
     }
 }

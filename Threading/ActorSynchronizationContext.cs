@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace ShUtilities.Threading
 {
     /// <summary>
-    /// Represents an actor in the Actor Pattern that may have changes applied to it via callbacks posted
+    /// Represents an actor in the Actor Model that may have changes applied to it via callbacks posted
     /// to it. In <see cref="SynchronizationContext.OperationCompleted"/> the actor can then update its
     /// externally visible state at once based on the one or more updates made to it via the callbacks.
     /// </summary>
