@@ -7,6 +7,8 @@ namespace ShUtilities.Time
 {
     public class DateOffsets
     {
+        private static readonly Dictionary<char, DateOffsetKind> DateOffsetKindsByShortName = Enum.GetValues(typeof(DateOffsetKind)).Cast<DateOffsetKind>().ToDictionary(x => Enum.GetName(typeof(DateOffsetKind), x)[0]);
+
         private readonly List<(int, DateOffsetKind)> _items = new List<(int, DateOffsetKind)>();
 
         public IBusinessCalendar Calendar { get; set; }
@@ -81,14 +83,7 @@ namespace ShUtilities.Time
                     break;
                 }
 
-                DateOffsetKind kind = part[^1] switch
-                {
-                    'D' => DateOffsetKind.Days,
-                    'W' => DateOffsetKind.Weekdays,
-                    'B' => DateOffsetKind.BusinessDays,
-                    _ => DateOffsetKind.None
-                };
-                if (kind == DateOffsetKind.None)
+                if (!DateOffsetKindsByShortName.TryGetValue(part[^1], out DateOffsetKind kind))
                 {
                     offsets = null;
                     break;
