@@ -64,5 +64,21 @@ namespace ShUtilitiesTest.Tests
             Assert.IsFalse(DateOffsets.TryParse("1B;", out _));
             Assert.IsFalse(DateOffsets.TryParse("1B;;2W", out _));
         }
+
+        [TestMethod]
+        public void FluentOffsets()
+        {
+            DateTime baseDate = new DateTime(2020, 02, 08);
+            DateTime holiday = new DateTime(2020, 02, 10);
+            DateTime expectedDate = new DateTime(2020, 02, 11);
+            
+            var calendar = new BusinessCalendar(holiday);
+            DateTime actualDate = DateOffsets.Parse("+1D")
+                                             .AddWeekdays(1)
+                                             .SetCalendar(calendar)
+                                             .AddBusinessDays(1)
+                                             .ApplyTo(baseDate);
+            Assert.AreEqual(expectedDate, actualDate);
+        }
     }
 }

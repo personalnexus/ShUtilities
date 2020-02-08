@@ -24,13 +24,23 @@ namespace ShUtilities.Time
         {
         }
 
-        public void Add(DateOffsetKind kind, int count) => _items.Add((count, kind));
+        public DateOffsets Add(DateOffsetKind kind, int count) 
+        { 
+            _items.Add((count, kind)); 
+            return this;
+        }
 
-        public void AddDays(int count) => Add(DateOffsetKind.Days, count);
+        public DateOffsets AddDays(int count) => Add(DateOffsetKind.Days, count);
 
-        public void AddWeekdays(int count) => Add(DateOffsetKind.Weekdays, count);
+        public DateOffsets AddWeekdays(int count) => Add(DateOffsetKind.Weekdays, count);
 
-        public void AddBusinessDays(int count) => Add(DateOffsetKind.BusinessDays, count);
+        public DateOffsets AddBusinessDays(int count) => Add(DateOffsetKind.BusinessDays, count);
+
+        public DateOffsets SetCalendar(IBusinessCalendar calendar)
+        {
+            Calendar = calendar;
+            return this;
+        }
 
         public DateTime ApplyTo(DateTime date)
         {
@@ -40,15 +50,18 @@ namespace ShUtilities.Time
                 {
                     DateOffsetKind.Days => date.AddDays(count),
                     DateOffsetKind.Weekdays => date.AddWeekdays(count),
-                    DateOffsetKind.BusinessDays => date.AddBusinessDays(count, Calendar)
+                    DateOffsetKind.BusinessDays => date.AddBusinessDays(count, Calendar),
+                    _ => throw new ArgumentOutOfRangeException($"{(int)kind} is not a valid {nameof(DateOffsetKind)}.")
                 };
             }
             return date;
         }
 
-        public static DateOffsets Parse(string input)
+        public static DateOffsets Parse(string input) => Parse(input, null);
+
+        public static DateOffsets Parse(string input, IBusinessCalendar calendar)
         {
-            if (!TryParse(input, out DateOffsets result))
+            if (!TryParse(input, calendar, out DateOffsets result))
             {
                 throw new ArgumentException($"{input} is not a valid DateOffsets string representation.");
             }
