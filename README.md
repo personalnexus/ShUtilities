@@ -6,6 +6,7 @@ This is still a work in process as I clean up my code to make it fit for publica
 
 ## Collections
 
+* __ArrayExtensions__: extension methods for arrays
 * __ByteDictionary__: provides IDictionary-like access with a fixed memory-footprint to what is essentially an array with a byte as its index
 * __CollectionExtensions__: extension methods for ICollection<>
 * __DictionaryDiff__: compares two dictionaries key by key and stores the added, removed etc. keys and values
@@ -27,6 +28,10 @@ This is still a work in process as I clean up my code to make it fit for publica
 ## Diagnostics
 
 * __ProcessTuning__: tweak a process's priority allowing it to consume all of a machine's resources as long as there is no other resource demand
+
+### Counters
+
+* __ResetCounter__: a counter that can be updated and resets in regular intervals, e.g. to track number of operations per minute. Each thread operates on their own internal counter field, reducing shared state to a minimum.
 
 ## Interop
 
