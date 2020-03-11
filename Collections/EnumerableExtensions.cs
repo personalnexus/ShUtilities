@@ -232,16 +232,27 @@ namespace ShUtilities.Collections
         }
 
         /// <summary>
-        /// Applies Select and Where in a single step to take advantage TryParse methods, e.g. taking an array of strings and returning 
+        /// Applies Select and Where in a single step to take advantage of TryParse methods, e.g. taking an array of strings and returning 
         /// all those as ints that successfully passed int.TryParse()
         /// </summary>
-        public static IEnumerable<TResult> SelectWhere<TSource, TResult>(this IEnumerable<TSource> items, Parser<TSource, TResult> selector)
+        public static IEnumerable<TResult> SelectWhere<TSource, TResult>(this IEnumerable<TSource> items, Parser<TSource, TResult> selector) => SelectWhere(items, selector, null);
+
+        /// <summary>
+        /// Applies Select and Where in a single step to take advantage of TryParse methods, e.g. taking an array of strings and returning 
+        /// all those as ints that successfully passed int.TryParse(). Items that were rejected by <paramref name="selector"/> are added
+        /// to <paramref name="discarded"/>.
+        /// </summary>
+        public static IEnumerable<TResult> SelectWhere<TSource, TResult>(this IEnumerable<TSource> items, Parser<TSource, TResult> selector, ICollection<TSource> discarded)
         {
             foreach (TSource item in items)
             {
                 if (selector(item, out TResult result))
                 {
                     yield return result;
+                }
+                else
+                {
+                    discarded?.Add(item);
                 }
             }
         }

@@ -31,6 +31,10 @@ namespace ShUtilitiesTest.Tests
             };
             CollectionAssert.AreEqual(new[] { "Jane", "Mo", "Chris", "Mo" }, numbers.SelectWhere<int, string>(namesById.TryGetValue).ToArray());
 
+            var discarded = new List<int>();
+            numbers.SelectWhere<int, string>(namesById.TryGetValue, discarded).ToArray();
+            CollectionAssert.AreEqual(new[] { 4, 5 }, discarded);
+
         }
 
         [TestMethod]
