@@ -8,6 +8,16 @@ namespace ShUtilities.Time
     public interface ITimeProvider
     {
         DateTime Now { get; }
-        long Ticks { get; }
+
+        public long Ticks
+        {
+            get
+            {
+                NativeMethods.QueryPerformanceCounter(out long result);
+                return result;
+            }
+        }
+
+        long TicksPerSecond => NativeMethods.TicksPerSecond;
     }
 }

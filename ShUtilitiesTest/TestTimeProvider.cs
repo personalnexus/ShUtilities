@@ -32,11 +32,6 @@ namespace ShUtilitiesTest
             return result;
         }
 
-        /// <summary>
-        /// Increments Now by <paramref name="timeDelta"/>.
-        /// </summary>
-        public DateTime Advance(TimeSpan timeDelta) => Now = Now + timeDelta;
-
         public void Dispose()
         {
             if (_previousTimeProvider != null)

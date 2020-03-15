@@ -33,7 +33,7 @@ namespace ShUtilitiesTest.Tests
                 Assert.AreEqual(3, counter.Total);
 
                 // New Day
-                timeProvider.Advance(TimeSpan.FromDays(1));
+                timeProvider.Now += TimeSpan.FromDays(1);
 
                 counter.Update();
                 Assert.AreEqual(0, counter.Current);

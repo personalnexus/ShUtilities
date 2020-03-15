@@ -8,14 +8,5 @@ namespace ShUtilities.Time
     public class SystemTimeProvider : ITimeProvider
     {
         public DateTime Now => DateTime.Now;
-
-        public long Ticks
-        {
-            get
-            {
-                NativeMethods.QueryPerformanceCounter(out long result);
-                return result;
-            }
-        }
     }
 }

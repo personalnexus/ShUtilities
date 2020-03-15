@@ -2,7 +2,7 @@
 
 This is a collection of .NET utilities that I have accumulated over the 10+ years of coding on the .NET platform. I've organized the code into namespaces that roughly correspond to the framework namespaces they are extending.
 
-This is still a work in process as I clean up my code to make it fit for publication here.
+This code is representative of the way I would write production code: adhering to a style guide and clean code principles with sufficient unit test converage and comments explaining the whys of the implementation.
 
 ## Collections
 
@@ -86,8 +86,10 @@ This is still a work in process as I clean up my code to make it fit for publica
 * __DateExtensions__: convenience methods for comparing DateTime
 * __DateOffsets__: represents one or more offsets of days, weekdays or business days to be applied to a date time
 * __IBusinessCalendar__: an interface that provides information on whether a given date is a business day or not
+* __ITimerService__: represents a service to subscribe timer intervals and time slots with callbacks that are executed in the same synchronization context
 * __ITimeProvider__: an interface to obtain the current time which can be swapped out for tests to simulate progression
 * __SystemTimeProvider__: implementation of ITimeProvider that provides the time from DateTime.Now and ticks via QueryPerformanceCounter
+* __TimerService__: default implementation of ITimerService
 
 ---
 
