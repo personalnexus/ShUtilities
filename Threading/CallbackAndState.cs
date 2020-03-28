@@ -13,6 +13,10 @@ namespace ShUtilities.Threading
         readonly SendOrPostCallback Callback;
         readonly object State;
 
+        public CallbackAndState(Action action): this(ExecuteAction, action)
+        {
+        }
+
         public CallbackAndState(SendOrPostCallback callback, object state)
         {
             Callback = callback;
@@ -23,5 +27,7 @@ namespace ShUtilities.Threading
         {
             Callback(State);
         }
+
+        private static void ExecuteAction(object state) => ((Action)state)();
     }
 }

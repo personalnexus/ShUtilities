@@ -1,28 +1,30 @@
 ﻿using System;
 using System.Threading;
 
-namespace ShUtilities.Threading.ActionScheduling
+namespace ShUtilities.Threading.PriorityScheduling
 {
-    internal class PriorityActionSchedulerThread
+    internal class PrioritySchedulerThread
     {
-        private readonly PriorityActionScheduler _scheduler;
-        private readonly PriorityActionSchedulerQueue _queue;
+        private readonly PriorityScheduler _scheduler;
+        private readonly PrioritySchedulerQueue _queue;
+        private readonly Thread _thread;
 
-        public PriorityActionSchedulerThread(PriorityActionScheduler scheduler, PriorityActionSchedulerQueue queue, int threadIndex)
+        public PrioritySchedulerThread(PriorityScheduler scheduler, PrioritySchedulerQueue queue, int threadIndex)
         {
             _scheduler = scheduler;
             _queue = queue;
-            var thread = new Thread(Run)
+            _thread = new Thread(Run)
             { 
                 IsBackground = true,
-                Name = $"{_scheduler.Options.Name}_P{_queue.Priority}_T{threadIndex}"
+                Name = $"{queue.Name}_T{threadIndex}"
             };
-            thread.Start();
+            _thread.Start();
         }
 
         private void Run()
         {
-            TimeSpan waitTimeout = _scheduler.Options.MaximumWaitDuration;
+            TimeSpan maximumSpinDuration = _scheduler.Options.MaximumSpinDuration;
+            TimeSpan maximumWaitDuration = _scheduler.Options.MaximumWaitDuration;
             CancellationToken cancellationToken = _scheduler.CancellationTokenSource.Token;
 
             try
@@ -38,16 +40,17 @@ namespace ShUtilities.Threading.ActionScheduling
                     {
                         cancellationToken.ThrowIfCancellationRequested();
                     }
-                    if (!SpinWait.SpinUntil(TryDequeue, waitTimeout))
+                    if (!SpinWait.SpinUntil(TryDequeue, maximumSpinDuration))
                     {
                         cancellationToken.ThrowIfCancellationRequested();
-                        _queue.WaitForActions();
+                        _queue.WaitForActions(maximumWaitDuration);
                     }
                 }
             }
             catch (Exception e)
             {
-                if (!(e is OperationCanceledException))
+                if (!(e is OperationCanceledException) &&
+                    !(e is ThreadAbortException))
                 {
                     _scheduler.OnUnhandledException(new UnhandledExceptionEventArgs(e, false));
                 }
@@ -56,12 +59,19 @@ namespace ShUtilities.Threading.ActionScheduling
 
         bool TryDequeue()
         {
-            bool result = _queue.TryDequeue(out IPriorityAction action);
+            bool result = _queue.TryDequeue(out CallbackAndState callbackAndState);
             if (result)
             {
-                action.Execute();
+                callbackAndState.Execute();
+                ExecutedCount++;
             }
             return result;
         }
+
+        // Statistics
+
+        public long ExecutedCount { get; private set; }
+
+        public override string ToString() => $"{_thread.Name} Executed: {ExecutedCount}";
     }
 }

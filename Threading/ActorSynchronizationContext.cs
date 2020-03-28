@@ -1,4 +1,4 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,71 +9,39 @@ namespace ShUtilities.Threading
     /// to it. In <see cref="SynchronizationContext.OperationCompleted"/> the actor can then update its
     /// externally visible state at once based on the one or more updates made to it via the callbacks.
     /// </summary>
-    public class ActorSynchronizationContext: SynchronizationContext
+    public partial class ActorSynchronizationContext: SynchronizationContext, IActorOptions
     {
-        private readonly TaskScheduler _taskScheduler;
-        private readonly ConcurrentQueue<CallbackAndState> _pendingCallbacks;
-        private volatile int _pendingCallbackCount;
+        private SynchronizationContext _previousSynchronizationContext;
 
-        public ActorSynchronizationContext(TaskScheduler taskScheduler)
+        public Actor Actor { get; }
+        public TaskScheduler Scheduler { get; }
+
+        public ActorSynchronizationContext(TaskScheduler scheduler)
         {
-            _taskScheduler = taskScheduler;
-            _pendingCallbacks = new ConcurrentQueue<CallbackAndState>();
+            Scheduler = scheduler;
+            Actor = new Actor(this);
         }
 
-        /// <summary>
-        /// Posts one callback to the Actor to change something about itself, and after one or more 
-        /// such callbacks have executed, update itself by overriding <see cref="SynchronizationContext.OperationCompleted"/>,
-        /// </summary>
-        public override void Post(SendOrPostCallback callback, object state)
+        public override void Post(SendOrPostCallback callback, object state) => Actor.Post(callback, state);
+
+        public override void Send(SendOrPostCallback callback, object state) => SynchronizationContextExtensions.SendHelper(this, callback, state);
+
+        public override void OperationStarted()
         {
-            _pendingCallbacks.Enqueue(new CallbackAndState(callback, state));
-            if (Interlocked.Increment(ref _pendingCallbackCount) == 1)
-            {
-                // The first one to post a callback starts the task to asynchronously execute this
-                // and any other callbacks added until the task runs.
-                StartTaskToExecuteCallbacks();
-            }
+            base.OperationStarted();
+            _previousSynchronizationContext = Current;
+            SetSynchronizationContext(this);
         }
 
-        public override void Send(SendOrPostCallback callback, object state)
+        public override void OperationCompleted()
         {
-            SynchronizationContextExtensions.SendHelper(this, callback, state);
+            SetSynchronizationContext(_previousSynchronizationContext);
+            base.OperationCompleted();
         }
 
-        private void StartTaskToExecuteCallbacks()
+        public void ScheduleAsyncExecution(Action action)
         {
-            new Task(ExecuteCallbacks).Start(_taskScheduler);
-        }
-
-        private void ExecuteCallbacks()
-        {
-            // Only execute a limited number of callbacks, to give the actor a chance
-            // to update its externally visible state in OperationCompleted() before 
-            // more updates are made by more callbacks
-            int callbacksToExecute = _pendingCallbackCount;
-
-            using (new SynchronizationContextSetter(this))
-            {
-                OperationStarted();
-                for (int i = 0; i < callbacksToExecute; i++)
-                {
-                    _pendingCallbacks.TryDequeue(out CallbackAndState callbackAndState);
-                    callbackAndState.Execute();
-                    // Don't decrement _pendingCallbackCount here, because that could cause
-                    // another task to be started and executed while this method is still
-                    // running
-                }
-                OperationCompleted();
-            }
-
-            // If more callbacks have been posted while we were executing pending ones,
-            // the Post method never saw a pemnding count of 1 and thus it is up to this
-            // method to start another task to execute callbacks asynchronously
-            if (Interlocked.Add(ref _pendingCallbackCount, -callbacksToExecute) > 0)
-            {
-                StartTaskToExecuteCallbacks();
-            }
+            new Task(action).Start(Scheduler);
         }
     }
 }
