@@ -71,6 +71,8 @@ namespace ShUtilities.Collections
             return result;
         }
 
+        // .NET 4
+
         ///// <summary>
         ///// Tries to get a value for the given key and returns the given default value when the key is not found.
         ///// </summary>

@@ -27,6 +27,7 @@ namespace ShUtilities.Threading.PriorityScheduling
 
         public void Dispose()
         {
+            Options.Changed -= ProcessOptionsChange;
             CancellationTokenSource.Cancel();
         }
 

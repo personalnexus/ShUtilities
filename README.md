@@ -13,6 +13,7 @@ This code is representative of the way I would write production code: adhering t
 * __DictionaryExtensions__: extension methods for IDictionary<,>
 * __EnumerableExtensions__: extension methods IEnumerable<>
 * __NamedLookup__: a lookup from names contained in one array to values contained in a second array
+* __QueueExtensions__: extension methods for Queue<T> since there is no IQueue<T>
 * __ReverseComparer__: reverses the comparison result of the given comparer
 * __SortedListExtensions__: extension methods SortedList<>
 * __Trie__: a Trie implementation with support for a reduced set of possible key elements to minimize space requirements that implements most of IDictionary<string, TValue>
