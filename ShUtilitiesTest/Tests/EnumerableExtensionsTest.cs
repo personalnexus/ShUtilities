@@ -38,6 +38,16 @@ namespace ShUtilitiesTest.Tests
         }
 
         [TestMethod]
+        public void SymmetricExcept()
+        {
+            var items1 = new [] { 1, 2, 3, 2 };
+            var items2 = new [] { 2, 3, 4, 3 };
+
+            ISet<int> symmetricExcept = items1.SymmetricExcept(items2);
+            Assert.IsTrue(symmetricExcept.SetEquals(new[] { 1, 4 }));
+        }
+
+        [TestMethod]
         public void ToDelimitedString()
         {
             var mixed = new object[] { null, "", 13, "'" };

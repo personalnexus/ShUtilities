@@ -11,11 +11,11 @@ This code is representative of the way I would write production code: adhering t
 * __CollectionExtensions__: extension methods for ICollection<>
 * __DictionaryDiff__: compares two dictionaries key by key and stores the added, removed etc. keys and values
 * __DictionaryExtensions__: extension methods for IDictionary<,>
-* __EnumerableExtensions__: extension methods IEnumerable<>
+* __EnumerableExtensions__: extension methods for IEnumerable<>
 * __NamedLookup__: a lookup from names contained in one array to values contained in a second array
 * __QueueExtensions__: extension methods for Queue<T> since there is no IQueue<T>
 * __ReverseComparer__: reverses the comparison result of the given comparer
-* __SortedListExtensions__: extension methods SortedList<>
+* __SortedListExtensions__: extension methods for SortedList<>
 * __Trie__: a Trie implementation with support for a reduced set of possible key elements to minimize space requirements that implements most of IDictionary<string, TValue>
 * __TrieCharacterSets__: pre-defined sets of characters for Trie e.g. all (Latin) alpha-numeric characters
 

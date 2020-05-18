@@ -256,5 +256,15 @@ namespace ShUtilities.Collections
                 }
             }
         }
+
+        /// <summary>
+        /// Returns a new set containing the symmetric difference between <paramref name="items"/> and <paramref name="other"/>, i.e. all items that are in either, but not both.
+        /// </summary>
+        public static ISet<T> SymmetricExcept<T>(this IEnumerable<T> items, IEnumerable<T> other)
+        {
+            var result = new HashSet<T>(items);
+            result.SymmetricExceptWith(other);
+            return result;
+        }
     }
 }
