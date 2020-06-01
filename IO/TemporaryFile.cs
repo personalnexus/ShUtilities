@@ -13,6 +13,13 @@ namespace ShUtilities.IO
             Name = Path.GetTempFileName();
         }
 
+        public TemporaryFile(string contents, string extension)
+        {
+            Name = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+            Name = Path.ChangeExtension(Name, extension);
+            WriteAllText(contents);
+        }
+
         public void Dispose()
         {
             File.Delete(Name);

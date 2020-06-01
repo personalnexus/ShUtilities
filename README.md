@@ -56,6 +56,7 @@ This code is representative of the way I would write production code: adhering t
 ## Text
 
 * __DictionaryParserExtensions__: provides extension methods for getting values from a dictionary and applying a parser/converter to them, e.g. to get an integer from a string-string-dictionary.
+* __MarkdownGenerator__: generates text formatted with basic markdown
 * __Parsers__: a repository of parser methods to parse/convert from string to a target type
 * __SingleByteStringStorage__: compact storage of a large number of single-byte strings (e.g. ASCII) as an array of bytes to avoid individual string objects
 * __StringExtensions__: convenience methods for common string operations
@@ -99,4 +100,5 @@ This code is representative of the way I would write production code: adhering t
 * __DictionaryAssert__: assertions for dictionaries
 * __ExceptionUtility__: makes testing with expected exceptions easier by allowing to test specific pieces of code (i.e. Actions) for expected exceptions
 * __PerformanceUtility__: basic performance tests using Systen.Diagnostics.Stopwatch
+* __TestDataUtility__: compares a given sting against the contents of a file with test data and show a diff tool when they are not equal
 * __TestTimeProvider__: an implementation of ITimeProvider whose time can be set to simulate progression of time in tests
