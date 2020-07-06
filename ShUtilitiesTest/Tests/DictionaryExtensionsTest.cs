@@ -8,6 +8,23 @@ namespace ShUtilitiesTest.Tests
     public class DictionaryExtensionsTest
     {
         [TestMethod]
+        public void AddWithoutOverride()
+        {
+            var dictionary = new Dictionary<int, string>
+            {
+                [1] = "One",
+                [2] = "Two"
+            };
+
+            Assert.IsFalse(dictionary.AddWithoutOverride(1, "AnotherOne", out string previousValue));
+            Assert.AreEqual("One", previousValue);
+            Assert.AreEqual("One", dictionary[1]);
+
+            Assert.IsTrue(dictionary.AddWithoutOverride(3, "Three", out previousValue));
+            Assert.IsNull(previousValue);
+        }
+
+        [TestMethod]
         public void Diff()
         {
             var original = new Dictionary<string, double>

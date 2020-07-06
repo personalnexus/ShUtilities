@@ -71,6 +71,26 @@ namespace ShUtilities.Collections
             return result;
         }
 
+        /// <summary>
+        /// Adds the value only if the key doesn't already exist in the dictionary.
+        /// </summary>
+        /// <returns>True, if the value was added. False, if the key was already present</returns>
+        public static bool AddWithoutOverride<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value) => AddWithoutOverride(dictionary, key, value, out _);
+
+        // <summary>
+        /// Adds the value only if the key doesn't already exist in the dictionary, returning the previous value to the caller.
+        /// </summary>
+        /// <returns>True, if the value was added. False, if the key was already present</returns>
+        public static bool AddWithoutOverride<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value, out TValue previousValue)
+        {
+            bool result = !dictionary.TryGetValue(key, out previousValue);
+            if (result)
+            {
+                dictionary.Add(key, value);
+            }
+            return result;
+        }
+
         // .NET 4
 
         ///// <summary>
