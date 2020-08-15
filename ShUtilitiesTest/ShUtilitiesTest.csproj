@@ -7,10 +7,14 @@
 
   <ItemGroup>
     <None Remove="TestData\GenerateSimpleText.md" />
+    <None Remove="TestData\Select.sql" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="TestData\GenerateSimpleText.md">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\Select.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

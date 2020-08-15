@@ -1,0 +1,1 @@
+﻿select * from TestData where 1=0;

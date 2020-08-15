@@ -26,6 +26,10 @@ This code is representative of the way I would write production code: adhering t
 * __MathExtensions__: extension methods adding math functions to built-in value types
 * __TypeUtility__: helper functionality for working with types
 
+## Data
+
+* __DbCommandRepository__: exposes the contents of *.sql files in a directory as IDbCommand objects.
+
 ## Diagnostics
 
 * __ProcessTuning__: tweak a process's priority allowing it to consume all of a machine's resources as long as there is no other resource demand
@@ -41,6 +45,7 @@ This code is representative of the way I would write production code: adhering t
 
 ## IO
 
+* __FileRepository__: exposes the contents of files as string properties of a dynamic object
 * __FileUtility__: read file line by line as an IEnumerable<string> like File.ReadLines but with control over file open, access and share modes
 * __ISerializer__: basic interface describing serialization e.g. XML, JSON, CSV...
 * __JsonSerializer__ : implementation of ISerializer<T> for JSON
