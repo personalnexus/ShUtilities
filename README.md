@@ -105,6 +105,5 @@ This code is representative of the way I would write production code: adhering t
 # ShUtilitiesTest
 * __DictionaryAssert__: assertions for dictionaries
 * __ExceptionUtility__: makes testing with expected exceptions easier by allowing to test specific pieces of code (i.e. Actions) for expected exceptions
-* __PerformanceUtility__: basic performance tests using Systen.Diagnostics.Stopwatch
 * __TestDataUtility__: compares a given sting against the contents of a file with test data and show a diff tool when they are not equal
 * __TestTimeProvider__: an implementation of ITimeProvider whose time can be set to simulate progression of time in tests

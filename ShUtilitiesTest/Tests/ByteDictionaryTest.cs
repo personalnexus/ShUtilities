@@ -78,12 +78,5 @@ namespace ShUtilitiesTest.Tests
             Assert.IsFalse(dictionary.ContainsKey(3));
             Assert.IsFalse(dictionary.ContainsKey(255));
         }
-
-        [TestMethod]
-        public void Performance()
-        {
-            var dictionary = new ByteDictionary<int>();
-            PerformanceUtility.TimeAgainstDictionary(dictionary, 256, 1_000_000, i => new KeyValuePair<byte, int>((byte)i, i));
-        }
     }
 }
