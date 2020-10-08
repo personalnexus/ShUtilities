@@ -18,6 +18,7 @@ This code is representative of the way I would write production code: adhering t
 * __SortedListExtensions__: extension methods for SortedList<>
 * __Trie__: a Trie implementation with support for a reduced set of possible key elements to minimize space requirements that implements most of IDictionary<string, TValue>
 * __TrieCharacterSets__: pre-defined sets of characters for Trie e.g. all (Latin) alpha-numeric characters
+* __UnsafeTrie__: an experimental copy&paste version of Trie that uses the Unsafe class for slightly faster array access
 
 ## Common
 
