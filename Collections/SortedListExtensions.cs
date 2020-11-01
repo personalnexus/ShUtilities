@@ -2,10 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 
+
 namespace ShUtilities.Collections
 {
     public static class SortedListExtensions
     {
+        /// <summary>
+        /// Copies the elements below and above the <paramref name="pivot"/> element in <paramref name="list"/> into the given spans.
+        /// If the pivot is contained in the list, it is excluded. The number of desired elments is determined by the lengths of
+        /// <paramref name="below"/> and <paramref name="above"/>. The return value tuple indicates how many items were actually
+        /// copied into the spans in case there weren't enough in the source list.
+        /// </summary>
+        public static (int resultBelowCount, int resultAboveCount) GetBelowAndAbove<TKey, TValue>(this SortedList<TKey, TValue> list, TKey pivot, Span<TValue> below, Span<TValue> above)
+        {
+            int aboveStart = TryGetIndexOf(list.Keys, list.Comparer, pivot, out int pivotIndex) ? pivotIndex + 1 : pivotIndex;
+            return (list.Values.SliceInBounds(pivotIndex - below.Length, below.Length, below),
+                    list.Values.SliceInBounds(aboveStart, above.Length, above));
+        }
+
         /// <summary>
         /// Tries to return all values from a <see cref="SortedList{TKey, TValue}"/> whose keys fall into the given range.
         /// </summary>
