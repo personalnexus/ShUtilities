@@ -13,5 +13,5 @@ using System.Runtime.InteropServices;
 
 [assembly: ComVisible(false)]
 
-[assembly: AssemblyVersion("1.45")]
+[assembly: AssemblyVersion("2.11")]
 [assembly: InternalsVisibleTo("ShUtilitiesTest")]
