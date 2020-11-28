@@ -7,11 +7,12 @@ namespace ShUtilitiesTest.Tests
     [TestClass]
     public class CollectionExtensionsTest
     {
+        public record UselessRecord();
 
         [TestMethod]
         public void AddNew()
         {
-            var list = new List<object>();
+            var list = new List<UselessRecord>();
             object item = list.AddNew();
             Assert.IsNotNull(item);
             Assert.AreEqual(1, list.Count);

@@ -266,5 +266,16 @@ namespace ShUtilities.Collections
             result.SymmetricExceptWith(other);
             return result;
         }
+
+        /// <summary>
+        /// Convenience method for AddRange to keep order of method calls in the source code equal to the order of their execution.
+        /// </summary>
+        /// <example>
+        /// //with AddTo at the end
+        /// items.Select(x => x.Value).Where(string.IsNullOrEmpty).AddTo(emptyValues);
+        /// // instead of AddRange in the beginning
+        /// emptyValues.AddRange(items.Select(x => x.Value).Where(string.IsNullOrEmpty));
+        /// </example>
+        public static void AddTo<T>(this IEnumerable<T> items, ICollection<T> destination) => destination.AddRange(items);
     }
 }

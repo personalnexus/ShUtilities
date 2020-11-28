@@ -9,6 +9,15 @@ namespace ShUtilitiesTest.Tests
     public class EnumerableExtensionsTest
     {
         [TestMethod]
+        public void AddTo()
+        {
+            var list1 = new List<int> { 1, 2 };
+            var list2 = new List<int> { 2, 3 };
+            list2.Where(x => x > 2).AddTo(list1);
+            CollectionAssert.AreEqual(new[] { 1, 2, 3 }, list1);
+        }
+
+        [TestMethod]
         public void IsEmpty()
         {
             Assert.IsTrue(new int[0].IsEmpty());
