@@ -52,5 +52,10 @@ namespace ShUtilities.Threading
             var result = new SynchronizationContextSetter(synchronizationContext);
             return result;
         }
+
+        public static void ExecuteIn(this Action action, SynchronizationContext context)
+        {
+
+        }
     }
 }
