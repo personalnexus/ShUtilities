@@ -63,7 +63,7 @@ This code is representative of the way I would write production code: adhering t
 ## Text
 
 * __DictionaryParserExtensions__: provides extension methods for getting values from a dictionary and applying a parser/converter to them, e.g. to get an integer from a string-string-dictionary.
-* __DictionaryScanner__: creates a string-string-dictionary from a string representation of the dictionary.
+* __DictionaryScanner__: populates a string-string-dictionary from a string representation of the dictionary.
 * __MarkdownGenerator__: generates text formatted with basic markdown
 * __Parsers__: a repository of parser methods to parse/convert from string to a target type
 * __SingleByteStringStorage__: compact storage of a large number of single-byte strings (e.g. ASCII) as an array of bytes to avoid individual string objects
