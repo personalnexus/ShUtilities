@@ -41,11 +41,12 @@ namespace ShUtilities.Collections
             int nodeIndex = 0;
             foreach (char character in key)
             {
-                // Step 1: get the index of where in the _indexes array the index into _nodes is found
-                int indexIndex = (nodeIndex * _possibleCharacterCount) + _keyIndexByCharacter[character];
-                // Step 2: get the index of the value in _values
-                nodeIndex = _nodeIndexes[indexIndex];
-                if (nodeIndex == 0)
+                TrieNodeSearch nodeSearch = TryGetNodeIndexIncremental(character, out int indexIndex, ref nodeIndex);
+                if (nodeSearch == TrieNodeSearch.Invalid)
+                {
+                    throw new ArgumentOutOfRangeException("Key contains characters unsupported by this Trie");
+                }
+                else if (nodeSearch == TrieNodeSearch.NotFound)
                 {
                     if (createIfMissing)
                     {
@@ -63,6 +64,38 @@ namespace ShUtilities.Collections
                 }
             }
             return ref _nodes[nodeIndex];
+        }
+
+        internal TrieNodeSearch TryGetNodeIndexIncremental(char character, out int indexIndex, ref int nodeIndex)
+        {
+            TrieNodeSearch result;
+            int keyIndex;
+            if ((int)character > _keyIndexByCharacter.Length || (keyIndex = _keyIndexByCharacter[character]) == 0)
+            {
+                result = TrieNodeSearch.Invalid;
+                indexIndex = 0;
+            }
+            else
+            {
+                // Step 1: get the index of where in the _indexes array the index into _nodes is found
+                indexIndex = (nodeIndex * _possibleCharacterCount) + keyIndex;
+                // Step 2: get the index of the value in _values
+                nodeIndex = _nodeIndexes[indexIndex];
+                result = nodeIndex == 0 ? TrieNodeSearch.NotFound : TrieNodeSearch.Found;
+            }
+            return result;
+        }
+
+        internal bool TrySetValueByNodeIndexWithoutOverride(int nodeIndex, TValue value)
+        {
+            ref TrieNode<TValue> node = ref _nodes[nodeIndex];
+            bool result = !node.HasValue;
+            if (result)
+            {
+                node.Value = value;
+                node.HasValue = true;
+            }
+            return result;
         }
 
         private void Resize(int newSize)
@@ -129,6 +162,12 @@ namespace ShUtilities.Collections
             _nodeIndexes = new int[_possibleCharacterCount];
             _lastUsedNodeIndex = 0;
             Count = 0;
+        }
+
+        internal void ClearValues()
+        {
+            CheckReadOnly();
+            Array.Clear(_nodes, 0, _nodes.Length);
         }
 
         public bool ContainsKey(string key)

@@ -21,5 +21,7 @@ namespace ShUtilities.Collections
             }
             return result;
         }
+
+        public static ISet<char> FromStrings(IEnumerable<string> keys) => keys.SelectMany(x => x).ToHashSet();
     }
 }
