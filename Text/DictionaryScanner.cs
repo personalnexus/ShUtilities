@@ -35,8 +35,8 @@ namespace ShUtilities.Text
                 int keyValueSeparatorIndex = -1;
 
                 // Gather the indexes of a single key-value-pair.
-                // We know that index < length, because otherwise we would have returned after skipping over CRLF
-                do
+                // We know that at the beginning index < length, because otherwise we would have returned after skipping over CRLF
+                while (true)
                 {
                     if (character == '=')
                     {
@@ -49,8 +49,13 @@ namespace ShUtilities.Text
                     {
                         break;
                     }
+                    index++;
+                    if (index == length)
+                    {
+                        break;
+                    }
+                    character = input[index];
                 }
-                while (TryGetNextCharacter(input, length, ref index, ref character));
 
                 string key;
                 string value;
@@ -160,14 +165,5 @@ namespace ShUtilities.Text
 
         private static bool IsLineBreak(char character) => character == '\r' || character == '\n';
 
-        private static bool TryGetNextCharacter(string input, int length, ref int index, ref char character)
-        {
-            bool result = ++index < length;
-            if (result)
-            {
-                character = input[index];
-            }
-            return result;
-        }
     }
 }
