@@ -14,29 +14,43 @@ namespace ShUtilities.Text
         {
             int index = 0;
             int length = input.Length;
-
+            
             while (index < length)
             {
+                char character;
+
+                // Skip over line breaks at the very beginning or after the previous key-value-pair
+                while (IsLineBreak(character = input[index]))
+                {
+                    index++;
+                    if (index == length)
+                    {
+                        // We've reached the end without any actual keys and values
+                        // Note: I'm not a fan of return statements in the middle of a method, but I don't see a better way out of here.
+                        return;
+                    }
+                };
+
                 int keyStartIndex = index;
                 int keyValueSeparatorIndex = -1;
 
-                while (index < length)
+                // Gather the indexes of a single key-value-pair.
+                // We know that index < length, because otherwise we would have returned after skipping over CRLF
+                do
                 {
-                    char character = input[index];
-
                     if (character == '=')
                     {
                         if (keyValueSeparatorIndex < 0)
-                        { 
+                        {
                             keyValueSeparatorIndex = index;
                         }
                     }
-                    else if (IsCrLF(character))
+                    else if (IsLineBreak(character))
                     {
                         break;
                     }
-                    index++;
                 }
+                while (TryGetNextCharacter(input, length, ref index, ref character));
 
                 string key;
                 string value;
@@ -53,12 +67,6 @@ namespace ShUtilities.Text
                 }
 
                 output.Add(key, value);
-
-                // Skip over any remaining CRLF
-                while (index < length && IsCrLF(input[index]))
-                {
-                    index++;
-                };
             }
         }
 
@@ -93,7 +101,7 @@ namespace ShUtilities.Text
                     {
                         index++;
                     }
-                    while (index < length && !IsCrLF(input[index]));
+                    while (index < length && !IsLineBreak(input[index]));
                     if (relevantKeys.SetValue(previousKeyNodeIndex, ref valueCountInInput))
                     {
                         string key = input.Substring(keyStartIndex, keyValueSeparatorIndex - keyStartIndex);
@@ -111,7 +119,7 @@ namespace ShUtilities.Text
                     {
                         index++;
                     }
-                    while (index < length && IsCrLF(input[index]));
+                    while (index < length && IsLineBreak(input[index]));
                     keyStartIndex = index;
                 }
                 else
@@ -127,14 +135,14 @@ namespace ShUtilities.Text
                     {
                         index++;
                     }
-                    while (index < length && !IsCrLF(input[index]));
+                    while (index < length && !IsLineBreak(input[index]));
                     // Skip to beginning of next key
                     keyNodeIndex = 0;
                     do
                     {
                         index++;
                     }
-                    while (index < length && IsCrLF(input[index]));
+                    while (index < length && IsLineBreak(input[index]));
                     keyStartIndex = index;
                 }
             }
@@ -146,6 +154,20 @@ namespace ShUtilities.Text
             }
         }
 
-        private static bool IsCrLF(char c) => c == '\r' || c == '\n';
+        //
+        // Helper methods to keep the main methods more concise. The compiler will probably inline these.
+        //
+
+        private static bool IsLineBreak(char character) => character == '\r' || character == '\n';
+
+        private static bool TryGetNextCharacter(string input, int length, ref int index, ref char character)
+        {
+            bool result = ++index < length;
+            if (result)
+            {
+                character = input[index];
+            }
+            return result;
+        }
     }
 }

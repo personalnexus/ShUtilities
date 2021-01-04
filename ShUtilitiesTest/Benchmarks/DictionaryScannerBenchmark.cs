@@ -10,14 +10,25 @@ namespace ShUtilitiesTest.Benchmarks
     public class DictionaryScannerBenchmark
     {
 
-        [Benchmark]
+        [Benchmark(Baseline = true)]
         public void Split()
         {
+            // Based on a real-world example with those idiosyncrasies
             var result = new Dictionary<string, string>();
-            foreach (string keyValuePair in Input.Split('\n'))
+            foreach (string keyValuePair in Input.Split('\n', StringSplitOptions.RemoveEmptyEntries).ToList())
             {
                 string[] keyAndValue = keyValuePair.Split('=');
-                result.Add(keyAndValue[0], keyAndValue[1]);
+                string key = keyAndValue[0];
+                string value = keyAndValue[1];
+
+                if (result.ContainsKey(key))
+                {
+                    result[key] = value;
+                }
+                else
+                { 
+                    result.Add(key, value); 
+                }
             }
             if (result.Count != 100)
             {
@@ -47,7 +58,7 @@ namespace ShUtilitiesTest.Benchmarks
             }
         }
 
-        private static readonly string Input = Enumerable.Range(0, 100).Select(i => $"Key{i}=Value{i}").ToDelimitedString("\n");
+        private static readonly string Input = Enumerable.Range(0, 100).Select(i => $"Key{i}=Value{i}").ToDelimitedString("\r\n\n");
 
         private static readonly DictionaryRelevantKeys RelevantKeys = new DictionaryRelevantKeys(Enumerable.Range(0, 50).Select(i => $"Key{i*2}").ToArray());
     }
