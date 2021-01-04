@@ -29,14 +29,14 @@ namespace ShUtilities.Collections
 
         // Nodes
 
-        private TrieNode<TValue>[] _nodes;
+        private protected TrieNode[] _nodes;
         private int[] _nodeIndexes;
         private int _lastUsedNodeIndex;
 
         private readonly int _possibleCharacterCount;
         private readonly int _capacityIncrement;
 
-        private ref TrieNode<TValue> GetNode(string key, bool createIfMissing)
+        private ref TrieNode GetNode(string key, bool createIfMissing)
         {
             int nodeIndex = 0;
             foreach (char character in key)
@@ -66,7 +66,7 @@ namespace ShUtilities.Collections
             return ref _nodes[nodeIndex];
         }
 
-        internal TrieNodeSearch TryGetNodeIndexIncremental(char character, out int indexIndex, ref int nodeIndex)
+        private protected TrieNodeSearch TryGetNodeIndexIncremental(char character, out int indexIndex, ref int nodeIndex)
         {
             TrieNodeSearch result;
             int keyIndex;
@@ -86,18 +86,6 @@ namespace ShUtilities.Collections
             return result;
         }
 
-        internal bool TrySetValueByNodeIndexWithoutOverride(int nodeIndex, TValue value)
-        {
-            ref TrieNode<TValue> node = ref _nodes[nodeIndex];
-            bool result = !node.HasValue;
-            if (result)
-            {
-                node.Value = value;
-                node.HasValue = true;
-            }
-            return result;
-        }
-
         private void Resize(int newSize)
         {
             Array.Resize(ref _nodes, newSize);
@@ -113,7 +101,7 @@ namespace ShUtilities.Collections
         public int Count { get; private set; }
 
         public bool IsReadOnly { get; set; }
-
+        
         public TValue this[string key]
         {
             get
@@ -142,7 +130,7 @@ namespace ShUtilities.Collections
 
         private void SetValue(string key, TValue value, bool throwIfKeyExists)
         {
-            ref TrieNode<TValue> node = ref GetNode(key, true);
+            ref TrieNode node = ref GetNode(key, true);
             if (!node.HasValue)
             {
                 Count++;
@@ -158,21 +146,15 @@ namespace ShUtilities.Collections
         public void Clear()
         {
             CheckReadOnly();
-            _nodes = new TrieNode<TValue>[1];
+            _nodes = new TrieNode[1];
             _nodeIndexes = new int[_possibleCharacterCount];
             _lastUsedNodeIndex = 0;
             Count = 0;
         }
 
-        internal void ClearValues()
-        {
-            CheckReadOnly();
-            Array.Clear(_nodes, 0, _nodes.Length);
-        }
-
         public bool ContainsKey(string key)
         {
-            ref TrieNode<TValue> node = ref GetNode(key, false);
+            ref TrieNode node = ref GetNode(key, false);
             return node.HasValue;
         }
 
@@ -194,7 +176,7 @@ namespace ShUtilities.Collections
         public bool Remove(string key)
         {
             CheckReadOnly();
-            ref TrieNode<TValue> node = ref GetNode(key, false);
+            ref TrieNode node = ref GetNode(key, false);
             bool result = node.HasValue;
             if (result)
             {
@@ -207,7 +189,7 @@ namespace ShUtilities.Collections
 
         public bool TryGetValue(string key, out TValue value)
         {
-            ref TrieNode<TValue> node = ref GetNode(key, false);
+            ref TrieNode node = ref GetNode(key, false);
             value = node.Value;
             return node.HasValue;
         }
@@ -222,7 +204,7 @@ namespace ShUtilities.Collections
             return GetEnumerator();
         }
 
-        private void CheckReadOnly()
+        private protected void CheckReadOnly()
         {
             if (IsReadOnly)
             {
@@ -243,5 +225,16 @@ namespace ShUtilities.Collections
             };
             return result;
         }
+
+        private protected struct TrieNode
+        {
+            public TValue Value;
+            /// <remarks>
+            /// We could store these flags in a BitArray instead. But in preliminary tests this accessing a second array for each operation on values 
+            /// has resulted in worse performance, possibly because this has was better data locality and requires fewer array look-ups.
+            /// </remarks>
+            public bool HasValue;
+        }
+
     }
 }

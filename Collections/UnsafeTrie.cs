@@ -34,14 +34,14 @@ namespace ShUtilities.Collections
 
         // Nodes
 
-        private TrieNode<TValue>[] _nodes;
+        private TrieNode[] _nodes;
         private int[] _nodeIndexes;
         private int _lastUsedNodeIndex;
 
         private readonly int _possibleCharacterCount;
         private readonly int _capacityIncrement;
 
-        private ref TrieNode<TValue> GetNode(string key, bool createIfMissing)
+        private ref TrieNode GetNode(string key, bool createIfMissing)
         {
             int nodeIndex = 0;
             ref int firstKeyIndex = ref _keyIndexByCharacter[0];
@@ -118,7 +118,7 @@ namespace ShUtilities.Collections
 
         private void SetValue(string key, TValue value, bool throwIfKeyExists)
         {
-            ref TrieNode<TValue> node = ref GetNode(key, true);
+            ref TrieNode node = ref GetNode(key, true);
             if (!node.HasValue)
             {
                 Count++;
@@ -134,7 +134,7 @@ namespace ShUtilities.Collections
         public void Clear()
         {
             CheckReadOnly();
-            _nodes = new TrieNode<TValue>[1];
+            _nodes = new TrieNode[1];
             _nodeIndexes = new int[_possibleCharacterCount];
             _lastUsedNodeIndex = 0;
             Count = 0;
@@ -142,7 +142,7 @@ namespace ShUtilities.Collections
 
         public bool ContainsKey(string key)
         {
-            ref TrieNode<TValue> node = ref GetNode(key, false);
+            ref TrieNode node = ref GetNode(key, false);
             return node.HasValue;
         }
 
@@ -164,7 +164,7 @@ namespace ShUtilities.Collections
         public bool Remove(string key)
         {
             CheckReadOnly();
-            ref TrieNode<TValue> node = ref GetNode(key, false);
+            ref TrieNode node = ref GetNode(key, false);
             bool result = node.HasValue;
             if (result)
             {
@@ -177,7 +177,7 @@ namespace ShUtilities.Collections
 
         public bool TryGetValue(string key, out TValue value)
         {
-            ref TrieNode<TValue> node = ref GetNode(key, false);
+            ref TrieNode node = ref GetNode(key, false);
             value = node.Value;
             return node.HasValue;
         }
@@ -212,6 +212,12 @@ namespace ShUtilities.Collections
                 LookupSize = _keyIndexByCharacter.Length * sizeof(int)
             };
             return result;
+        }
+
+        private struct TrieNode
+        {
+            public TValue Value;
+            public bool HasValue;
         }
     }
 }

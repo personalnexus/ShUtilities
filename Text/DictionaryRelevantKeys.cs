@@ -7,11 +7,11 @@ namespace ShUtilities.Text
     /// </summary>
     public struct DictionaryRelevantKeys
     {
-        private Trie<bool> _isValueSetByKey;
+        private IncrementalTrie<bool> _isValueSetByKey;
 
         public DictionaryRelevantKeys(params string[] relevantKeys)
         {
-            _isValueSetByKey = new Trie<bool>(TrieCharacterSets.FromStrings(relevantKeys), relevantKeys.Length, 1);
+            _isValueSetByKey = new IncrementalTrie<bool>(TrieCharacterSets.FromStrings(relevantKeys), relevantKeys.Length, 1);
             foreach (string key in relevantKeys)
             {
                 _isValueSetByKey.Add(key, false);
@@ -20,7 +20,7 @@ namespace ShUtilities.Text
 
         internal bool Contains(char character, ref int keyNodeIndex)
         {
-            bool result = _isValueSetByKey.TryGetNodeIndexIncremental(character, out int _, ref keyNodeIndex) == TrieNodeSearch.Found;
+            bool result = _isValueSetByKey.ContainsIncremental(character, ref keyNodeIndex);
             return result;
         }
 
@@ -31,8 +31,7 @@ namespace ShUtilities.Text
         internal bool SetValue(int keyNodeIndex, ref int valueCount)
         {
             bool result;
-            if (keyNodeIndex != 0 && 
-                _isValueSetByKey.TrySetValueByNodeIndexWithoutOverride(keyNodeIndex, true))
+            if (_isValueSetByKey.TrySetValueByNodeIndexWithoutOverride(keyNodeIndex, true))
             {
                 valueCount++;
                 result = true;
