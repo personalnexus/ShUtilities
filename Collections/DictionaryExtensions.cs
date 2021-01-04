@@ -12,8 +12,7 @@ namespace ShUtilities.Collections
                                               IDictionary<TKey, TValue> other,
                                               out DictionaryDiff<TKey, TValue> diff)
         {
-            diff = new DictionaryDiff<TKey, TValue>(original, other);
-            return diff.Unchanged.Count != original.Count;
+            return Diff(original, other, EqualityComparer<TValue>.Default, out diff);
         }
 
         /// <summary>
@@ -25,7 +24,7 @@ namespace ShUtilities.Collections
                                               out DictionaryDiff<TKey, TValue> diff)
         {
             diff = new DictionaryDiff<TKey, TValue>(original, other, comparer);
-            return diff.Unchanged.Count != original.Count;
+            return diff.Added.Count != 0 || diff.Removed.Count != 0 || diff.Changed.Count != 0;
         }
 
         /// <summary>
