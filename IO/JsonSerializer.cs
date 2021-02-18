@@ -23,7 +23,7 @@ namespace ShUtilities.IO
 
         public void Serialize(T input, Stream output)
         {
-            using var outputStreamWriter = new StreamWriter(output);
+            using var outputStreamWriter = new StreamWriter(output, leaveOpen: true);
             using JsonWriter writer = new JsonTextWriter(outputStreamWriter);
             _serializer.Serialize(writer, input);
         }
