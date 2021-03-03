@@ -8,6 +8,8 @@ namespace ShUtilities.Text
     /// </summary>
     public static class StringExtensions
     {
+        public static bool IsNullOrEmpty(this string item) => string.IsNullOrEmpty(item);
+
         /// <summary>
         /// Returns true if the string instance the method is called on is equal to one of the given <paramref name="items"/>.
         /// </summary>

@@ -7,6 +7,14 @@ namespace ShUtilitiesTest.Tests
     public class StringExtensionsTest
     {
         [TestMethod]
+        public void IsNullOrEmpty()
+        {
+            Assert.IsFalse("not empty".IsNullOrEmpty());
+            Assert.IsTrue("".IsNullOrEmpty());
+            Assert.IsTrue(((string)null).IsNullOrEmpty());
+        }
+
+        [TestMethod]
         public void In()
         {
             Assert.IsTrue("1".In("1", "2"));
