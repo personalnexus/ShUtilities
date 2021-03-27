@@ -1,6 +1,21 @@
 {
   "$schema": "https://aka.ms/codetour-schema",
   "title": "PriorityScheduler",
-  "steps": [],
+  "steps": [
+    {
+      "title": "Introduction",
+      "description": "This tour will walk you through the components of `PriorityScheduler` and explains its intended use."
+    },
+    {
+      "file": "Threading/PriorityScheduling/PriorityScheduler.cs",
+      "description": "First, create a new instance of `PriorityScheduler` passing in options that specify how many threads you want to dedicate to executing actions at each priority.",
+      "line": 16
+    },
+    {
+      "file": "Threading/PriorityScheduling/PriorityScheduler.cs",
+      "description": "You enqueue an action and specify at which priority you want to execute it.",
+      "line": 34
+    }
+  ],
   "ref": "master"
 }
