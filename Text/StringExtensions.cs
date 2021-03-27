@@ -8,6 +8,9 @@ namespace ShUtilities.Text
     /// </summary>
     public static class StringExtensions
     {
+        /// <summary>
+        /// Same as string.IsNullOrEmpty() but as an extension method, can be called on the instance to be checked even when it is null.
+        /// </summary>
         public static bool IsNullOrEmpty(this string item) => string.IsNullOrEmpty(item);
 
         /// <summary>
