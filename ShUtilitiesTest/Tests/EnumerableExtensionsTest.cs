@@ -140,5 +140,18 @@ namespace ShUtilitiesTest.Tests
 
             Assert.IsFalse(new int[0].TryLast(out _));
         }
+
+        [TestMethod]
+        public void TrySingle()
+        {
+            var numbers = new[] { 1, 2, 3, 4, 5 };
+
+            Assert.IsTrue(numbers.TrySingle(x => x == 5, out int five));
+            Assert.AreEqual(5, five);
+
+            Assert.IsFalse(numbers.TrySingle(x => x > 5, out _));
+
+            Assert.IsFalse(numbers.TrySingle(x => x < 5, out _));
+        }
     }
 }

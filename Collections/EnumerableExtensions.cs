@@ -277,5 +277,35 @@ namespace ShUtilities.Collections
         /// emptyValues.AddRange(items.Select(x => x.Value).Where(string.IsNullOrEmpty));
         /// </example>
         public static void AddTo<T>(this IEnumerable<T> items, ICollection<T> destination) => destination.AddRange(items);
+
+        /// <summary>
+        /// If there is a single item matching the given predicate that item is returned as <paramref name="single"/> with a return value fo true.
+        /// A return value of false indicates that either no or more than one item matched the predicate.
+        /// </summary>
+        public static bool TrySingle<T>(this IEnumerable<T> items, Func<T, bool> predicate, out T single)
+        {
+            bool result = false;
+            single = default;
+            foreach (T item in items)
+            {
+                if (predicate(item))
+                {
+                    if (result)
+                    {
+                        // the second match means early exit
+                        result = false;
+                        single = default;
+                        break;
+                    }
+                    else
+                    {
+                        // first match was found
+                        result = true;
+                        single = item;
+                    }
+                }
+            }
+            return result;
+        }
     }
 }
