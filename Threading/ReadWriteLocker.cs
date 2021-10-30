@@ -40,7 +40,7 @@ namespace ShUtilities.Threading
         public ReadWriteLockerWriter Write() => new ReadWriteLockerWriter(Lock);
 
 
-        public struct ReadWriteLockerReader : IDisposable
+        public ref struct ReadWriteLockerReader
         {
             private readonly ReaderWriterLockSlim _lock;
 
@@ -53,7 +53,7 @@ namespace ShUtilities.Threading
             public void Dispose() => _lock.ExitReadLock();
         }
 
-        public struct ReadWriteLockerWriter : IDisposable
+        public ref struct ReadWriteLockerWriter
         {
             private readonly ReaderWriterLockSlim _lock;
 
