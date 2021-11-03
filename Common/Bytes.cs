@@ -6,9 +6,9 @@ namespace ShUtilities.Common
     /// <summary>
     /// Working with counts of bytes at different scales in a way inspired by <see cref="TimeSpan"/>
     /// </summary>
-    public struct Bytes : IEquatable<Bytes>, IComparable<Bytes>, IComparable, ICloneable, IFormattable
+    public readonly struct Bytes : IEquatable<Bytes>, IComparable<Bytes>, IComparable, ICloneable, IFormattable
     {
-        private struct ThresholdUnitName
+        private readonly struct ThresholdUnitName
         {
             public ThresholdUnitName(ulong threshold, string name)
             {

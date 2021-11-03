@@ -5,9 +5,9 @@ namespace ShUtilities.Text
     /// <summary>
     /// A thin wrapper around a <see cref="Trie{bool}"/> that is used for incrementally searching to determine whether a key-value-pair is relevant
     /// </summary>
-    public struct DictionaryRelevantKeys
+    public readonly struct DictionaryRelevantKeys
     {
-        private IncrementalTrie<bool> _isValueSetByKey;
+        private readonly IncrementalTrie<bool> _isValueSetByKey;
 
         public DictionaryRelevantKeys(params string[] relevantKeys)
         {

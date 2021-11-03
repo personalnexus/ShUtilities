@@ -16,7 +16,7 @@ namespace ShUtilities.Threading
         public static ReadWriteLocker<T> Create<T>(T value) => new ReadWriteLocker<T>(value);
     }
 
-    public struct ReadWriteLocker<T>
+    public readonly struct ReadWriteLocker<T>
     {
         internal ReadWriteLocker(T value)
         {
@@ -33,7 +33,7 @@ namespace ShUtilities.Threading
         public ReadWriteLockerWriter Write() => new ReadWriteLockerWriter(Lock);
 
 
-        public ref struct ReadWriteLockerReader
+        public readonly ref struct ReadWriteLockerReader
         {
             private readonly ReaderWriterLockSlim _lock;
 
@@ -46,7 +46,7 @@ namespace ShUtilities.Threading
             public void Dispose() => _lock.ExitReadLock();
         }
 
-        public ref struct ReadWriteLockerWriter
+        public readonly ref struct ReadWriteLockerWriter
         {
             private readonly ReaderWriterLockSlim _lock;
 

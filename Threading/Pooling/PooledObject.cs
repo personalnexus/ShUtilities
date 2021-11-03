@@ -6,7 +6,7 @@ namespace ShUtilities.Threading.Pooling
     /// A ref-struct representing an object from a pool that automatically releases the object when disposed.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public ref struct PooledObject<T>
+    public readonly ref struct PooledObject<T>
     {
         private readonly IPool<T> _pool;
         public T Object { get; }

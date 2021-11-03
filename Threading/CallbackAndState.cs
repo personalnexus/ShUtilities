@@ -8,7 +8,7 @@ namespace ShUtilities.Threading
     /// because one must "Know Thine Implicit Allocations". See
     /// https://blogs.msdn.microsoft.com/pfxteam/2012/02/03/know-thine-implicit-allocations/
     /// </summary>
-    internal struct CallbackAndState
+    internal readonly struct CallbackAndState
     {
         readonly SendOrPostCallback Callback;
         readonly object State;
