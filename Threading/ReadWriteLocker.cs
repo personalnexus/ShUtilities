@@ -8,19 +8,12 @@ namespace ShUtilities.Threading
         /// <summary>
         /// Places a new instance of <typeparamref name="T"/> in a struct with a ReaderWriterLockSlim to provide convenient Read() and Write() methods that acquire/release the corresponding lock via the Dispose pattern
         /// </summary>
-        public static ReadWriteLocker<T> Create<T>()
-            where T : new()
-        {
-            return new ReadWriteLocker<T>(new T());
-        }
+        public static ReadWriteLocker<T> Create<T>() where T : new() => new ReadWriteLocker<T>(new T());
 
         /// <summary>
         /// Places the given instance of <typeparamref name="T"/> in a struct with a ReaderWriterLockSlim to provide convenient Read() and Write() methods that acquire/release the corresponding lock via the Dispose pattern
         /// </summary>
-        public static ReadWriteLocker<T> Create<T>(T value)
-        {
-            return new ReadWriteLocker<T>(value);
-        }
+        public static ReadWriteLocker<T> Create<T>(T value) => new ReadWriteLocker<T>(value);
     }
 
     public struct ReadWriteLocker<T>
