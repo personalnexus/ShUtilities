@@ -6,7 +6,7 @@ namespace ShUtilities.Threading
     /// <summary>
     /// Uses the Dispose pattern to set the current SynchronizationContext to the given one and reset it afterwards to the previous one
     /// </summary>
-    public readonly struct SynchronizationContextSetter: IDisposable
+    public readonly ref struct SynchronizationContextSetter
     {
         private readonly SynchronizationContext _oldContext;
 
