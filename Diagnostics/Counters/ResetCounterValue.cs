@@ -4,13 +4,23 @@ namespace ShUtilities.Diagnostics.Counters
 {
     internal class ResetCounterValue: IIncrementableCounter
     {
-        private long _written; //TODO: add padding so this field is in its own cache line
+        //
+        // Writing from one thread with padding to avoid false sharing https://mechanical-sympathy.blogspot.com/2011/07/false-sharing.html
+        //
+
+        private long _padding1, _padding2, _padding3, _padding4, _padding5, _padding6, _padding7;
+        private long _written;
+        private long _padding8, _padding9, _padding10, _padding11, _padding12, _padding13, _padding14;
+
+        public void Increment() => _written++;
+
+        //
+        // Reading from one other thread
+        //
 
         public long Current { get; private set; }
         public long Today { get; private set; }
         public long Total { get; private set; }
-
-        public void Increment() => _written++;
 
         public void Update(bool isFirstOfTheDay)
         {
