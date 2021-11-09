@@ -4,7 +4,7 @@ using ShUtilitiesTest.Benchmarks;
 using ShUtilitiesTest.Benchmarks.Configuration;
 using System.Diagnostics;
 
-namespace ShUtilitiesTest
+namespace ShUtilitiesTest.Tests
 {
     [TestClass]
     public class BenchmarkTests
