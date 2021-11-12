@@ -103,6 +103,10 @@ This code is representative of the way I would write production code: adhering t
 * __SystemTimeProvider__: implementation of ITimeProvider that provides the time from DateTime.Now and ticks via QueryPerformanceCounter
 * __TimerService__: default implementation of ITimerService
 
+## Windows
+
+* __NotifyPropertyChangedExtensions__: extension methods to simplify raising the PropertyChanged event
+
 ---
 
 # ShUtilitiesTest
