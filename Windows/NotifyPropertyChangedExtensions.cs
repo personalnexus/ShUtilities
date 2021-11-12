@@ -6,43 +6,49 @@ using System.Runtime.CompilerServices;
 
 namespace ShUtilities.Windows
 {
-    public static class NotifyPropertyChangedExtensions<T>
-    {
-        internal static FieldInfo PropertyChangedFieldInfo = typeof(T).GetField("PropertyChanged", BindingFlags.Instance | BindingFlags.NonPublic);
-    }
-
     public static class NotifyPropertyChangedExtensions
     {
-        public static void Raise<TSender, TValue>(this TSender sender, ref TValue backingField, TValue newValue, [CallerMemberName] string propertyName = null)
+        /// <summary>
+        /// Changes a property and raises the PropertyChanged event without one having to pass in the event handler by using reflection during each call
+        /// </summary>
+        public static void SetAndRaise<TSender, TValue>(this TSender sender, ref TValue backingField, TValue newValue, [CallerMemberName] string propertyName = null)
             where TSender : INotifyPropertyChanged
         {
-            // does not require passing the event delegate, but uses a bunch of Reflection at every call
             if (!EqualityComparer<TValue>.Default.Equals(backingField, newValue))
             {
                 backingField = newValue;
 
-                if (NotifyPropertyChangedExtensions<TSender>.PropertyChangedFieldInfo.GetValue(sender) is MulticastDelegate eventDelagate)
+                if (NotifyPropertyChangedExtensions<TSender>.PropertyChangedFieldInfo.GetValue(sender) is PropertyChangedEventHandler eventHandler)
                 {
                     var eventArgs = new PropertyChangedEventArgs(propertyName);
-                    foreach (Delegate @delegate in eventDelagate.GetInvocationList())
-                    {
-                        @delegate.Method.Invoke(@delegate.Target, new object[] { sender, eventArgs });
-                    }
+                    eventHandler(sender, eventArgs);
                 }
             }
         }
-        
-        public static void Raise<TValue>(this PropertyChangedEventHandler eventDelegate, INotifyPropertyChanged sender, ref TValue backingField, TValue newValue, [CallerMemberName] string propertyName = null)
+
+        /// <summary>
+        /// Changes a property and raises the given PropertyChanged event without using reflection during each call
+        /// </summary>
+        public static void SetAndRaise<TSender, TValue>(this TSender sender, ref TValue backingField, TValue newValue, PropertyChangedEventHandler eventHandler, [CallerMemberName] string propertyName = null)
+            where TSender : INotifyPropertyChanged
         {
             if (!EqualityComparer<TValue>.Default.Equals(backingField, newValue))
             {
                 backingField = newValue;
-                if (eventDelegate != null)
+                if (eventHandler != null)
                 {
                     var eventArgs = new PropertyChangedEventArgs(propertyName);
-                    eventDelegate?.Invoke(sender, eventArgs);
+                    eventHandler(sender, eventArgs);
                 }
             }
         }
+    }
+
+    internal static class NotifyPropertyChangedExtensions<T>
+    {
+        /// <summary>
+        /// Caches the field info to get the PropertyChanged event handler by type
+        /// </summary>
+        internal static FieldInfo PropertyChangedFieldInfo = typeof(T).GetField(nameof(INotifyPropertyChanged.PropertyChanged), BindingFlags.Instance | BindingFlags.NonPublic);
     }
 }
