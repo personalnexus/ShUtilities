@@ -18,6 +18,9 @@ namespace ShUtilitiesTest.Tests
         [TestMethod]
         public void DictionaryScanner_Split() => Run<DictionaryScannerBenchmark>();
 
+        [TestMethod]
+        public void PropertyChanged() => Run<PropertyChangedBenchmark>();
+
         private static void Run<T>()
         {
             Debug.Assert(false, "Benchmarks must not be run in debug configuration");
