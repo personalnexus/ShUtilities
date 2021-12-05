@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ShUtilities.Common;
 using System;
+using System.Diagnostics;
 
 namespace ShUtilitiesTest.Tests
 {
@@ -76,6 +77,26 @@ namespace ShUtilitiesTest.Tests
             var exaBytes = Bytes.FromExa(4.12);
             Assert.AreEqual(4.12 + "EB", exaBytes.ToString());
             ExceptionUtility.Expect<OverflowException>(() => Bytes.FromExa(418));
+        }
+
+        [TestMethod]
+        public void ProcessWorkingSetBytes()
+        {
+            var startInfo = new ProcessStartInfo("notepad.exe")
+            {
+                WindowStyle = ProcessWindowStyle.Hidden,
+            };
+            Process notepad = Process.Start(startInfo);
+            try
+            {
+                Bytes workingSet = notepad.WorkingSetBytes();
+                Assert.AreNotEqual(0, workingSet, "working set should not be 0");
+                Assert.AreEqual(new Bytes(notepad.WorkingSet64), workingSet, "working set could have changed between two calls!?");
+            }
+            finally
+            {
+                notepad.Kill();
+            }
         }
     }
 }

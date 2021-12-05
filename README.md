@@ -24,6 +24,7 @@ This code is representative of the way I would write production code: adhering t
 ## Common
 
 * __Bytes__: working with counts of bytes at different scales in a way inspired by TimeSpan
+* __BytesExtensions__: extension methods for classes exposing memory sizes so you don't have to convert these sizes into Bytes instances manually.
 * __Disposer__: disposes one or more IDisposables and sets their references to null
 * __MathExtensions__: extension methods adding math functions to built-in value types
 * __TypeUtility__: helper functionality for working with types
