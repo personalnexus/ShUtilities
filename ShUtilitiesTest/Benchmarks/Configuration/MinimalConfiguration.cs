@@ -2,6 +2,8 @@
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Environments;
 using BenchmarkDotNet.Jobs;
+using BenchmarkDotNet.Toolchains.CsProj;
+using BenchmarkDotNet.Toolchains.DotNetCli;
 
 namespace ShUtilitiesTest.Benchmarks.Configuration
 {
@@ -11,10 +13,12 @@ namespace ShUtilitiesTest.Benchmarks.Configuration
         {
             AddColumnProvider(DefaultColumnProviders.Instance);
             AddJob(Job.Default
+                .WithToolchain(CsProjCoreToolchain.From(NetCoreAppSettings
+                    .NetCoreApp60
+                    .WithCustomDotNetCliPath(@"C:\Program Files\dotnet\dotnet.exe")))
                 .WithPowerPlan(PowerPlan.HighPerformance)
                 .WithPlatform(Platform.X64));
             AddLogger(new SummaryFirstLogger());
-
         }
     }
 }
