@@ -16,6 +16,9 @@ namespace ShUtilitiesTest.Tests
         public void ByteDictionary_Dictionary() => Run<ByteDictionaryBenchmark>();
 
         [TestMethod]
+        public void ShortDictionary_Dictionary() => Run<ShortDictionaryBenchmark>();
+
+        [TestMethod]
         public void DictionaryScanner_Split() => Run<DictionaryScannerBenchmark>();
 
         [TestMethod]

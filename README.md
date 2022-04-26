@@ -16,6 +16,7 @@ This code is representative of the way I would write production code: adhering t
 * __NamedLookup__: a lookup from names contained in one array to values contained in a second array
 * __QueueExtensions__: extension methods for Queue<T> since there is no IQueue<T>
 * __ReverseComparer__: reverses the comparison result of the given comparer
+* __ShortDictionary__: provides IDictionary-like access with a fixed memory-footprint to what is essentially an array with a short (cast to ushort) as its index
 * __SortedListExtensions__: extension methods for SortedList<>
 * __Trie__: a Trie implementation with support for a reduced set of possible key elements to minimize space requirements that implements most of IDictionary<string, TValue>
 * __TrieCharacterSets__: pre-defined sets of characters for Trie e.g. all (Latin) alpha-numeric characters
