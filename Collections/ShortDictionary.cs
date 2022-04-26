@@ -138,7 +138,7 @@ namespace ShUtilities.Collections
 
         private ref ShortDictionaryItem GetItem(short key)
         {
-            return ref _items[unchecked((ushort)key)];
+            return ref _items[unchecked((uint)key)];
         }
     }
 }
