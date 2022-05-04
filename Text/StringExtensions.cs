@@ -70,5 +70,26 @@ namespace ShUtilities.Text
             string result = (indexOfLeft == -1 && indexOfRight == -1) ? null : text.Substring(start, length);
             return result;
         }
+
+        /// <summary>
+        /// Not intended for public use. See https://twitter.com/personalnexus/status/1520447669843513344 for context.
+        /// </summary>
+        public static int Length(this string s)
+        {
+            int length = 0;
+            while (true)
+            {
+                try
+                {
+                    char dummy = s[length];
+                    length++;
+                }
+                catch
+                {
+                    break;
+                }
+            }
+            return length;
+        }
     }
 }

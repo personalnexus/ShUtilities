@@ -48,5 +48,16 @@ namespace ShUtilitiesTest.Tests
             Assert.IsNull("LBetweenR".Between("Left", "Right"));
             Assert.IsNull("".Between("Left", "Right"));
         }
+
+        [TestMethod]
+        public void Length()
+        {
+            Assert.AreEqual(0, ((string)null).Length());
+            Assert.AreEqual(0, ("").Length());
+            Assert.AreEqual(1, ("0").Length());
+            Assert.AreEqual(2, ("-0").Length());
+            Assert.AreEqual(8, ("infinity").Length());
+            Assert.AreEqual(17, ("negative infinity").Length());
+        }
     }
 }
