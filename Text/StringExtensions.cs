@@ -44,7 +44,7 @@ namespace ShUtilities.Text
         /// </summary>
         public static string Left(this string text, int count)
         {
-            string result = text.Substring(0, count);
+            string result = text[..count];
             return result;
         }
 
