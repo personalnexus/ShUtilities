@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/ShUtilitiesTest/bin/Debug/net5.0/ShUtilitiesTest.dll",
+            "program": "${workspaceFolder}/ShUtilitiesTest/bin/Debug/net6.0/ShUtilitiesTest.dll",
             "args": [],
             "cwd": "${workspaceFolder}/ShUtilitiesTest",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
