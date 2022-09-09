@@ -1,4 +1,5 @@
 ﻿using System;
+using ShUtilities.Time.Occurrence;
 
 namespace ShUtilities.Time
 {
@@ -7,6 +8,8 @@ namespace ShUtilities.Time
     /// </summary>
     public static class DateExtensions
     {
+        public static DateTimeOccurs Occurs(this DateTime date) => new DateTimeOccurs(date);
+
         /// <summary>
         /// Returns the first day of the month that <paramref name="date"/> is in.
         /// </summary>
