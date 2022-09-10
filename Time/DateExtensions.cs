@@ -8,6 +8,10 @@ namespace ShUtilities.Time
     /// </summary>
     public static class DateExtensions
     {
+        /// <summary>
+        /// Entry point for fluent DateTime comparisons 
+        /// </summary>
+        /// <example>X.Occurs().AtLeast(10).Days.Before(Y)</example>
         public static DateTimeOccurs Occurs(this DateTime date) => new DateTimeOccurs(date);
 
         /// <summary>
