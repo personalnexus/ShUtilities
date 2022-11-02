@@ -4,8 +4,8 @@ namespace ShUtilities.Time.Occurrence
 {
     public struct DateTimeOccursAtLeastDouble
     {
-        private DateTime _base;
-        private double _diff;
+        private readonly DateTime _base;
+        private readonly double _diff;
 
         public DateTimeOccursAtLeastDouble(DateTime @base, double diff)
         {

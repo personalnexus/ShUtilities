@@ -4,8 +4,8 @@ namespace ShUtilities.Time.Occurrence
 {
     public struct DateTimeOccursExactlyTimeSpan
     {
-        private DateTime _base;
-        private TimeSpan _diff;
+        private readonly DateTime _base;
+        private readonly TimeSpan _diff;
 
         public DateTimeOccursExactlyTimeSpan(DateTime @base, TimeSpan diff)
         {

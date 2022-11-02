@@ -4,8 +4,8 @@ namespace ShUtilities.Time.Occurrence
 {
     public struct DateTimeOccursAtLeastTimeSpan
     {
-        private DateTime _base;
-        private TimeSpan _diff;
+        private readonly DateTime _base;
+        private readonly TimeSpan _diff;
 
         public DateTimeOccursAtLeastTimeSpan(DateTime @base, TimeSpan diff)
         {
@@ -18,6 +18,5 @@ namespace ShUtilities.Time.Occurrence
 
         public bool Before(DateTime other) => other - _base >= _diff;
         public bool BeforeToday() => TimeProvider.Default.Now.Date - _base >= _diff;
-
     }
 }

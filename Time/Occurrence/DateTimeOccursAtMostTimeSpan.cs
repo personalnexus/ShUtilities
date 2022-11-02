@@ -4,8 +4,8 @@ namespace ShUtilities.Time.Occurrence
 {
     public struct DateTimeOccursAtMostTimeSpan
     {
-        private DateTime _base;
-        private TimeSpan _diff;
+        private readonly DateTime _base;
+        private readonly TimeSpan _diff;
 
         public DateTimeOccursAtMostTimeSpan(DateTime @base, TimeSpan diff)
         {
