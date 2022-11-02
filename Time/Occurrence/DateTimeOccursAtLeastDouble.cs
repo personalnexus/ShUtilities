@@ -13,6 +13,7 @@ namespace ShUtilities.Time.Occurrence
             _diff = diff;
         }
 
+        public DateTimeOccursAtLeastTimeSpanBusinessCalendar BusinessDays(IBusinessCalendar accordingTo) => new DateTimeOccursAtLeastTimeSpanBusinessCalendar(_base, TimeSpan.FromDays(_diff), accordingTo);
         public DateTimeOccursAtLeastTimeSpan Days => new DateTimeOccursAtLeastTimeSpan(_base, TimeSpan.FromDays(_diff));
         public DateTimeOccursAtLeastTimeSpan Hours => new DateTimeOccursAtLeastTimeSpan(_base, TimeSpan.FromHours(_diff));
         public DateTimeOccursAtLeastTimeSpan Minutes => new DateTimeOccursAtLeastTimeSpan(_base, TimeSpan.FromMinutes(_diff));

@@ -132,5 +132,21 @@ namespace ShUtilitiesTest.Tests
         {
             TimeProvider.Default.Now.Date.AddDays(-20).Occurs().Exactly(10).Days.BeforeToday().Should().BeFalse();
         }
+
+        [TestMethod]
+        public void OccursAtLeastBusinessDaysAfter_ThreeDaysLater_IsTrue()
+        {
+            Day7.Occurs().AtLeast(3).BusinessDays(accordingTo: HolidayCalendar).After(Day1).Should().BeTrue();
+        }
+
+        [TestMethod]
+        public void OccursAtLeastBusinessDaysAfter_SixDaysLater_IsFalse()
+        {
+            Day7.Occurs().AtLeast(6).BusinessDays(accordingTo: HolidayCalendar).After(Day1).Should().BeFalse();
+        }
+
+        private static readonly DateTime Day1 = new DateTime(2000, 11, 1);
+        private static readonly DateTime Day7 = new DateTime(2000, 11, 8); // two days on a weekend and one holiday later
+        private static readonly IBusinessCalendar HolidayCalendar = new BusinessCalendar(new DateTime(2000, 11, 3));
     }
 }
