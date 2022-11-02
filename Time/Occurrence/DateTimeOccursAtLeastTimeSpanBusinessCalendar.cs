@@ -2,7 +2,7 @@
 
 namespace ShUtilities.Time.Occurrence
 {
-    public struct DateTimeOccursAtLeastTimeSpanBusinessCalendar
+    public readonly ref struct DateTimeOccursAtLeastTimeSpanBusinessCalendar
     {
         private readonly DateTime _base;
         private readonly TimeSpan _diff;
@@ -15,11 +15,11 @@ namespace ShUtilities.Time.Occurrence
             _calendar = calendar;
         }
 
-        public bool After(DateTime other) => _base >= AddBusinessDaysDiff(other);
-        public bool AfterToday() => After(TimeProvider.Default.Now.Date);
+        public readonly bool After(DateTime other) => _base >= AddBusinessDaysDiff(other);
+        public readonly bool AfterToday() => After(TimeProvider.Default.Now.Date);
 
-        public bool Before(DateTime other) => _base <= AddBusinessDaysDiff(other);
-        public bool BeforeToday() => Before(TimeProvider.Default.Now.Date);
+        public readonly bool Before(DateTime other) => _base <= AddBusinessDaysDiff(other);
+        public readonly bool BeforeToday() => Before(TimeProvider.Default.Now.Date);
 
         private readonly DateTime AddBusinessDaysDiff(DateTime other)
         {

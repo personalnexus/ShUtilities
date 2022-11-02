@@ -2,7 +2,7 @@
 
 namespace ShUtilities.Time.Occurrence
 {
-    public struct DateTimeOccursAtLeastDouble
+    public readonly ref struct DateTimeOccursAtLeastDouble
     {
         private readonly DateTime _base;
         private readonly double _diff;
@@ -13,11 +13,11 @@ namespace ShUtilities.Time.Occurrence
             _diff = diff;
         }
 
-        public DateTimeOccursAtLeastTimeSpanBusinessCalendar BusinessDays(IBusinessCalendar accordingTo) => new DateTimeOccursAtLeastTimeSpanBusinessCalendar(_base, TimeSpan.FromDays(_diff), accordingTo);
-        public DateTimeOccursAtLeastTimeSpan Days => new DateTimeOccursAtLeastTimeSpan(_base, TimeSpan.FromDays(_diff));
-        public DateTimeOccursAtLeastTimeSpan Hours => new DateTimeOccursAtLeastTimeSpan(_base, TimeSpan.FromHours(_diff));
-        public DateTimeOccursAtLeastTimeSpan Minutes => new DateTimeOccursAtLeastTimeSpan(_base, TimeSpan.FromMinutes(_diff));
-        public DateTimeOccursAtLeastTimeSpan Seconds => new DateTimeOccursAtLeastTimeSpan(_base, TimeSpan.FromSeconds(_diff));
-        public DateTimeOccursAtLeastTimeSpan Milliseconds => new DateTimeOccursAtLeastTimeSpan(_base, TimeSpan.FromMilliseconds(_diff));
+        public readonly DateTimeOccursAtLeastTimeSpanBusinessCalendar BusinessDays(IBusinessCalendar accordingTo) => new DateTimeOccursAtLeastTimeSpanBusinessCalendar(_base, TimeSpan.FromDays(_diff), accordingTo);
+        public readonly DateTimeOccursAtLeastTimeSpan Days => new DateTimeOccursAtLeastTimeSpan(_base, TimeSpan.FromDays(_diff));
+        public readonly DateTimeOccursAtLeastTimeSpan Hours => new DateTimeOccursAtLeastTimeSpan(_base, TimeSpan.FromHours(_diff));
+        public readonly DateTimeOccursAtLeastTimeSpan Minutes => new DateTimeOccursAtLeastTimeSpan(_base, TimeSpan.FromMinutes(_diff));
+        public readonly DateTimeOccursAtLeastTimeSpan Seconds => new DateTimeOccursAtLeastTimeSpan(_base, TimeSpan.FromSeconds(_diff));
+        public readonly DateTimeOccursAtLeastTimeSpan Milliseconds => new DateTimeOccursAtLeastTimeSpan(_base, TimeSpan.FromMilliseconds(_diff));
     }
 }
