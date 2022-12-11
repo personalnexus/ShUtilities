@@ -46,10 +46,8 @@ namespace ShUtilities.Collections
             int nodeIndex = 0;
             ref int firstKeyIndex = ref _keyIndexByCharacter[0];
             ref int firstNodeIndex = ref _nodeIndexes[0];
-            int keyLength = key.Length;
-            for (int characterIndex = 0; characterIndex < keyLength; characterIndex++)
+            foreach (char character in key)
             {
-                char character = key[characterIndex];
                 // Step 1: get the index of where in the _indexes array the index into _nodes is found
                 int indexIndex = (nodeIndex * _possibleCharacterCount) + Unsafe.Add(ref firstKeyIndex, character);
                 // Step 2: get the index of the value in _values
