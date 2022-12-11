@@ -90,7 +90,7 @@ namespace ShUtilitiesTest.Tests
             try
             {
                 Bytes workingSet = notepad.WorkingSetBytes();
-                Assert.AreNotEqual(0, workingSet, "working set should not be 0");
+                Assert.AreNotEqual(0u, (ulong)workingSet, "working set should not be 0");
                 Assert.AreEqual(new Bytes(notepad.WorkingSet64), workingSet, "working set could have changed between two calls!?");
             }
             finally

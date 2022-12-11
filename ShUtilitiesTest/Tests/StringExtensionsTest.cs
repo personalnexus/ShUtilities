@@ -3,6 +3,7 @@ using FluentAssertions.Execution;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ShUtilities.Text;
 using System;
+using System.Reflection.PortableExecutable;
 
 namespace ShUtilitiesTest.Tests
 {
@@ -19,21 +20,25 @@ namespace ShUtilitiesTest.Tests
             Assert.IsTrue(((string)null).IsNullOrEmpty());
         }
 
-        // 2: DataTestMethod
+        [TestMethod]
+        public void In_MultipleElementsOneMatching_IsTrue() => "1".In("1", "2").Should().BeTrue();
+        
+        [TestMethod]
+        public void In_MultipleElementsMultipleMatching_IsTrue() => "1".In("1", "1").Should().BeTrue();
+        
+        [TestMethod]
+        public void In_SingleMatchingElement_IsTrue() => "1".In("1").Should().BeTrue();
 
-        [DataTestMethod]
-        [DataRow(new[] { "1", "2" }, DisplayName = "Multiple elements, one matching")]
-        [DataRow(new[] { "1", "1" }, DisplayName = "Multiple elements, multiple matching")]
-        [DataRow(new[] { "1" }, DisplayName = "Single matching element")]
-        public void In_IsTrue(string[] elements) => "1".In(elements).Should().BeTrue();
+        [TestMethod]
+        public void In_NoElements_IsFalse() => "1".In().Should().BeFalse();
 
-        [DataTestMethod]
-        [DataRow(new string[0], DisplayName = "No elements")]
-        [DataRow(new[] { "2", "3" }, DisplayName = "Multiple elements, none matching")]
-        [DataRow(new[] { "2" }, DisplayName = "Single non-matching element")]
-        public void In_IsFalse(string[] elements) => "1".In(elements).Should().BeFalse();
+        [TestMethod]
+        public void In_MultipleElementsNoneMatching_IsFalse() => "1".In("2", "3").Should().BeFalse();
 
-        // 3: FluentAssertions with AssertionScope for multiple assertions
+        [TestMethod]
+        public void In_SingleNonmatchingElement_IsFalse() => "1".In("2").Should().BeFalse();
+
+        // 2: FluentAssertions with AssertionScope for multiple assertions
 
         [TestMethod]
         public void Left()
@@ -48,7 +53,7 @@ namespace ShUtilitiesTest.Tests
             }
         }
 
-        // 4: FluentAssertions with one method per assertion
+        // 3: FluentAssertions with one method per assertion
 
         [TestMethod]
         public void Right_CountIsZero_Empty() => "123456".Right(0).Should().BeEmpty();
