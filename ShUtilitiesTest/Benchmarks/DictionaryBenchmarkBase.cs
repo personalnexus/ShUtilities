@@ -15,24 +15,26 @@ namespace ShUtilitiesTest.Benchmarks
 
         protected KeyValuePair<TKey, TValue>[] ExpectedKeyValuePairs { get; }
 
-        private Dictionary<TKey, TValue> _dictionary;
+        private readonly Dictionary<TKey, TValue> _dictionary;
 
         [Benchmark(Baseline = true)]
         public void Dictionary() => RunCore(_dictionary);
 
-        protected void RunCore(IDictionary<TKey, TValue> dictionary)
+        protected void RunCore<TDictionary>(TDictionary dictionary)
+            where TDictionary: IDictionary<TKey, TValue>
         {
             for (int i = 0; i < ExpectedKeyValuePairs.Length; i++)
             {
                 KeyValuePair<TKey, TValue> keyValuePair = ExpectedKeyValuePairs[i];
-                if (!dictionary.TryGetValue(keyValuePair.Key, out TValue value))
+                if (!dictionary.TryGetValue(keyValuePair.Key, out _))
                 {
                     Assert.Fail($"{i} not found");
                 }
-                else if (!keyValuePair.Value.Equals(value))
-                {
-                    Assert.Fail($"Value for key {i} should be {keyValuePair.Value} not {value}.");
-                }
+                // TODO: uncomment to perform additional value check
+                //else if (!keyValuePair.Value.Equals(value))
+                //{
+                //    Assert.Fail($"Value for key {i} should be {keyValuePair.Value} not {value}.");
+                //}
             }
         }
 

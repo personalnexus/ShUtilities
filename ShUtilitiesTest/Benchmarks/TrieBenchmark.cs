@@ -15,7 +15,7 @@ namespace ShUtilitiesTest.Benchmarks
         }
 
         private const int ItemCount = 1_000;
-        private HashSet<char> PossibleCharacters = new HashSet<char> { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+        private readonly HashSet<char> PossibleCharacters = new HashSet<char> { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
         private readonly Trie<int> _trie;
         private readonly UnsafeTrie<int> _unsafeTrie;
