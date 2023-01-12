@@ -9,6 +9,7 @@ This code is representative of the way I would write production code: adhering t
 * __ArrayExtensions__: extension methods for arrays
 * __ByteDictionary__: provides IDictionary-like access with a fixed memory-footprint to what is essentially an array with a byte as its index
 * __CollectionExtensions__: extension methods for ICollection<>
+* __DataTableExtensions__: extension methods for converting IEnumerable<> to DataTable
 * __DictionaryDiff__: compares two dictionaries key by key and stores the added, removed etc. keys and values
 * __DictionaryExtensions__: extension methods for IDictionary<,>
 * __EnumerableExtensions__: extension methods for IEnumerable<>
