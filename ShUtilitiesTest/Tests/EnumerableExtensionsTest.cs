@@ -153,5 +153,26 @@ namespace ShUtilitiesTest.Tests
 
             Assert.IsFalse(numbers.TrySingle(x => x < 5, out _));
         }
+
+        [TestMethod]
+        public void DebuggerBreakIf_PredicateIsMet_DebuggerBreaksButEnumerableIsUnchanged()
+        {
+            // Arrange
+            var numbers = new[] { 1, 2, 3 };
+
+            // Act
+            List<int> doubledNumbers = numbers
+                .Select(x => x * 2)
+#if DEBUG
+                .DebuggerBreakIf(x => x == 4)
+#endif
+                .ToList();
+
+            // Assert
+            using (new AssertionScope())
+            {
+                doubledNumbers.Should().BeEquivalentTo(new[] { 2, 4, 6 });
+            }
+        }
     }
 }

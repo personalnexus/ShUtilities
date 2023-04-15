@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -307,5 +308,23 @@ namespace ShUtilities.Collections
             }
             return result;
         }
+
+#if DEBUG
+        /// <summary>
+        /// Add as an intermediate step in a longer chain of LINQ commands to call Debugger.Break
+        /// when the predicate is met
+        /// </summary>
+        public static IEnumerable<T> DebuggerBreakIf<T>(this IEnumerable<T> items, Func<T, bool> predicate)
+        {
+            foreach (T item in items)
+            {
+                if (predicate(item))
+                {
+                    Debugger.Break();
+                }
+                yield return item;
+            }
+        }
+#endif
     }
 }
