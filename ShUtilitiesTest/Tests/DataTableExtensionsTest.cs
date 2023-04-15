@@ -59,9 +59,9 @@ namespace ShUtilitiesTest.Tests
         private static DataTable CreateExpectedDataTable(bool readOnly)
         {
             DataTable result = new();
-            result.Columns.Add("Half", typeof(double)).ReadOnly = readOnly;
-            result.Columns.Add("Name", typeof(string)).ReadOnly = readOnly;
             result.Columns.Add("Value", typeof(int)).ReadOnly = readOnly;
+            result.Columns.Add("Name", typeof(string)).ReadOnly = readOnly;
+            result.Columns.Add("Half", typeof(double)).ReadOnly = readOnly;
 
             result.Rows.Add(1, "1", 1 / 2.0);
             result.Rows.Add(2, "2", 2 / 2.0);
