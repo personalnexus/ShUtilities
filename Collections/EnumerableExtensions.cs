@@ -106,17 +106,15 @@ namespace ShUtilities.Collections
             var partition = new List<T>();
             foreach (T item in items)
             {
-                if (partition == null)
-                {
-                    // When we create a new list, we size it to fit all items we are 
-                    // expecting. We can't do this from the start, because one might 
-                    // pass in a very large value for itemsPerPartition (expecting to
-                    // get all items in one partition) resulting in an out-of-memory
-                    // exception when allocating the initial list. But here, we have had
-                    // a full partition, giving us confidence, the next one will also fit
-                    // into memory.
-                    partition = new List<T>(itemsPerPartition);
-                }
+                // When we create a new list, we size it to fit all items we are 
+                // expecting. We can't do this from the start, because one might 
+                // pass in a very large value for itemsPerPartition (expecting to
+                // get all items in one partition) resulting in an out-of-memory
+                // exception when allocating the initial list. But here, we have had
+                // a full partition, giving us confidence, the next one will also fit
+                // into memory.
+                partition ??= new List<T>(itemsPerPartition);
+
                 partition.Add(item);
                 if (partition.Count == itemsPerPartition)
                 {

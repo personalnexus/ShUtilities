@@ -2,6 +2,9 @@
 using System.Linq;
 using ShUtilities.Collections;
 using System.Collections.Generic;
+using FluentAssertions.Execution;
+using FluentAssertions;
+using System;
 
 namespace ShUtilitiesTest.Tests
 {
@@ -20,7 +23,7 @@ namespace ShUtilitiesTest.Tests
         [TestMethod]
         public void IsEmpty()
         {
-            Assert.IsTrue(new int[0].IsEmpty());
+            Assert.IsTrue(Array.Empty<int>().IsEmpty());
             Assert.IsFalse(new int[1].IsEmpty());
             Assert.IsTrue(Enumerable.Empty<int>().IsEmpty());
         }
@@ -41,7 +44,7 @@ namespace ShUtilitiesTest.Tests
             CollectionAssert.AreEqual(new[] { "Jane", "Mo", "Chris", "Mo" }, numbers.SelectWhere<int, string>(namesById.TryGetValue).ToArray());
 
             var discarded = new List<int>();
-            numbers.SelectWhere<int, string>(namesById.TryGetValue, discarded).ToArray();
+            _ = numbers.SelectWhere<int, string>(namesById.TryGetValue, discarded).ToArray();
             CollectionAssert.AreEqual(new[] { 4, 5 }, discarded);
 
         }
@@ -122,7 +125,7 @@ namespace ShUtilitiesTest.Tests
 
             Assert.IsFalse(numbers.TryFirst(_ => false, out _));
 
-            Assert.IsFalse(new int[0].TryFirst(out _));
+            Assert.IsFalse(Array.Empty<int>().TryFirst(out _));
         }
 
         [TestMethod]
@@ -138,7 +141,7 @@ namespace ShUtilitiesTest.Tests
 
             Assert.IsFalse(numbers.TryLast(_ => false, out _));
 
-            Assert.IsFalse(new int[0].TryLast(out _));
+            Assert.IsFalse(Array.Empty<int>().TryLast(out _));
         }
 
         [TestMethod]
