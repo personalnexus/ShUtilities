@@ -2,7 +2,7 @@
 
 This is a collection of .NET utilities that I have accumulated over the 10+ years of coding on the .NET platform. I've organized the code into namespaces that roughly correspond to the framework namespaces they are extending.
 
-This code is representative of the way I would write production code: adhering to a style guide and clean code principles with sufficient unit test converage and comments explaining the whys of the implementation.
+This code is somewhat representative of the way I would write production code: adhering to a style guide and clean code principles with sufficient unit test converage and comments explaining the whys of the implementation. However, in newer projects such as [AuLiCom](https://github.com/personalnexus/AuLiCom) my coding has evolved further e.g. regarding the use of constructor dependency injection and immutability.
 
 ## Collections
 
