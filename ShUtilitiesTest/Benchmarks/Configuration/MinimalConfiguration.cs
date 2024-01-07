@@ -14,7 +14,7 @@ namespace ShUtilitiesTest.Benchmarks.Configuration
             AddColumnProvider(DefaultColumnProviders.Instance);
             AddJob(Job.Default
                 .WithToolchain(CsProjCoreToolchain.From(NetCoreAppSettings
-                    .NetCoreApp60
+                    .NetCoreApp80
                     .WithCustomDotNetCliPath(@"C:\Program Files\dotnet\dotnet.exe")))
                 .WithPowerPlan(PowerPlan.HighPerformance)
                 .WithPlatform(Platform.X64));
