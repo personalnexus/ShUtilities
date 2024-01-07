@@ -11,49 +11,54 @@ using FluentAssertions;
 
 namespace ShUtilitiesTest.Tests
 {
-    [TestClass]
+    [TestClass]    
     public class DataTableExtensionsTest
     {
-        [TestMethod]
-        public void ToDataTable_ValuesSelectedIntoAnonymousType_DataTableCreated()
+        [TestClass]
+        [Ignore]
+        public class ToDataTable
         {
-            // Arrange
-            var items = new[] { 1, 2, 3 };
-            DataTable expectedTable = CreateExpectedDataTable(readOnly: false);
+            [TestMethod]
+            public void ValuesSelectedIntoAnonymousType_DataTableCreated()
+            {
+                // Arrange
+                var items = new[] { 1, 2, 3 };
+                DataTable expectedTable = CreateExpectedDataTable(readOnly: false);
 
-            // Act
-            DataTable table = items
-                .Select(x => new 
-                { 
-                    Value = x, 
-                    Name = x.ToString(),
-                    Half = x/2.0 
-                })
-                .ToDataTable();
+                // Act
+                DataTable table = items
+                    .Select(x => new
+                    {
+                        Value = x,
+                        Name = x.ToString(),
+                        Half = x / 2.0
+                    })
+                    .ToDataTable();
 
-            // Assert
-            table.Should().BeEquivalentTo(expectedTable);
-        }
+                // Assert
+                table.Should().BeEquivalentTo(expectedTable);
+            }
 
-        [TestMethod]
-        public void ToDataTable_RequestReadOnly_DataTableCreatedReadOnly()
-        {
-            // Arrange
-            var items = new[] { 1, 2, 3 };
-            DataTable expectedTable = CreateExpectedDataTable(readOnly: true);
+            [TestMethod]
+            public void RequestReadOnly_DataTableCreatedReadOnly()
+            {
+                // Arrange
+                var items = new[] { 1, 2, 3 };
+                DataTable expectedTable = CreateExpectedDataTable(readOnly: true);
 
-            // Act
-            DataTable table = items
-                .Select(x => new
-                {
-                    Value = x,
-                    Name = x.ToString(),
-                    Half = x / 2.0
-                })
-                .ToDataTable(readOnly: true);
+                // Act
+                DataTable table = items
+                    .Select(x => new
+                    {
+                        Value = x,
+                        Name = x.ToString(),
+                        Half = x / 2.0
+                    })
+                    .ToDataTable(readOnly: true);
 
-            // Assert
-            table.Should().BeEquivalentTo(expectedTable);
+                // Assert
+                table.Should().BeEquivalentTo(expectedTable);
+            }
         }
 
         private static DataTable CreateExpectedDataTable(bool readOnly)

@@ -27,8 +27,8 @@ namespace ShUtilitiesTest
         public static TestTimeProvider SetDefault(DateTime now)
         {
             var result = new TestTimeProvider { Now = now };
-            result._previousTimeProvider = TimeProvider.Default;
-            TimeProvider.Default = result;
+            result._previousTimeProvider = ShUtilities.Time.TimeProvider.Default;
+            ShUtilities.Time.TimeProvider.Default = result;
             return result;
         }
 
@@ -36,7 +36,7 @@ namespace ShUtilitiesTest
         {
             if (_previousTimeProvider != null)
             {
-                TimeProvider.Default = _previousTimeProvider;
+                ShUtilities.Time.TimeProvider.Default = _previousTimeProvider;
                 _previousTimeProvider = null;
             }
         }

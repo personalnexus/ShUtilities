@@ -32,8 +32,8 @@ namespace ShUtilitiesTest.Tests
                 // Assert
                 using (new AssertionScope())
                 {
-                    selected.Should().BeEquivalentTo(new int[] { 1, 2, 4 });
-                    discarded.Should().BeEquivalentTo(new string[] { "bbb", "5K" });
+                    selected.Should().BeEquivalentTo([1, 2, 4]);
+                    discarded.Should().BeEquivalentTo(["bbb", "5K"]);
                 }
             }
 
@@ -58,7 +58,7 @@ namespace ShUtilitiesTest.Tests
                 // Assert
                 using (new AssertionScope())
                 {
-                    selected.Should().BeEquivalentTo(new string[] { "Jane", "Mo", "Chris", "Mo" });
+                    selected.Should().BeEquivalentTo(["Jane", "Mo", "Chris", "Mo"]);
                     discarded.Should().BeEmpty();
                 }
             }

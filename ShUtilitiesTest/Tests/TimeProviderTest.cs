@@ -10,18 +10,18 @@ namespace ShUtilitiesTest.Tests
         [TestMethod]
         public void TestTimeProviderAsDefault()
         {
-            ITimeProvider previousTimeProvider = TimeProvider.Default;
+            ITimeProvider previousTimeProvider = ShUtilities.Time.TimeProvider.Default;
             Assert.IsInstanceOfType(previousTimeProvider, typeof(SystemTimeProvider));
             var now = new DateTime(2019, 10, 17, 17, 10, 19);
             using (var timeProvider = TestTimeProvider.SetDefault(now))
             {
-                Assert.AreSame(timeProvider, TimeProvider.Default);
-                Assert.AreEqual(now, TimeProvider.Default.Now);
+                Assert.AreSame(timeProvider, ShUtilities.Time.TimeProvider.Default);
+                Assert.AreEqual(now, ShUtilities.Time.TimeProvider.Default.Now);
 
                 timeProvider.Now += TimeSpan.FromSeconds(2);
-                Assert.AreEqual(new DateTime(2019, 10, 17, 17, 10, 21), TimeProvider.Default.Now);
+                Assert.AreEqual(new DateTime(2019, 10, 17, 17, 10, 21), ShUtilities.Time.TimeProvider.Default.Now);
             }
-            Assert.AreSame(previousTimeProvider, TimeProvider.Default);
+            Assert.AreSame(previousTimeProvider, ShUtilities.Time.TimeProvider.Default);
         }
     }
 }
