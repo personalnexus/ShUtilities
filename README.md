@@ -15,6 +15,7 @@ This code is somewhat representative of the way I would write production code: a
 * __EnumerableExtensions__: extension methods for IEnumerable<>
 * __ListExtensions__: extension methods for IList<>
 * __NamedLookup__: a lookup from names contained in one array to values contained in a second array
+* __ParallelQueryExtensions__: extension methods for ParalellQuery<T> (PLINQ)
 * __QueueExtensions__: extension methods for Queue<T> since there is no IQueue<T>
 * __ReverseComparer__: reverses the comparison result of the given comparer
 * __ShortDictionary__: provides IDictionary-like access with a fixed memory-footprint to what is essentially an array with a short (cast to ushort) as its index
