@@ -77,6 +77,7 @@ This code is somewhat representative of the way I would write production code: a
 
 * __Actor__: an implementation of the Actor Model that may have changes applied to it via callbacks posted to it and then updates its externally visible state at once based on the one or more updates made to it via the callbacks.
 * __ActorSynchronizationContext__: an implementation of a SynchronizationContext using Actor
+* __DelayedActionExecutor__: delays execution of a given action for a certain period, providing a window to cancel the action before it executes
 * __IActionExecutor__: abstraction for executing actions in some context
 * __PriorityScheduler__: *WIP* scheduler for actions with different degrees of concurrency for different priorities
 * __ReadWriteLocker__: places an object in a struct with a ReaderWriterLockSlim to provide convenient Read() and Write() methods that acquire/release the corresponding lock via the Dispose pattern
