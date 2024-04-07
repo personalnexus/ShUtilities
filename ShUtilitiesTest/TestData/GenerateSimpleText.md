@@ -18,3 +18,9 @@ Then a bullet list:
 * 1
 * another bullet
 
+`SingleLine`
+
+```
+LineOne
+LineTwo
+```

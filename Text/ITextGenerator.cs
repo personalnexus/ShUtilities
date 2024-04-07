@@ -3,7 +3,7 @@
     public interface ITextGenerator
     {
         ITextGenerator Bold(string text);
-        ITextGenerator Code(string text);
+        ITextGenerator Code(params string[] lines);
         ITextGenerator Heading(int level, string heading);
         ITextGenerator Heading1(string heading);
         ITextGenerator Heading2(string heading);

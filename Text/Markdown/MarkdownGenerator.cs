@@ -29,7 +29,9 @@ namespace ShUtilities.Text.Markdown
 
         public ITextGenerator Italic(string text) => Append("_").Append(text).Append("_");
 
-        public ITextGenerator Code(string text) => Append("`").Append(text).Append("`");
+        public ITextGenerator Code(params string[] lines) => lines.Length == 1
+                ? Append("`").Append(lines[0]).Append("`")
+                : AppendLine("```").AppendLine(lines).AppendLine("```");
 
         public ITextGenerator LineEnd() => AppendLine("  ");
 
@@ -73,9 +75,12 @@ namespace ShUtilities.Text.Markdown
             return this;
         }
 
-        private MarkdownGenerator AppendLine(string text)
+        private MarkdownGenerator AppendLine(params string[] lines)
         {
-            _text.AppendLine(text);
+            foreach (string line in lines)
+            {
+                _text.AppendLine(line);
+            }
             return this;
         }
 
