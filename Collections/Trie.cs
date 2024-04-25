@@ -9,16 +9,18 @@ namespace ShUtilities.Collections
     {
         public Trie(ISet<char> possibleCharacters, int initialCapacity, int capacityIncrement)
         {
-            int index = 0;
+            // populate the lookup with an impossible key index, so we can tell later when the key contains an invalid character
             int maxCharacter = possibleCharacters.Max();
-            Array.Resize(ref _keyIndexByCharacter, maxCharacter + 1);
+            _keyIndexByCharacter = new int[maxCharacter + 1];
             Array.Fill(_keyIndexByCharacter, InvalidKeyIndex);
 
+            int index = InvalidKeyIndex + 1;
             foreach (char character in possibleCharacters)
             {
                 _keyIndexByCharacter[character] = index;
                 index++;
             }
+
             _capacityIncrement = capacityIncrement;
             _possibleCharacterCount = possibleCharacters.Count;
             Resize(initialCapacity);
