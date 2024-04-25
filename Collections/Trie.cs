@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ShUtilities.Collections
 {
@@ -8,13 +9,13 @@ namespace ShUtilities.Collections
     {
         public Trie(ISet<char> possibleCharacters, int initialCapacity, int capacityIncrement)
         {
-            int index = 1;
+            int index = 0;
+            int maxCharacter = possibleCharacters.Max();
+            Array.Resize(ref _keyIndexByCharacter, maxCharacter + 1);
+            Array.Fill(_keyIndexByCharacter, InvalidKeyIndex);
+
             foreach (char character in possibleCharacters)
             {
-                if (_keyIndexByCharacter == null || character >= _keyIndexByCharacter.Length)
-                {
-                    Array.Resize(ref _keyIndexByCharacter, character + 1);
-                }
                 _keyIndexByCharacter[character] = index;
                 index++;
             }
@@ -26,6 +27,7 @@ namespace ShUtilities.Collections
         // Key lookup
 
         private readonly int[] _keyIndexByCharacter;
+        private const int InvalidKeyIndex = -1;
 
         // Nodes
 
@@ -70,7 +72,7 @@ namespace ShUtilities.Collections
         {
             TrieNodeSearch result;
             int keyIndex;
-            if ((int)character > _keyIndexByCharacter.Length || (keyIndex = _keyIndexByCharacter[character]) == 0)
+            if ((int)character > _keyIndexByCharacter.Length || (keyIndex = _keyIndexByCharacter[character]) == InvalidKeyIndex)
             {
                 result = TrieNodeSearch.Invalid;
                 indexIndex = 0;
